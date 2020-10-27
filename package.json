@@ -1,0 +1,40 @@
+{
+  "name": "restful-students",
+  "version": "1.0.0",
+  "description": "A RESTful application to fetch data related with students",
+  "main": "index.js",
+  "scripts": {
+    "babel-node": "babel-node --presets=latest",
+    "start": "nodemon --exec yarn babel-node -- ./src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/guilhermercarvalho/restful-students.git"
+  },
+  "author": {
+    "name": "Guilherme Carvalho",
+    "email": "guilhermercarvalho@gmail.com"
+  },
+  "contributors": [
+    {
+      "name": "Gabriel Costa",
+      "email": "gabcostadeveloper@gmail.com"
+    }
+  ],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/guilhermercarvalho/restful-students/issues"
+  },
+  "homepage": "https://github.com/guilhermercarvalho/restful-students#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "sqlite3": "^5.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.3",
+    "@babel/node": "^7.12.1",
+    "babel-preset-latest": "^6.24.1",
+    "nodemon": "^2.0.6"
+  }
+}
