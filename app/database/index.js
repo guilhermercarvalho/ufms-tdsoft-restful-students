@@ -1,5 +1,5 @@
 const sqlite3 = require('sqlite3');
-const db = new sqlite3.Database('./database/aluno.db', (err) => {
+const db = new sqlite3.Database('./app/database/aluno.db', (err) => {
   if (err) {
     console.error(err.message);
   }

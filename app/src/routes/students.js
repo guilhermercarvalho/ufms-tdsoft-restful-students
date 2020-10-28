@@ -4,14 +4,14 @@ const db = require('../../database/index')
 
 router.get('/', (req, res, next) => {
     res.status(200).send({
-        messagem: "Alunos"
+        message: "Alunos"
     });
 });
 
 router.get('/teste', (req, res, next) => {
     const qr = req.query
     res.status(200).send({
-        messagem: "Alunos",
+        message: "Alunos",
         query: qr
     });
 });
@@ -24,7 +24,7 @@ router.get('/:id_student', (req, res, next) => {
 
     console.log(aluno_name)
     res.status(200).send({
-        messagem: "Alunos",
+        message: "Alunos",
         id: aluno_name
     });
 });
@@ -37,13 +37,13 @@ router.post('/', (req, res, next) => {
 
 router.put('/', (req, res, next) => {
     res.status(200).send({
-        messagem: "Alunos"
+        message: "Alunos"
     });
 });
 
 router.delete('/', (req, res, next) => {
     res.status(200).send({
-        messagem: "Alunos"
+        message: "Alunos"
     });
 });
 
