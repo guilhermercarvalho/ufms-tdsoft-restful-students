@@ -4,9 +4,8 @@
   "description": "A RESTful application to fetch data related with students",
   "main": "index.js",
   "scripts": {
-    "babel-node": "babel-node --presets=latest",
-    "start": "nodemon --exec yarn babel-node -- ./src/index.js",
-    "dev": "nodemon ./src/index.js",
+    "babel-node": "babel-node --presets=@babel/preset-env",
+    "start": "nodemon --exec yarn babel-node -- ./app/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -35,7 +34,6 @@
   "devDependencies": {
     "@babel/core": "^7.12.3",
     "@babel/node": "^7.12.1",
-    "babel-preset-latest": "^6.24.1",
     "nodemon": "^2.0.6"
   }
 }

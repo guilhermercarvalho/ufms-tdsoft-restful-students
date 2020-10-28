@@ -1,7 +1,7 @@
-const express = require("express");
+import express from "express";
 const app = express();
 
-const students = require('./routes/students');
+import students from './routes/students';
 
 app.use('/alunos', students)
 
@@ -11,4 +11,4 @@ app.use((req, res, next) => {
     });
 });
 
-module.exports = app;
+export default app;
