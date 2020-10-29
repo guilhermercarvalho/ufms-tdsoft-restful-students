@@ -5,7 +5,7 @@ export default {
         const { id } = req.params
         let results;
         try {
-            results = repository.get(id)
+            results = await repository.findByPk(id)
         } catch (error) {
             return next(error)
         }
