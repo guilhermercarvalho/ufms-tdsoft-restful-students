@@ -6,7 +6,7 @@
   "scripts": {
     "babel-node": "babel-node --presets=@babel/preset-env",
     "start": "nodemon --exec yarn babel-node -- ./app/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -34,6 +34,7 @@
   "devDependencies": {
     "@babel/core": "^7.12.3",
     "@babel/node": "^7.12.1",
+    "@babel/preset-env": "^7.12.1",
     "nodemon": "^2.0.6"
   }
 }

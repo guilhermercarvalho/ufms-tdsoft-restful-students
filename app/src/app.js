@@ -1,14 +1,11 @@
 import express from "express";
 const app = express();
 
-import students from './routes/students';
+import router from './routes';
 
-app.use('/alunos', students)
-
-app.use((req, res, next) => {
-    res.status(200).send({
-        message: "OK, it's works"
-    });
-});
+app.get('/', (req, res) => {
+    res.send("Hello")
+})
+app.use('/alunos', router)
 
 export default app;
