@@ -3,14 +3,14 @@ import studentsController from '../controllers/students'
 
 const router = express.Router();
 
-router.get('/alunos', studentsController.getAll);
+router.get('/', studentsController.getAll);
 
-router.get('/alunos/:id', studentsController.get);
+router.get('/:id', studentsController.get);
 
-router.post('/alunos', studentsController.create);
+router.post('/', studentsController.create);
 
-router.put('/alunos/:id', studentsController.update);
+router.put('/:id', studentsController.update);
 
-router.delete('/alunos/:id', studentsController.destroy);
+router.delete('/:id', studentsController.destroy);
 
 module.exports = router;
