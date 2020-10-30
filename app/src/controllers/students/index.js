@@ -9,17 +9,18 @@ export default {
         } catch (error) {
             return next(error)
         }
-        return res.status(200).json(results)
+        return results ? res.status(200).json(results) : res.status(404).json({ message: "Not Found" })
     },
-    async getAll(req, res, next) { 
+    async getAll(req, res, next) {
         let results = []
+
         try {
             results = await repository.findAll()
-        }catch(error) {
+        } catch (error) {
             return next(error)
         }
 
-        return res.status(200).json(results)
+        return results ? res.status(200).json(results) : res.status(404).json({ message: "Not Found" })
     },
     create(req, res, next) { },
     update(req, res, next) { },
