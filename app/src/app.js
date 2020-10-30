@@ -7,6 +7,6 @@ app.get('/', (req, res) => {
     res.send("Hello")
 })
 
-app.use('/alunos', router)
+app.use(router)
 
 export default app;
