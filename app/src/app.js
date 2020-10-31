@@ -1,11 +1,13 @@
 import express from 'express'
 import bodyParser from 'body-parser'
+import expressValidador from 'express-validator'
 
 import router from './routes'
 const app = express()
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+app.use(expressValidador())
 
 app.get('/', (req, res, next) => {
   return res.redirect('/alunos')
