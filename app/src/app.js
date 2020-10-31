@@ -2,10 +2,13 @@ import express from 'express'
 import bodyParser from 'body-parser'
 
 import router from './routes'
+const multer = require('multer')
+const upload = multer()
 const app = express()
 
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
+app.use(upload.any())
 
 app.get('/', (req, res, next) => {
   return res.redirect('/alunos')

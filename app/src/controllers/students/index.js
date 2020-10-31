@@ -4,14 +4,14 @@ import { Op } from 'sequelize'
 export default {
   async get (req, res, next) {
     const { id } = req.params
-    const results = []
+    let results
     try {
-      results.push(await repository.findByPk(id))
+      results = await repository.findByPk(id)
     } catch (error) {
       return next(error)
     }
-    return results[0]
-      ? res.status(200).json({ resultados: results })
+    return results
+      ? res.status(200).json({ resultados: [results] })
       : res.status(404).json({
         erro: {
           mensagem: `Aluno com ID '${id}' não encontrado`
@@ -22,7 +22,6 @@ export default {
     try {
       Object.keys(req.query).forEach(el => {
         if (Object.values(req.query).length > 0 && !(['limite', 'pagina', 'nome'].includes(el))) {
-          console.log(el)
           throw new Error('Parametro invalido')
         }
       })
@@ -81,38 +80,121 @@ export default {
       })
   },
   async create (req, res, next) {
-    const { rga, nome, curso, situacao } = req.body
-    const student = await repository.create({
-      rga: rga,
-      nome: nome,
-      curso: curso,
-      situacao: situacao || 'ativo',
-      registrado_em: new Date().toISOString()
-    })
-    return res.status(200).json({
-      resultados: {
-        student
+    const rga = req.body.rga
+    const nome = req.body.nome
+    const curso = req.body.curso
+    const situacao = req.body.situacao
+    let student
+    try {
+      if (!rga || !nome || !curso) {
+        throw new Error('RGA, nome e curso devem ser informados')
       }
+
+      if (situacao && !(['ativo', 'inativo'].includes(situacao))) {
+        throw new Error('situacao deve ser: ativo ou inativo')
+      }
+
+      if (rga.length !== 15 || rga.replace(/\.|\-/g, '').length !== 12) {
+        throw new Error('RGA invalido')
+      }
+    } catch (error) {
+      return res.status(400).json({
+        erro: {
+          mensagem: error.message
+        }
+      })
+    }
+    try {
+      student = await repository.create({
+        rga: rga,
+        nome: nome,
+        curso: curso,
+        situacao: situacao || 'ativo',
+        registrado_em: new Date().toISOString()
+      })
+    } catch (error) {
+      return res.status(400).json({
+        erro: {
+          mensagem: error.message
+        }
+      })
+    }
+    return res.status(201).json({
+      resultados: student
     })
   },
   async update (req, res, next) {
     const { id } = req.params
-    const body = req.body
-    const student = await repository.update(body, { where: { id: id } })
-    return res.status(200).json({
-      resultados: {
-        student
+    const rga = req.body.rga
+    const nome = req.body.nome
+    const curso = req.body.curso
+    const situacao = req.body.situacao
+    try {
+      if (!rga || !nome || !curso) {
+        throw new Error('RGA, nome e curso devem ser informados')
+      }
+
+      if (situacao && !(['ativo', 'inativo'].includes(situacao))) {
+        throw new Error('situacao deve ser: ativo ou inativo')
+      }
+
+      if (rga.length !== 15 || rga.replace(/\.|\-/g, '').length !== 12) {
+        throw new Error('RGA invalido')
+      }
+    } catch (error) {
+      return res.status(400).json({
+        erro: {
+          mensagem: error.message
+        }
+      })
+    }
+    let student
+    let result
+    try {
+      result = await repository.findByPk(id)
+    } catch (error) {
+      return next(error)
+    }
+    if (result) {
+      try {
+        student = await repository.update(req.body, { where: { id: id } })
+      } catch (error) {
+        return next(error)
+      }
+      return res.status(200).json({
+        resultados: student
+      })
+    }
+    return res.status(404).json({
+      erro: {
+        mensagem: `Aluno com ID '${id}' não encontrado`
       }
     })
   },
   async destroy (req, res, next) {
     const { id } = req.params
-    const student = await repository.destroy({
-      where: { id: id }
-    })
-    return res.status(200).json({
-      resultados: {
-        student
+    let student
+    let result
+    try {
+      result = await repository.findByPk(id)
+    } catch (error) {
+      return next(error)
+    }
+    if (result) {
+      try {
+        student = await repository.destroy({ where: { id: id } })
+      } catch (error) {
+        return next(error)
+      }
+      return res.status(200).json({
+        resultados: [
+          student
+        ]
+      })
+    }
+    return res.status(404).json({
+      erro: {
+        mensagem: `Aluno com ID '${id}' não encontrado`
       }
     })
   },
