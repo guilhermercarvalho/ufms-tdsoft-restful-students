@@ -1,4 +1,5 @@
 import repository from '../../repositories/students'
+import { Op } from 'sequelize'
 
 export default {
   async get (req, res, next) {
@@ -18,19 +19,46 @@ export default {
       })
   },
   async getAll (req, res, next) {
-    const { limite } = req.query
-    // const { limite, pagina, nome } = req.query
+    const limite = parseInt(req.query.limite) || 25
+    const pagina = parseInt(req.query.pagina) || 1
+    const nome = req.query.nome
+      ? `%${req.query.nome}%`
+      : '%'
+
+    const offset = (pagina - 1) * limite
 
     let results
 
     try {
-      results = await repository.findAll({ limit: limite || 25 })
+      results = await repository.findAndCountAll({
+        offset: offset,
+        limit: limite,
+        where: {
+          nome: {
+            [Op.like]: nome
+          }
+        }
+      })
     } catch (error) {
       return next(error)
     }
 
     return results
-      ? res.status(200).json({ resultados: results })
+      ? res.status(200).json({
+          paginacao: {
+            atual: pagina,
+            proxima: (offset + limite) < results.count
+              ? pagina + 1
+              : null,
+            anterior: offset > 0
+              ? pagina - 1
+              : null,
+            total: Math.ceil(results.count / limite)
+          },
+          contagem: results.rows.length,
+          total: results.count,
+          resultados: results.rows
+        })
       : res.status(404).json({
         erro: {
           mensagem: 'Banco de dados vazio'
