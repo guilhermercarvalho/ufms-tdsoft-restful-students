@@ -19,6 +19,21 @@ export default {
       })
   },
   async getAll (req, res, next) {
+    try {
+      Object.keys(req.query).forEach(el => {
+        if (Object.values(req.query).length > 0 && !(['limite', 'pagina', 'nome'].includes(el))) {
+          console.log(el)
+          throw new Error('Parametro invalido')
+        }
+      })
+    } catch (error) {
+      return res.status(400).json({
+        erro: {
+          mensagem: error.message
+        }
+      })
+    }
+
     const limite = parseInt(req.query.limite) || 25
     const pagina = parseInt(req.query.pagina) || 1
     const nome = req.query.nome
