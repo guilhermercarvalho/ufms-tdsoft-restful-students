@@ -1,11 +1,12 @@
-import sequelize from "../../../database"
-import { DataTypes } from "sequelize"
+import sequelize from '../../../database'
+import { DataTypes } from 'sequelize'
 
 const Aluno = sequelize.define('Aluno', {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    primaryKey: true
+    primaryKey: true,
+    autoIncrement: true
   },
   rga: {
     type: DataTypes.STRING
@@ -21,9 +22,10 @@ const Aluno = sequelize.define('Aluno', {
   },
   registrado_em: {
     type: DataTypes.DATE
-  },
+  }
 }, {
   tableName: 'aluno',
-  timestamps: false,
-});
+  timestamps: false
+})
+
 export default Aluno
