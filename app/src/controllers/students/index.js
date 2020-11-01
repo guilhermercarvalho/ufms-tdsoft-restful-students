@@ -94,7 +94,7 @@ export default {
         throw new Error('situacao deve ser: ativo ou inativo')
       }
 
-      if (rga.length !== 15 || rga.replace(/\.|\-/g, '').length !== 12) {
+      if (rga.length !== 15 || rga.replace(/\.|-/g, '').length !== 12) {
         throw new Error('RGA invalido')
       }
     } catch (error) {
@@ -126,19 +126,13 @@ export default {
   async update (req, res, next) {
     const { id } = req.params
     const rga = req.body.rga
-    const nome = req.body.nome
-    const curso = req.body.curso
     const situacao = req.body.situacao
     try {
-      if (!rga || !nome || !curso) {
-        throw new Error('RGA, nome e curso devem ser informados')
-      }
-
       if (situacao && !(['ativo', 'inativo'].includes(situacao))) {
         throw new Error('situacao deve ser: ativo ou inativo')
       }
 
-      if (rga.length !== 15 || rga.replace(/\.|\-/g, '').length !== 12) {
+      if (rga && (rga.length !== 15 || rga.replace(/\.|-/g, '').length !== 12)) {
         throw new Error('RGA invalido')
       }
     } catch (error) {
