@@ -2,9 +2,10 @@ version: '3.8'
 
 services:
   app:
+    container_name: restfull-students-app
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: dockerfiles/app.Dockerfile
       args:
         # Update 'VARIANT' to pick an LTS version of Node.js: 16, 14, 12.
         # Append -bullseye or -buster to pin to an OS version.
@@ -26,9 +27,15 @@ services:
 
     # Use "forwardPorts" in **devcontainer.json** to forward an app port locally. 
     # (Adding the "ports" property to this file will not forward from a Codespace.)
+    depends_on:
+      - db
 
   db:
-    image: postgres:latest
+    container_name: restfull-students-db
+    image: "guilhermercarvalho/restfull-students-db-psql14:dev"
+    build:
+      context: .
+      dockerfile: dockerfiles/db.Dockerfile
     restart: unless-stopped
     env_file:
       - "./env/db-pg.env"
