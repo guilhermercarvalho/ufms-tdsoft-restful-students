@@ -1,11 +1,7 @@
-import "reflect-metadata";
-import { StudentRepository } from "./domain/repositories/student-repository";
-import StudentRouter from "./routers/students-router";
-import server from "./server";
-import { CreateStudent } from "./use-cases/student/create-student";
-import { GetAllStudents } from "./use-cases/student/get-all-students";
-import { Pool } from 'pg'
+import { Pool } from "pg";
 import { PGStudentDatabaseSource } from "./database/database-sources/postgresql/pg-student-database-source";
+import apiV1 from "./routers/v1";
+import server from "./server";
 
 async function getPGDatabaseSource() {
   const db = new Pool({
@@ -24,11 +20,9 @@ const port = process.env.PORT || 3000;
 (async () => {
   const databaseSource = getPGDatabaseSource();
 
-  const studentMiddleWare = StudentRouter(
-    new GetAllStudents(new StudentRepository(await databaseSource)),
-    new CreateStudent(new StudentRepository(await databaseSource)),
-  )
+  const apiMiddleWare = apiV1(await databaseSource)
 
-  server.use("/student", studentMiddleWare);
+  server.use("/v1", apiMiddleWare)
+
   server.listen(port, () => console.log(`Running server on http://${host}:${port}`))
 })()
