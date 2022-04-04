@@ -1,3 +1,6 @@
 export interface ISQLDatabaseWrapper {
-  query(queryString: string, queryData?: any[]): Promise<{ rows: any[] }>
+  query(
+    queryString: string,
+    queryData?: unknown[]
+  ): Promise<{ rows: unknown[] }>;
 }

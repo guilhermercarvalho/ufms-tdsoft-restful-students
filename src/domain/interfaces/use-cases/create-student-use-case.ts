@@ -1,5 +1,5 @@
-import { IStudentRequestModel, IStudentResponseModel } from "../../models/student";
+import { IStudentRequestModel } from '../../models/student';
 
 export interface ICreateStudentUseCase {
-  execute(student: IStudentRequestModel): void
+  execute(student: IStudentRequestModel): void;
 }

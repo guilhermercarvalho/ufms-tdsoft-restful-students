@@ -1,9 +1,9 @@
 import express, { Express } from 'express';
 import dotenv from 'dotenv';
 
-dotenv.config()
+dotenv.config();
 
-const server: Express = express()
-server.use(express.json())
+const server: Express = express();
+server.use(express.json());
 
-export default server
+export default server;

@@ -1,5 +1,5 @@
-import { IStudentResponseModel } from "../../models/student";
+import { IStudentResponseModel } from '../../models/student';
 
 export interface IGetAllStudentsUseCase {
-  execute(): Promise<IStudentResponseModel[]>
+  execute(): Promise<IStudentResponseModel[]>;
 }

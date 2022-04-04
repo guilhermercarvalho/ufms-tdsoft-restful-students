@@ -1,15 +1,15 @@
-import { IStudentRepository } from "../../domain/interfaces/repositories/student-repository";
-import { ICreateStudentUseCase } from "../../domain/interfaces/use-cases/create-student-use-case";
-import { IStudentRequestModel } from "../../domain/models/student";
+import { IStudentRepository } from '../../domain/interfaces/repositories/student-repository';
+import { ICreateStudentUseCase } from '../../domain/interfaces/use-cases/create-student-use-case';
+import { IStudentRequestModel } from '../../domain/models/student';
 
 export class CreateStudent implements ICreateStudentUseCase {
-  studentRepository: IStudentRepository
-  
+  studentRepository: IStudentRepository;
+
   constructor(studentRepository: IStudentRepository) {
-    this.studentRepository = studentRepository
+    this.studentRepository = studentRepository;
   }
 
   async execute(student: IStudentRequestModel) {
-    this.studentRepository.createStudent(student)
+    this.studentRepository.createStudent(student);
   }
 }
