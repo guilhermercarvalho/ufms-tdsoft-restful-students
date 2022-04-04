@@ -12,7 +12,8 @@
     "prettier"
   ],
   "rules": {
-    "no-console": "off",       // Means warning
+    "no-console": "off", // Means warning
     "prettier/prettier": 2 // Means error
-  }
+  },
+  "ignorePatterns": "*.config.js"
 }
