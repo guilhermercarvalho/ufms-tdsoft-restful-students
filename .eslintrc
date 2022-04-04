@@ -9,11 +9,13 @@
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
+    "plugin:jest/recommended",
     "prettier"
   ],
   "rules": {
-    "no-console": "off", // Means warning
-    "prettier/prettier": 2 // Means error
+    "no-console": "off",
+    "prettier/prettier": 2,
+    "jest/prefer-strict-equal": "error"
   },
   "ignorePatterns": "*.config.js"
 }
