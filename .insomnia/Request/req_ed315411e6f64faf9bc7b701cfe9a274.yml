@@ -1,0 +1,21 @@
+_id: req_ed315411e6f64faf9bc7b701cfe9a274
+type: Request
+parentId: fld_ff676a91b39a49138e02e578682d0792
+modified: 1649036370880
+created: 1649036344814
+url: "{{ _.base_url }}/alunos/{{ _.id }}"
+name: update
+description: ""
+method: PUT
+body: {}
+parameters: []
+headers: []
+authentication: {}
+metaSortKey: -1649035819211
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

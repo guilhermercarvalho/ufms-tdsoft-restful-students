@@ -1,0 +1,22 @@
+_id: env_40d9e978dc49b18adaf0950921e47ce64b541fa1
+type: Environment
+parentId: wrk_4d1e2b5fa19749e58b2eac502b60a813
+modified: 1649036636863
+created: 1637555353740
+name: Base Environment
+data:
+  protocol: http://
+  host: localhost
+  port: "3000"
+  version: v1
+  base_url: "{{ _.protocol }}{{ _.host }}:{{ _.port }}/{{ _.version }}"
+dataPropertyOrder:
+  "&":
+    - protocol
+    - host
+    - port
+    - version
+    - base_url
+color: null
+isPrivate: false
+metaSortKey: 1637555353740
