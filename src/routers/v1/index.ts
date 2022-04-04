@@ -10,9 +10,9 @@ export default (databaseSource: IStudentDatabaseSource) => {
   const router: Router = express.Router();
 
   const studentMiddleWare = StudentRouter(
+    new CreateStudent(new StudentRepository(databaseSource)),
     new GetAllStudents(new StudentRepository(databaseSource)),
-    new GetOneStudent(new StudentRepository(databaseSource)),
-    new CreateStudent(new StudentRepository(databaseSource))
+    new GetOneStudent(new StudentRepository(databaseSource))
   );
 
   router.use('/alunos', studentMiddleWare);

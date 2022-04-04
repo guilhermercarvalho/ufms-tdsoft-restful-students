@@ -4,9 +4,9 @@ import { IGetAllStudentsUseCase } from '../../domain/interfaces/use-cases/get-al
 import { IGetOneStudentUseCase } from '../../domain/interfaces/use-cases/get-one-student-use-case';
 
 export default function StudentRouter(
+  createStudentsUseCase: ICreateStudentUseCase,
   getAllStudentsUseCase: IGetAllStudentsUseCase,
-  getOneStudentUseCase: IGetOneStudentUseCase,
-  createStudentsUseCase: ICreateStudentUseCase
+  getOneStudentUseCase: IGetOneStudentUseCase
 ) {
   const router: Router = express.Router();
 
@@ -15,8 +15,7 @@ export default function StudentRouter(
       await createStudentsUseCase.execute(req.body);
       res.statusCode = 201;
       res.json({ message: 'Created' });
-    } catch (err: any) {
-      console.error(err.message);
+    } catch (err) {
       res.status(500).send({ message: 'Error saving data' });
     }
   });
@@ -24,9 +23,8 @@ export default function StudentRouter(
   router.get('/', async (req: Request, res: Response) => {
     try {
       const students = await getAllStudentsUseCase.execute();
-      res.send(students);
-    } catch (err: any) {
-      console.error(err.message);
+      res.json(students);
+    } catch (err) {
       res.status(500).send({ message: 'Error fetching data' });
     }
   });
@@ -36,8 +34,7 @@ export default function StudentRouter(
       const { id } = req.params;
       const student = await getOneStudentUseCase.execute(id);
       res.send(student);
-    } catch (err: any) {
-      console.error(err.message);
+    } catch (err) {
       res.status(500).send({ message: 'Error fetching data' });
     }
   });

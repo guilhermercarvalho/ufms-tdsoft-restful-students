@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { IStudentDatabaseSource } from '../../interfaces/database-sources/student-database-source';
 import {
   IStudentRequestModel,
