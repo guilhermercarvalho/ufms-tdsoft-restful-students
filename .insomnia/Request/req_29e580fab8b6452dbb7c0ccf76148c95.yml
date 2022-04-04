@@ -1,0 +1,21 @@
+_id: req_29e580fab8b6452dbb7c0ccf76148c95
+type: Request
+parentId: fld_b15d2c31dd714a0c8e2964133f6a22bf
+modified: 1649036437345
+created: 1649036410446
+url: "{{ _.base_url }}/alunos/{{ _.id }}"
+name: create
+description: ""
+method: POST
+body: {}
+parameters: []
+headers: []
+authentication: {}
+metaSortKey: -1649035819286
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

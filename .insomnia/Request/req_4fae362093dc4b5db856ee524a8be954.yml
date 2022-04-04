@@ -1,0 +1,21 @@
+_id: req_4fae362093dc4b5db856ee524a8be954
+type: Request
+parentId: fld_b15d2c31dd714a0c8e2964133f6a22bf
+modified: 1649036357214
+created: 1649035861673
+url: "{{ _.base_url }}/alunos"
+name: delete
+description: ""
+method: DELETE
+body: {}
+parameters: []
+headers: []
+authentication: {}
+metaSortKey: -1649035819186
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global
