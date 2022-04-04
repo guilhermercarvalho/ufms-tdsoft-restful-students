@@ -1,8 +1,16 @@
 export interface IStudentRequestModel {
-  name: string
+  rga: string,
+  nome: string,
+  curso: string,
+  situacao: string,
+  registrado_em: Date
 }
 
 export interface IStudentResponseModel {
   id: string,
-  name: string
+  rga: string,
+  nome: string,
+  curso: string,
+  situacao: string,
+  registrado_em: Date
 }
