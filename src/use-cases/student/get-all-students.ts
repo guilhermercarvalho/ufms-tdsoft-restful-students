@@ -10,7 +10,6 @@ export class GetAllStudents implements IGetAllStudentsUseCase {
   }
 
   async execute(): Promise<IStudentResponseModel[]> {
-    const result = await this.studentRepository.getStudents()
-    return result
+    return await this.studentRepository.getStudents()
   }
 }
