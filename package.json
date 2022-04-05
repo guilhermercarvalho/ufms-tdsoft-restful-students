@@ -9,8 +9,9 @@
     "build": "npx tsc",
     "predev": "npm run build",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\"",
-    "pretest": "npm run build",
-    "test": "jest --watchAll --collectCoverage",
+    "pretest:watch": "npm run build",
+    "test:watch": "jest --watchAll --collectCoverage",
+    "test": "jest",
     "lint": "eslint . --ext .ts"
   },
   "repository": {
