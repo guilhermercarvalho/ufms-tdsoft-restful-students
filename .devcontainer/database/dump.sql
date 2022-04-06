@@ -1,15 +1,18 @@
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
+DROP TABLE IF EXISTS tb_aluno;
+
 CREATE TABLE tb_aluno (
 	id uuid DEFAULT uuid_generate_v4 (),
-	rga VARCHAR(50),
-	nome VARCHAR(50),
-	curso VARCHAR(7),
-	situacao VARCHAR(7),
-	registrado_em DATE,
+	rga VARCHAR(50) UNIQUE NOT NULL,
+	nome VARCHAR(50) NOT NULL,
+	curso VARCHAR(7) NOT NULL,
+	situacao VARCHAR(7) NOT NULL,
+	registrado_em DATE NOT NULL,
   PRIMARY KEY (id)
 );
 
+INSERT INTO tb_aluno (id, rga, nome, curso, situacao, registrado_em) VALUES ('f6f3b501-6e39-4365-b3b0-ee43febe4f34', '2019.6820.654-4', 'Pedro Luciano', 'trc', 'ativo', '2019-03-17 22:18:22');
 INSERT INTO tb_aluno (rga, nome, curso, situacao, registrado_em) VALUES ('2982.6820.246-8', 'Corbet Pohlak', 'trc', 'ativo', '2019-03-17 22:18:22');
 INSERT INTO tb_aluno (rga, nome, curso, situacao, registrado_em) VALUES ('3892.2871.221-4', 'Norry Eliasson', 'si', 'inativo', '2019-04-08 12:19:15');
 INSERT INTO tb_aluno (rga, nome, curso, situacao, registrado_em) VALUES ('1235.4526.699-9', 'Harley Balling', 'trc', 'ativo', '2020-01-11 17:16:40');
