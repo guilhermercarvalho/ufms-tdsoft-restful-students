@@ -1,14 +1,20 @@
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-DROP TABLE IF EXISTS tb_aluno;
+DROP TYPE IF EXISTS curso_enum CASCADE;
+DROP TYPE IF EXISTS situacao_enum CASCADE;
 
-CREATE TABLE tb_aluno (
-	id uuid DEFAULT uuid_generate_v4 (),
-	rga VARCHAR(50) UNIQUE NOT NULL,
-	nome VARCHAR(50) NOT NULL,
-	curso VARCHAR(7) NOT NULL,
-	situacao VARCHAR(7) NOT NULL,
-	registrado_em DATE NOT NULL,
+DROP TABLE IF EXISTS Student;
+
+CREATE TYPE curso_enum AS ENUM ('cc', 'si', 'ecomp', 'engsoft', 'tads', 'trc');
+CREATE TYPE situacao_enum AS ENUM ('ativo', 'inativo');
+
+CREATE TABLE Student (
+  id uuid DEFAULT uuid_generate_v4 (),
+  rga VARCHAR(15) UNIQUE NOT NULL,
+  nome VARCHAR(255) NOT NULL,
+  curso curso_enum NOT NULL,
+  situacao situacao_enum NOT NULL,
+  registrado_em DATE NOT NULL,
   PRIMARY KEY (id)
 );
 
