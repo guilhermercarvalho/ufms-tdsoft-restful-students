@@ -11,25 +11,33 @@
     "sqltools.connections": [
       {
         "previewLimit": 50,
-        "server": "localhost",
+        "server": "db",
         "port": 5432,
         "driver": "PostgreSQL",
-        "name": "Students",
-        "group": "Students",
+        "name": "student-pg",
+        "group": "restfull-students",
         "database": "STUDENT",
         "username": "postgres",
-        "password": "postgres",
-      }
-    ]
+        "password": "postgres"
+      },
+      {
+        "previewLimit": 50,
+        "driver": "SQLite",
+        "name": "student-sqlite",
+        "group": "restfull-students",
+        "database": "./sqlite/student.sqlite"
+      },
+    ],
+    "sqltools.useNodeRuntime": true
   },
   "extensions": [
-	"dbaeumer.vscode-eslint",
-	"esbenp.prettier-vscode",
-	"ms-vscode.vscode-typescript-next",
-	"mtxr.sqltools",
-	"mtxr.sqltools-driver-pg",
-	"mtxr.sqltools-driver-sqlite"
-],
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "ms-vscode.vscode-typescript-next",
+    "mtxr.sqltools",
+    "mtxr.sqltools-driver-pg",
+    "mtxr.sqltools-driver-sqlite"
+  ],
   "remoteUser": "node",
   "shutdownAction": "stopCompose"
 }
