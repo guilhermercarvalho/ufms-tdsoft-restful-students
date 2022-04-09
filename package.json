@@ -4,14 +4,15 @@
   "description": "This is a homework assignment in the discipline of Advanced Software Development Techniques, taught by Professor Hudson Silva Borges at FACOM-UFMS.",
   "main": "index.js",
   "scripts": {
-    "clean": "rm -rf ./dist && mkdir ./dist",
     "prebuild": "npm run clean",
-    "build": "npx tsc",
     "predev": "npm run build",
-    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\"",
     "pretest:watch": "npm run build",
-    "test:watch": "jest --watchAll --collectCoverage",
+    "clean": "rm -rf ./dist && mkdir ./dist",
+    "build": "npx tsc",
+    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\"",
     "test": "jest",
+    "test:watch": "jest --watchAll --collectCoverage",
+    "sqlite": "ts-node sqlite/index.ts",
     "lint": "eslint . --ext .ts"
   },
   "repository": {
@@ -35,10 +36,10 @@
   },
   "homepage": "https://github.com/guilhermercarvalho/ufms-tdsoft-restful-students#readme",
   "dependencies": {
-    "@types/supertest": "^2.0.12",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "pg": "^8.7.3",
+    "sqlite3": "^4.2.0",
     "supertest": "^6.2.2"
   },
   "devDependencies": {
@@ -46,6 +47,8 @@
     "@types/express": "^4.17.13",
     "@types/jest": "^27.4.1",
     "@types/pg": "^8.6.5",
+    "@types/sqlite3": "^3.1.8",
+    "@types/supertest": "^2.0.12",
     "@typescript-eslint/eslint-plugin": "^5.17.0",
     "@typescript-eslint/parser": "^5.17.0",
     "babel-jest": "^27.5.1",
