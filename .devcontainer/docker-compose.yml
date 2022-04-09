@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   app:
+    image: "guilhermercarvalho/restfull-students-app:v1.0.dev"
     container_name: restfull-students-app
     build:
       context: .
@@ -32,7 +33,7 @@ services:
 
   db:
     container_name: restfull-students-db
-    image: "guilhermercarvalho/restfull-students-db-psql14:dev"
+    image: "guilhermercarvalho/restfull-students-db-psql14:v1.0.dev"
     build:
       context: .
       dockerfile: dockerfiles/db.Dockerfile
