@@ -1,62 +1,84 @@
 import fs from 'fs';
 import path from 'path';
-import util from 'util';
 import { Database } from 'sqlite3';
 
-const DB_PATH = path.join(__dirname, 'student.sqlite');
-const DB_DUMP_FILE = 'dump-sqlite.sql';
-const DUMP_SQL = path.join(__dirname, DB_DUMP_FILE);
+const DB_DUMP_CREATE_FILENAME = 'create-sqlite.sql';
+const DB_DUMP_INSERT_FILENAME = 'insert.sql';
+
+const DB_DUMP_BASE_FOLDER = [__dirname, '..', '.devcontainer', 'database'];
+
+const DB_DUMP_CREATE_PATH = path.join(
+  ...DB_DUMP_BASE_FOLDER,
+  DB_DUMP_CREATE_FILENAME
+);
+
+const DB_DUMP_INSERT_PATH = path.join(
+  ...DB_DUMP_BASE_FOLDER,
+  DB_DUMP_INSERT_FILENAME
+);
+
+const DB_SQLITE_PATH = path.join(__dirname, 'student.sqlite');
 
 async function getDumpSql() {
-  if (fs.existsSync(DB_PATH)) fs.unlinkSync(DB_PATH);
-  if (fs.existsSync(DUMP_SQL)) fs.unlinkSync(DUMP_SQL);
+  return new Promise<string>((resolve, reject) => {
+    try {
+      const createSqlContent = fs.readFileSync(DB_DUMP_CREATE_PATH, 'utf-8');
+      const insertSqlContent = fs.readFileSync(DB_DUMP_INSERT_PATH, 'utf-8');
+      resolve(createSqlContent + '\n\n' + insertSqlContent);
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
 
-  const dumpDevcontainerPath = path.join(
-    __dirname,
-    '..',
-    '.devcontainer',
-    'database',
-    DB_DUMP_FILE
-  );
+function openDatabase() {
+  const db: Database = new Database(DB_SQLITE_PATH, (err) => {
+    if (err) throw err;
+  });
+  console.log('Connected to SQLite database');
+  return db;
+}
 
-  fs.copyFileSync(dumpDevcontainerPath, DUMP_SQL);
+function runQueries(db: Database, queries: string) {
+  db.serialize(() => {
+    db.run('BEGIN TRANSACTION');
 
-  return util.promisify(fs.readFile)(DUMP_SQL, 'utf-8');
+    getQueries(queries).forEach((query: string) => {
+      if (query)
+        db.run((query += ';'), (err) => {
+          if (err) throw err;
+        });
+    });
+
+    db.run('COMMIT;');
+  });
+  console.log('All queries have been executed');
+}
+
+function getQueries(queries: string) {
+  return queries
+    .replace(/(\r\n|\n|\r)/gm, '')
+    .trim()
+    .split(';');
+}
+
+function closeDatabase(db: Database) {
+  db.close((err) => {
+    if (err) throw err;
+  });
+  console.log('Closed connection');
 }
 
 getDumpSql()
   .then((dumpSql) => {
-    const db: Database = new Database(DB_PATH, (err) => {
-      if (err) throw err;
-    });
-    console.log('Connected to SQLite database');
+    const db = openDatabase();
     return { db, dumpSql };
   })
   .then(({ db, dumpSql }) => {
-    db.serialize(() => {
-      const queries = dumpSql
-        .replace(/(\r\n|\n|\r)/gm, '')
-        .trim()
-        .split(';');
-
-      db.run('BEGIN TRANSACTION');
-      queries?.forEach((query: string) => {
-        if (query)
-          db.run((query += ';'), (err) => {
-            if (err) throw err;
-          });
-      });
-      db.run('COMMIT;');
-    });
-    console.log('Dumped data');
+    runQueries(db, dumpSql);
     return db;
   })
   .then((db) => {
-    db.close((err) => {
-      if (err) throw err;
-    });
-    console.log('Closed connection');
-    fs.unlinkSync(DUMP_SQL);
-    console.log('Removed dump file copied');
+    closeDatabase(db);
   })
   .catch((err) => console.error(err));

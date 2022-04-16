@@ -2,12 +2,25 @@
   "name": "restful-students-api",
   "version": "1.0.0",
   "description": "This is a homework assignment in the discipline of Advanced Software Development Techniques, taught by Professor Hudson Silva Borges at FACOM-UFMS.",
+  "nodemonConfig": {
+    "ignore": [
+      "**/*.test.ts",
+      "**/*.spec.ts",
+      ".git",
+      "node_modules"
+    ],
+    "watch": [
+      "src"
+    ],
+    "exec": "node -r tsconfig-paths/register -r ts-node/register ./src/main/server.ts",
+    "ext": "ts, js"
+  },
   "scripts": {
     "prebuild": "npm run clean",
     "pretest:watch": "npm run build",
     "clean": "rm -rf ./dist && mkdir ./dist",
     "build": "tsc",
-    "dev": "nodemon src/main/server.ts",
+    "dev": "nodemon",
     "test": "jest",
     "test:watch": "jest --watchAll --collectCoverage",
     "sqlite": "ts-node sqlite",
@@ -38,7 +51,9 @@
     "express": "^4.17.3",
     "pg": "^8.7.3",
     "reflect-metadata": "^0.1.13",
+    "sqlite3": "^5.0.2",
     "supertest": "^6.2.2",
+    "tsconfig-paths": "^3.14.1",
     "typeorm": "^0.3.5"
   },
   "devDependencies": {
