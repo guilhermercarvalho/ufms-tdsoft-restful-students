@@ -1,21 +1,34 @@
 import { PaginationModel, StudentModel } from 'core/models';
-import { StudentRepository } from 'core/repositories/student-repository';
+import { StudentRepository } from 'core/repositories';
 import { PaginationHelper } from 'infra/databases/helpers/pagination-helper';
 import { DataSource, SelectQueryBuilder } from 'typeorm';
-import { PostgresStudentEntity } from '../entities';
+import { SQLiteStudentEntity } from '../entities';
 
-export class PostgresStudentRepository implements StudentRepository {
+export class SQLiteStudentRepository implements StudentRepository {
   constructor(private readonly dataSource: DataSource) {}
+
+  formatModel(students: SQLiteStudentEntity[]): StudentModel[] {
+    return students.map((student: SQLiteStudentEntity) => {
+      return {
+        id: student.id.toString(),
+        rga: student.rga,
+        name: student.name,
+        course: student.course,
+        status: student.status,
+        registeredIn: student.registeredIn
+      };
+    });
+  }
 
   async getQueryPaged(
     page: number | undefined,
     take: number | undefined,
-    queryBuilder: SelectQueryBuilder<PostgresStudentEntity>
+    queryBuilder: SelectQueryBuilder<SQLiteStudentEntity>
   ): Promise<{
     page: number;
     take: number;
     itemCount: number;
-    entities: PostgresStudentEntity[];
+    entities: SQLiteStudentEntity[];
   }> {
     page = page || PaginationHelper.DEFAULT_PAGE;
     take = take || PaginationHelper.DEFAULT_LIMIT;
@@ -29,16 +42,16 @@ export class PostgresStudentRepository implements StudentRepository {
   }
 
   async getAllStudents(): Promise<StudentModel[]> {
-    const repository = this.dataSource.getRepository(PostgresStudentEntity);
+    const repository = this.dataSource.getRepository(SQLiteStudentEntity);
     const students = await repository.find();
-    return students;
+    return this.formatModel(students);
   }
 
   async getAllStudentsPaged(
     page: number | undefined,
     take: number | undefined
   ): Promise<PaginationModel> {
-    const repository = this.dataSource.getRepository(PostgresStudentEntity);
+    const repository = this.dataSource.getRepository(SQLiteStudentEntity);
     const queryBuilder = repository.createQueryBuilder('student');
 
     const queryResult = await this.getQueryPaged(page, take, queryBuilder);
@@ -47,18 +60,18 @@ export class PostgresStudentRepository implements StudentRepository {
       queryResult.page,
       queryResult.take,
       queryResult.itemCount,
-      queryResult.entities
+      this.formatModel(queryResult.entities)
     );
   }
 
   async getStudentsByName(name: string): Promise<StudentModel[]> {
-    const repository = this.dataSource.getRepository(PostgresStudentEntity);
+    const repository = this.dataSource.getRepository(SQLiteStudentEntity);
     const queryBuilder = repository.createQueryBuilder('student');
     queryBuilder.where('LOWER(student.name) like :name', {
       name: `%${name.toLocaleLowerCase()}%`
     });
     const { entities } = await queryBuilder.getRawAndEntities();
-    return entities;
+    return this.formatModel(entities);
   }
 
   async getStudentsByNamePaged(
@@ -66,7 +79,7 @@ export class PostgresStudentRepository implements StudentRepository {
     page: number | undefined,
     take: number | undefined
   ): Promise<PaginationModel> {
-    const repository = this.dataSource.getRepository(PostgresStudentEntity);
+    const repository = this.dataSource.getRepository(SQLiteStudentEntity);
     const queryBuilder = repository.createQueryBuilder('student');
 
     queryBuilder.where('LOWER(student.name) like :name', {
@@ -79,7 +92,7 @@ export class PostgresStudentRepository implements StudentRepository {
       queryResult.page,
       queryResult.take,
       queryResult.itemCount,
-      queryResult.entities
+      this.formatModel(queryResult.entities)
     );
   }
 }

@@ -1,1 +1,1 @@
-export * from './get-all-students';
+export * from './get-all-or-by-name-students';

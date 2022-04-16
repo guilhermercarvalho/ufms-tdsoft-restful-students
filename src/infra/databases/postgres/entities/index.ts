@@ -1,1 +1,1 @@
-export * from './student-entity';
+export * from './postgres-student-entity';

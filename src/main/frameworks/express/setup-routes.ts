@@ -1,14 +1,9 @@
 import { Express, Router } from 'express';
-import { readdirSync } from 'fs';
-import { IDatabase } from '../../../infra/contracts/database';
+import { Database } from 'infra/contracts/database';
+import { studentRoutes } from 'main/routes/express/student-routes';
 
-export default (app: Express, dataSource: IDatabase): void => {
+export default (app: Express, dataSource: Database): void => {
   const router = Router();
   app.use('/v1', router);
-  readdirSync(`${__dirname}/../../routes/express`).map(async (file) => {
-    if (!file.endsWith('.map')) {
-      const route = await import(`../../routes/express/${file}`);
-      route.default(router, dataSource);
-    }
-  });
+  studentRoutes(router, dataSource);
 };

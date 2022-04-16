@@ -3,17 +3,13 @@ import env from 'main/config/env';
 import path from 'path';
 import { DataSource } from 'typeorm';
 
-export class PostgresDatabase implements Database {
+export class SQLiteDatabase implements Database {
   private dataSource!: DataSource;
 
   async connect() {
-    const configDatabase = env.databases.postgres;
+    const configDatabase = env.databases.sqlite;
     const database = new DataSource({
-      type: 'postgres',
-      host: configDatabase.host,
-      port: configDatabase.port,
-      username: configDatabase.user,
-      password: configDatabase.password,
+      type: 'sqlite',
       database: configDatabase.database,
       synchronize: true,
       logging: true,
