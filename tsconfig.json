@@ -5,6 +5,7 @@
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "rootDir": "src",
+    "baseUrl": "src",
     "target": "ES2022",
     "lib": [
       "ES6"
