@@ -1,3 +1,4 @@
+import { MySQLDatabase } from 'infra/databases';
 import { PostgresDatabase } from 'infra/databases/postgres/connection';
 import { SQLiteDatabase } from 'infra/databases/sqlite/connection';
 import env from 'main/config/env';
@@ -5,6 +6,7 @@ import { expressApp } from 'main/frameworks';
 
 const chooseDatabase = (dbProvider: string) => {
   if (dbProvider === 'postgres') return new PostgresDatabase();
+  if (dbProvider === 'mysql') return new MySQLDatabase();
   else if (dbProvider === 'sqlite') return new SQLiteDatabase();
   else return new PostgresDatabase();
 };

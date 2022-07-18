@@ -4,7 +4,8 @@
   "service": "app",
   "runServices": [
     "app",
-    "db"
+    "db-postgres",
+    "db-mysql"
   ],
   "workspaceFolder": "/workspace",
   "settings": {
@@ -22,6 +23,17 @@
       },
       {
         "previewLimit": 50,
+        "server": "db-mysql",
+        "port": 3306,
+        "driver": "MySQL",
+        "name": "student-mysql",
+        "group": "restfull-students",
+        "database": "STUDENT",
+        "username": "mysql",
+        "password": "mysql"
+      },
+      {
+        "previewLimit": 50,
         "driver": "SQLite",
         "name": "student-sqlite",
         "group": "restfull-students",
@@ -36,7 +48,8 @@
     "ms-vscode.vscode-typescript-next",
     "mtxr.sqltools",
     "mtxr.sqltools-driver-pg",
-    "mtxr.sqltools-driver-sqlite"
+    "mtxr.sqltools-driver-sqlite",
+    "mtxr.sqltools-driver-mysql"
   ],
   "remoteUser": "node",
   "shutdownAction": "stopCompose"
