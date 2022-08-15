@@ -1,9 +1,9 @@
-import { Express, Router } from 'express';
+import { Express } from 'express';
 import { Database } from 'infra/contracts/database';
-import { studentRoutes } from 'main/routes/express/student-routes';
+import apiVersion from 'main/routes/express/v1';
+import routes from 'main/config/routes';
 
 export default (app: Express, dataSource: Database): void => {
-  const router = Router();
-  app.use('/v1', router);
-  studentRoutes(router, dataSource);
+  const apiMiddleWare = apiVersion(dataSource);
+  app.use(routes.version, apiMiddleWare);
 };

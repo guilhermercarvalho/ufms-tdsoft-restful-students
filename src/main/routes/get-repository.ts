@@ -10,9 +10,12 @@ import { SQLiteStudentRepository } from 'infra/databases/sqlite/repositories';
 export function getRepository(database: Database): StudentRepository {
   if (database instanceof PostgresDatabase)
     return new PostgresStudentRepository(database.getConnection());
-  else if (database instanceof MySQLDatabase)
+
+  if (database instanceof MySQLDatabase)
     return new MySQLStudentRepository(database.getConnection());
-  else if (database instanceof SQLiteDatabase)
+
+  if (database instanceof SQLiteDatabase)
     return new SQLiteStudentRepository(database.getConnection());
-  else return new PostgresStudentRepository(database.getConnection());
+
+  return new PostgresStudentRepository(database.getConnection());
 }
