@@ -1,18 +1,5 @@
+import { StudentCourse, StudentStatus } from 'core/entities';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-
-export enum StudentCourse {
-  CC = 'cc',
-  SI = 'si',
-  ECOMP = 'ecomp',
-  ENGSOFT = 'engsoft',
-  TADS = 'tads',
-  TRC = 'trc'
-}
-
-export enum StudentStatus {
-  ACTIVE = 'ativo',
-  INACTIVE = 'inativo'
-}
 
 @Entity({ name: 'tb_student' })
 export class PostgresStudentEntity {
@@ -46,6 +33,7 @@ export class PostgresStudentEntity {
     type: 'enum',
     enum: StudentStatus,
     nullable: false,
+    default: StudentStatus.ACTIVE,
     name: 'situacao'
   })
   status!: string;
