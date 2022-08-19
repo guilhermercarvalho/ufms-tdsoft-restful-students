@@ -3,42 +3,43 @@ import path from 'path';
 import { Database } from 'sqlite3';
 
 export class DumpSQLite {
-  private static dbSQLitePath: string = path.join(__dirname, 'student.sqlite');
-  private static dbDumpFilesName: string[];
-  private static dbDumpPath: string[] = [
+  private readonly DB_DUMP_PATH = [
     __dirname,
     '..',
     '.devcontainer',
     'database'
   ];
+  private readonly DB_SQLITE_PATH = path.join(__dirname, 'student.sqlite');
+
+  private dbDumpFilesName: string[];
 
   constructor(...filesName: string[]) {
-    DumpSQLite.dbDumpFilesName = filesName;
+    this.dbDumpFilesName = filesName;
   }
 
   public run() {
-    DumpSQLite.getDumpSql()
+    this.getDumpSql()
       .then((dumpSql) => {
-        const db = DumpSQLite.openDatabase();
+        const db = this.openDatabase();
         return { db, dumpSql };
       })
       .then(({ db, dumpSql }) => {
-        DumpSQLite.runQueries(db, dumpSql);
+        this.runQueries(db, dumpSql);
         return db;
       })
       .then((db) => {
-        DumpSQLite.closeDatabase(db);
+        this.closeDatabase(db);
       })
       .catch((err) => console.error(err));
   }
 
-  private static async getDumpSql() {
+  private async getDumpSql() {
     return new Promise<string>((resolve, reject) => {
       try {
         const sqlFilesContent: string[] = [];
 
         this.dbDumpFilesName.forEach((fileName) => {
-          const filePath = path.join(...this.dbDumpPath, fileName);
+          const filePath = path.join(...this.DB_DUMP_PATH, fileName);
           sqlFilesContent.push(fs.readFileSync(filePath, 'utf-8'));
         });
 
@@ -49,16 +50,16 @@ export class DumpSQLite {
     });
   }
 
-  private static openDatabase() {
-    if (fs.existsSync(this.dbSQLitePath)) fs.unlinkSync(this.dbSQLitePath);
-    const db: Database = new Database(this.dbSQLitePath, (err) => {
+  private openDatabase() {
+    if (fs.existsSync(this.DB_SQLITE_PATH)) fs.unlinkSync(this.DB_SQLITE_PATH);
+    const db: Database = new Database(this.DB_SQLITE_PATH, (err) => {
       if (err) throw err;
     });
     console.log('Connected to SQLite database');
     return db;
   }
 
-  private static runQueries(db: Database, queries: string) {
+  private runQueries(db: Database, queries: string) {
     db.serialize(() => {
       db.run('BEGIN TRANSACTION');
 
@@ -74,14 +75,14 @@ export class DumpSQLite {
     console.log('All queries have been executed');
   }
 
-  private static closeDatabase(db: Database) {
+  private closeDatabase(db: Database) {
     db.close((err) => {
       if (err) throw err;
     });
     console.log('Closed connection');
   }
 
-  private static getQueries(queries: string) {
+  private getQueries(queries: string) {
     return queries
       .replace(/(\r\n|\n|\r)/gm, '')
       .trim()

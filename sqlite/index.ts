@@ -1,3 +1,8 @@
 import { DumpSQLite } from './dump-sqlite';
 
-new DumpSQLite('create-sqlite.sql', 'insert.sql').run();
+const create = 'create-sqlite.sql';
+const insert = 'insert.sql';
+
+const filesName = [create, insert];
+
+new DumpSQLite(...filesName).run();
