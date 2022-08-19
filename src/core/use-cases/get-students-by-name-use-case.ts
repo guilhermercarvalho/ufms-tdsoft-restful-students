@@ -6,7 +6,8 @@ export class GetStudentsByNameUseCase {
 
   execute(name: string) {
     if (!name) throw new EmptyParamError('name');
-    if (parseInt(name)) throw new InvalidQueryTypeError('name');
+    if (!isNaN(name as any) || typeof name !== 'string')
+      throw new InvalidQueryTypeError('name');
 
     return this.studentRepository.getStudentsByName(name);
   }
