@@ -1,5 +1,5 @@
 import { StudentCourse, StudentStatus } from 'core/entities';
-import { EmptyParamError, InvalidIdError } from 'core/error';
+import { EmptyParamError, InvalidParamError } from 'core/error';
 import { StudentRepository } from 'core/repositories';
 
 export class CreateOneStudentUseCase {
@@ -14,15 +14,15 @@ export class CreateOneStudentUseCase {
     const statusValues = Object.values(StudentStatus);
 
     if (!courseValues.includes(course as StudentCourse))
-      throw new InvalidIdError('course');
+      throw new InvalidParamError('course');
 
     if (status && !statusValues.includes(status as StudentStatus))
-      throw new InvalidIdError('status');
+      throw new InvalidParamError('status');
 
     const rgaFormated = rga.replace(/\.|-/g, '');
 
     if (rgaFormated.length !== 12 || isNaN(rgaFormated as any))
-      throw new InvalidIdError('rga');
+      throw new InvalidParamError('rga');
 
     return this.studentRepository.createOneStudent(name, rga, course, status);
   }
