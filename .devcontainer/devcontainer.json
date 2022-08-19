@@ -12,7 +12,7 @@
     "sqltools.connections": [
       {
         "previewLimit": 50,
-        "server": "db",
+        "server": "db-postgres",
         "port": 5432,
         "driver": "PostgreSQL",
         "name": "student-pg",
