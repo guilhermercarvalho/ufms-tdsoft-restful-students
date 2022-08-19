@@ -1,5 +1,5 @@
-export class InvalidIdError extends Error {
-  constructor(id: string) {
-    super(`Invalid id: "${id}"`);
+export class InvalidParamError extends Error {
+  constructor(param: string) {
+    super(`Invalid param: '${param}'`);
   }
 }

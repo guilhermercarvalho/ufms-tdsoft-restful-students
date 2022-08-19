@@ -2,6 +2,7 @@ import { MySQLDatabase } from 'infra/databases';
 import { PostgresDatabase } from 'infra/databases/postgres/connection';
 import { SQLiteDatabase } from 'infra/databases/sqlite/connection';
 import config from 'main/config/env';
+import routes from 'main/config/routes';
 import { expressApp } from 'main/frameworks';
 
 const chooseDatabase = (dbProvider: string) => {
@@ -20,7 +21,9 @@ const startServer = async () => {
     .then(async () => {
       const app = await expressApp(databse);
       app.listen(config.port, () =>
-        console.log(`server running at: http://${config.host}:${config.port}`)
+        console.log(
+          `server running at: http://${config.host}:${config.port}${routes.version}${routes.students}`
+        )
       );
     })
     .catch((error: any) => {

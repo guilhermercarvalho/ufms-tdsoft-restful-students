@@ -7,27 +7,6 @@ import { PostgresStudentEntity } from '../entities';
 export class PostgresStudentRepository implements StudentRepository {
   constructor(private readonly dataSource: DataSource) {}
 
-  async getQueryPaged(
-    page: number | undefined,
-    take: number | undefined,
-    queryBuilder: SelectQueryBuilder<PostgresStudentEntity>
-  ): Promise<{
-    page: number;
-    take: number;
-    itemCount: number;
-    entities: PostgresStudentEntity[];
-  }> {
-    page = page || PaginationHelper.DEFAULT_PAGE;
-    take = take || PaginationHelper.DEFAULT_LIMIT;
-
-    const skip = PaginationHelper.getOffset(page, take);
-    queryBuilder.skip(skip).take(take);
-    const itemCount = await queryBuilder.getCount();
-    const { entities } = await queryBuilder.getRawAndEntities();
-
-    return { page, take, itemCount, entities };
-  }
-
   async getAllStudents(): Promise<StudentModel[]> {
     const repository = this.dataSource.getRepository(PostgresStudentEntity);
     const students = await repository.find();
@@ -81,5 +60,52 @@ export class PostgresStudentRepository implements StudentRepository {
       queryResult.itemCount,
       queryResult.entities
     );
+  }
+
+  async getOneStudent(id: string): Promise<StudentModel> {
+    const repository = this.dataSource.getRepository(PostgresStudentEntity);
+    const student = await repository.findOneByOrFail({ id });
+    return student;
+  }
+
+  async createOneStudent(
+    name: string,
+    rga: string,
+    course: string,
+    status?: string
+  ): Promise<StudentModel> {
+    const repository = this.dataSource.getRepository(PostgresStudentEntity);
+    let student = await repository.findOne({
+      where: [{ rga }, { name, rga, course }]
+    });
+
+    if (student) throw new Error('Student already exists.');
+
+    student = repository.create({ name, rga, course, status });
+
+    await repository.save(student);
+
+    return student;
+  }
+
+  private async getQueryPaged(
+    page: number | undefined,
+    take: number | undefined,
+    queryBuilder: SelectQueryBuilder<PostgresStudentEntity>
+  ): Promise<{
+    page: number;
+    take: number;
+    itemCount: number;
+    entities: PostgresStudentEntity[];
+  }> {
+    page = page || PaginationHelper.DEFAULT_PAGE;
+    take = take || PaginationHelper.DEFAULT_LIMIT;
+
+    const skip = PaginationHelper.getOffset(page, take);
+    queryBuilder.skip(skip).take(take);
+    const itemCount = await queryBuilder.getCount();
+    const { entities } = await queryBuilder.getRawAndEntities();
+
+    return { page, take, itemCount, entities };
   }
 }

@@ -13,7 +13,8 @@ export class GetStudentsByNamePagedUseCase {
     if (Number(limit) < 1) throw new SizeQueryError('limit', 0);
 
     if (!name) throw new EmptyParamError('name');
-    if (parseInt(name)) throw new InvalidQueryTypeError('name');
+    if (!isNaN(name as any) || typeof name !== 'string')
+      throw new InvalidQueryTypeError('name');
 
     return this.studentRepository.getStudentsByNamePaged(
       name,
