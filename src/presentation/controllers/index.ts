@@ -1,2 +1,4 @@
-export * from './get-all-or-by-name-students-controller';
-export * from './create-one-student-controller';
+export * from './student-controller/get-all-or-by-name-students-controller';
+export * from './student-controller/create-one-student-controller';
+
+export * from './endpoint-not-allowed-controller';

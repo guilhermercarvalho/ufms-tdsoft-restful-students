@@ -33,3 +33,10 @@ export const notFound = (error: Error): HttpResponse => ({
     error: error.message
   }
 });
+
+export const methodNotAllowed = (error: Error): HttpResponse => ({
+  statusCode: 405,
+  data: {
+    error: error.message
+  }
+});
