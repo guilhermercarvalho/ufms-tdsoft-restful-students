@@ -14,6 +14,8 @@ export interface StudentRepository {
     limit: number | undefined
   ) => Promise<PaginationModel>;
 
+  getOneStudent: (id: string) => Promise<StudentModel>;
+
   createOneStudent: (
     name: string,
     rga: string,

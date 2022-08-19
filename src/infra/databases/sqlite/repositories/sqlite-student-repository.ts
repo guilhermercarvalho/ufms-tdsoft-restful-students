@@ -1,4 +1,3 @@
-import { Student } from 'core/entities';
 import { PaginationModel, StudentModel } from 'core/models';
 import { StudentRepository } from 'core/repositories';
 import { PaginationHelper } from 'infra/databases/helpers/pagination-helper';
@@ -63,12 +62,16 @@ export class SQLiteStudentRepository implements StudentRepository {
     );
   }
 
+  getOneStudent(id: string): Promise<StudentModel> {
+    throw new Error('Not implemented');
+  }
+
   createOneStudent(
     name: string,
     rga: string,
     course: string,
     status?: string
-  ): Promise<Student> {
+  ): Promise<StudentModel> {
     throw new Error('Not implemented');
   }
 

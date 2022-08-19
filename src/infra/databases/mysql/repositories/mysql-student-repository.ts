@@ -62,6 +62,10 @@ export class MySQLStudentRepository implements StudentRepository {
     );
   }
 
+  getOneStudent(id: string): Promise<StudentModel> {
+    throw new Error('Not implemented');
+  }
+
   createOneStudent(
     name: string,
     rga: string,

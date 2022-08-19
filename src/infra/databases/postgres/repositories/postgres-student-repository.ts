@@ -62,6 +62,12 @@ export class PostgresStudentRepository implements StudentRepository {
     );
   }
 
+  async getOneStudent(id: string): Promise<StudentModel> {
+    const repository = this.dataSource.getRepository(PostgresStudentEntity);
+    const student = await repository.findOneByOrFail({ id });
+    return student;
+  }
+
   async createOneStudent(
     name: string,
     rga: string,
