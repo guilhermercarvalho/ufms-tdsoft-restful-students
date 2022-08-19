@@ -7,27 +7,6 @@ import { MySQLStudentEntity } from '../entities';
 export class MySQLStudentRepository implements StudentRepository {
   constructor(private readonly dataSource: DataSource) {}
 
-  async getQueryPaged(
-    page: number | undefined,
-    take: number | undefined,
-    queryBuilder: SelectQueryBuilder<MySQLStudentEntity>
-  ): Promise<{
-    page: number;
-    take: number;
-    itemCount: number;
-    entities: MySQLStudentEntity[];
-  }> {
-    page = page || PaginationHelper.DEFAULT_PAGE;
-    take = take || PaginationHelper.DEFAULT_LIMIT;
-
-    const skip = PaginationHelper.getOffset(page, take);
-    queryBuilder.skip(skip).take(take);
-    const itemCount = await queryBuilder.getCount();
-    const { entities } = await queryBuilder.getRawAndEntities();
-
-    return { page, take, itemCount, entities };
-  }
-
   async getAllStudents(): Promise<StudentModel[]> {
     const repository = this.dataSource.getRepository(MySQLStudentEntity);
     const students = await repository.find();
@@ -90,5 +69,26 @@ export class MySQLStudentRepository implements StudentRepository {
     status?: string
   ): Promise<StudentModel> {
     throw new Error('Not implemented');
+  }
+
+  private async getQueryPaged(
+    page: number | undefined,
+    take: number | undefined,
+    queryBuilder: SelectQueryBuilder<MySQLStudentEntity>
+  ): Promise<{
+    page: number;
+    take: number;
+    itemCount: number;
+    entities: MySQLStudentEntity[];
+  }> {
+    page = page || PaginationHelper.DEFAULT_PAGE;
+    take = take || PaginationHelper.DEFAULT_LIMIT;
+
+    const skip = PaginationHelper.getOffset(page, take);
+    queryBuilder.skip(skip).take(take);
+    const itemCount = await queryBuilder.getCount();
+    const { entities } = await queryBuilder.getRawAndEntities();
+
+    return { page, take, itemCount, entities };
   }
 }
