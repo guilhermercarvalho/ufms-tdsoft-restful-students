@@ -82,4 +82,24 @@ export class PostgresStudentRepository implements StudentRepository {
       queryResult.entities
     );
   }
+
+  async createOneStudent(
+    name: string,
+    rga: string,
+    course: string,
+    status?: string
+  ): Promise<StudentModel> {
+    const repository = this.dataSource.getRepository(PostgresStudentEntity);
+    let student = await repository.findOne({
+      where: [{ rga }, { name, rga, course }]
+    });
+
+    if (student) throw new Error('Student already exists.');
+
+    student = repository.create({ name, rga, course, status });
+
+    await repository.save(student);
+
+    return student;
+  }
 }

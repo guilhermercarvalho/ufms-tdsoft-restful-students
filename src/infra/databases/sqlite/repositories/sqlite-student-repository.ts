@@ -1,3 +1,4 @@
+import { Student } from 'core/entities';
 import { PaginationModel, StudentModel } from 'core/models';
 import { StudentRepository } from 'core/repositories';
 import { PaginationHelper } from 'infra/databases/helpers/pagination-helper';
@@ -94,5 +95,14 @@ export class SQLiteStudentRepository implements StudentRepository {
       queryResult.itemCount,
       this.formatModel(queryResult.entities)
     );
+  }
+
+  createOneStudent(
+    name: string,
+    rga: string,
+    course: string,
+    status?: string
+  ): Promise<Student> {
+    throw new Error('Not implemented');
   }
 }

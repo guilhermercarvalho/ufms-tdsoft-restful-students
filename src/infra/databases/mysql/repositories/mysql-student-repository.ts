@@ -82,4 +82,13 @@ export class MySQLStudentRepository implements StudentRepository {
       queryResult.entities
     );
   }
+
+  createOneStudent(
+    name: string,
+    rga: string,
+    course: string,
+    status?: string
+  ): Promise<StudentModel> {
+    throw new Error('Not implemented');
+  }
 }

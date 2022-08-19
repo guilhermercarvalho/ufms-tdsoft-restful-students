@@ -6,10 +6,18 @@ export interface StudentRepository {
     page: number | undefined,
     limit: number | undefined
   ) => Promise<PaginationModel>;
+
   getStudentsByName: (name: string) => Promise<StudentModel[]>;
   getStudentsByNamePaged: (
     name: string,
     page: number | undefined,
     limit: number | undefined
   ) => Promise<PaginationModel>;
+
+  createOneStudent: (
+    name: string,
+    rga: string,
+    course: string,
+    status?: string
+  ) => Promise<StudentModel>;
 }
