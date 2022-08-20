@@ -1,18 +1,53 @@
 import { PaginationModel } from 'core/models';
+import { SelectQueryBuilder } from 'typeorm';
+import {
+  MySQLStudentEntity,
+  PostgresStudentEntity,
+  SQLiteStudentEntity
+} from '../entities';
 
 export class PaginationHelper {
-  public static readonly DEFAULT_PAGE = 1;
-  public static readonly DEFAULT_LIMIT = 25;
+  private static readonly DEFAULT_PAGE = 1;
+  private static readonly DEFAULT_LIMIT = 25;
 
-  static getOffset = (page: number, limit: number) => {
+  public static async getQueryPagedTypeorm(
+    queryBuilder: SelectQueryBuilder<
+      PostgresStudentEntity | MySQLStudentEntity | SQLiteStudentEntity
+    >,
+    page?: number,
+    take?: number
+  ): Promise<{
+    page: number;
+    take: number;
+    itemCount: number;
+    entities: Array<
+      PostgresStudentEntity | MySQLStudentEntity | SQLiteStudentEntity
+    >;
+  }> {
+    const pageSelected = page ?? this.DEFAULT_PAGE;
+    const takeSelected = page ?? this.DEFAULT_LIMIT;
+
+    const skip = this.getOffset(pageSelected, takeSelected);
+
+    queryBuilder.skip(skip).take(take);
+
+    const itemCount = await queryBuilder.getCount();
+    const { entities } = await queryBuilder.getRawAndEntities();
+
+    return { page: pageSelected, take: takeSelected, itemCount, entities };
+  }
+
+  private static getOffset = (page: number, limit: number) => {
     return (page - 1) * limit;
   };
 
-  static getPage = (
+  public static getPage = (
     page: number,
     limit: number,
     itemCount: number,
-    result: any
+    result: Array<
+      PostgresStudentEntity | MySQLStudentEntity | SQLiteStudentEntity
+    >
   ): PaginationModel => {
     const pageCount = Math.ceil(itemCount / limit);
     return {

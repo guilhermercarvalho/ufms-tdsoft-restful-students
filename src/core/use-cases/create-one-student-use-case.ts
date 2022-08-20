@@ -1,6 +1,11 @@
-import { StudentCourse, StudentStatus } from 'core/entities';
-import { EmptyParamError, InvalidParamError } from 'core/error';
+import { EmptyParamError } from 'core/error';
 import { StudentRepository } from 'core/repositories';
+import {
+  validateCourse,
+  validateName,
+  validateRGA,
+  validateStatus
+} from 'core/validations';
 
 export class CreateOneStudentUseCase {
   constructor(private readonly studentRepository: StudentRepository) {}
@@ -10,19 +15,10 @@ export class CreateOneStudentUseCase {
     if (!rga) throw new EmptyParamError('rga');
     if (!course) throw new EmptyParamError('course');
 
-    const courseValues = Object.values(StudentCourse);
-    const statusValues = Object.values(StudentStatus);
-
-    if (!courseValues.includes(course as StudentCourse))
-      throw new InvalidParamError('course');
-
-    if (status && !statusValues.includes(status as StudentStatus))
-      throw new InvalidParamError('status');
-
-    const rgaFormated = rga.replace(/\.|-/g, '');
-
-    if (rgaFormated.length !== 12 || isNaN(rgaFormated as any))
-      throw new InvalidParamError('rga');
+    validateName(name);
+    validateRGA(rga);
+    validateCourse(course);
+    if (status) validateStatus(status);
 
     return this.studentRepository.createOneStudent(name, rga, course, status);
   }

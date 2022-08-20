@@ -1,25 +1,17 @@
-import { EmptyParamError, InvalidQueryTypeError } from 'core/error';
-import { SizeQueryError } from 'core/error/size-query-error';
+import { EmptyParamError } from 'core/error';
 import { StudentRepository } from 'core/repositories/student-repository';
+import { validateName, validatePagination } from 'core/validations';
 
 export class GetStudentsByNamePagedUseCase {
   constructor(private readonly studentRepository: StudentRepository) {}
 
-  execute(name: string, page: number | undefined, limit: number | undefined) {
-    if (page && isNaN(page)) throw new InvalidQueryTypeError('page');
-    if (limit && isNaN(limit)) throw new InvalidQueryTypeError('limit');
-
-    if (Number(page) < 1) throw new SizeQueryError('page', 0);
-    if (Number(limit) < 1) throw new SizeQueryError('limit', 0);
-
+  execute(name: string, page?: number, limit?: number) {
     if (!name) throw new EmptyParamError('name');
-    if (!isNaN(name as any) || typeof name !== 'string')
-      throw new InvalidQueryTypeError('name');
 
-    return this.studentRepository.getStudentsByNamePaged(
-      name,
-      page ? Number(page) : page,
-      limit ? Number(limit) : limit
-    );
+    validateName(name);
+    if (page) validatePagination('page', page);
+    if (limit) validatePagination('limit', limit);
+
+    return this.studentRepository.getStudentsByNamePaged(name, page, limit);
   }
 }

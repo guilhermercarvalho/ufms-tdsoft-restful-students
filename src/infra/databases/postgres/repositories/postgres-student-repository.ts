@@ -1,7 +1,7 @@
 import { PaginationModel, StudentModel } from 'core/models';
 import { StudentRepository } from 'core/repositories/student-repository';
 import { PaginationHelper } from 'infra/databases/helpers/pagination-helper';
-import { DataSource, SelectQueryBuilder } from 'typeorm';
+import { DataSource } from 'typeorm';
 import { PostgresStudentEntity } from '../entities';
 
 export class PostgresStudentRepository implements StudentRepository {
@@ -14,13 +14,17 @@ export class PostgresStudentRepository implements StudentRepository {
   }
 
   async getAllStudentsPaged(
-    page: number | undefined,
-    take: number | undefined
+    page?: number,
+    take?: number
   ): Promise<PaginationModel> {
     const repository = this.dataSource.getRepository(PostgresStudentEntity);
     const queryBuilder = repository.createQueryBuilder('student');
 
-    const queryResult = await this.getQueryPaged(page, take, queryBuilder);
+    const queryResult = await PaginationHelper.getQueryPagedTypeorm(
+      queryBuilder,
+      page,
+      take
+    );
 
     return PaginationHelper.getPage(
       queryResult.page,
@@ -42,8 +46,8 @@ export class PostgresStudentRepository implements StudentRepository {
 
   async getStudentsByNamePaged(
     name: string,
-    page: number | undefined,
-    take: number | undefined
+    page?: number,
+    take?: number
   ): Promise<PaginationModel> {
     const repository = this.dataSource.getRepository(PostgresStudentEntity);
     const queryBuilder = repository.createQueryBuilder('student');
@@ -52,7 +56,11 @@ export class PostgresStudentRepository implements StudentRepository {
       name: `%${name.toLocaleLowerCase()}%`
     });
 
-    const queryResult = await this.getQueryPaged(page, take, queryBuilder);
+    const queryResult = await PaginationHelper.getQueryPagedTypeorm(
+      queryBuilder,
+      page,
+      take
+    );
 
     return PaginationHelper.getPage(
       queryResult.page,
@@ -86,26 +94,5 @@ export class PostgresStudentRepository implements StudentRepository {
     await repository.save(student);
 
     return student;
-  }
-
-  private async getQueryPaged(
-    page: number | undefined,
-    take: number | undefined,
-    queryBuilder: SelectQueryBuilder<PostgresStudentEntity>
-  ): Promise<{
-    page: number;
-    take: number;
-    itemCount: number;
-    entities: PostgresStudentEntity[];
-  }> {
-    page = page || PaginationHelper.DEFAULT_PAGE;
-    take = take || PaginationHelper.DEFAULT_LIMIT;
-
-    const skip = PaginationHelper.getOffset(page, take);
-    queryBuilder.skip(skip).take(take);
-    const itemCount = await queryBuilder.getCount();
-    const { entities } = await queryBuilder.getRawAndEntities();
-
-    return { page, take, itemCount, entities };
   }
 }

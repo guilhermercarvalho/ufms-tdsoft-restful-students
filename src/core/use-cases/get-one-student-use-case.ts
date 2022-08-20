@@ -1,5 +1,6 @@
-import { EmptyParamError, InvalidParamError } from 'core/error';
+import { EmptyParamError } from 'core/error';
 import { StudentRepository } from 'core/repositories';
+import { validateId } from 'core/validations';
 
 export class GetOneStudentUseCase {
   constructor(private readonly studentRepository: StudentRepository) {}
@@ -7,10 +8,7 @@ export class GetOneStudentUseCase {
   execute(id: string) {
     if (!id) throw new EmptyParamError('id');
 
-    const expUUIDv4 =
-      /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi;
-
-    if (!expUUIDv4.test(id)) throw new InvalidParamError('id');
+    validateId(id);
 
     return this.studentRepository.getOneStudent(id);
   }
