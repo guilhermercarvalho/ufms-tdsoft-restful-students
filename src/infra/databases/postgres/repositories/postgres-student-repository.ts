@@ -95,4 +95,26 @@ export class PostgresStudentRepository implements StudentRepository {
 
     return student;
   }
+
+  async updateOneStudent(
+    id: string,
+    name?: string,
+    rga?: string,
+    course?: string,
+    status?: string
+  ): Promise<StudentModel> {
+    const repository = this.dataSource.getRepository(PostgresStudentEntity);
+    const student = await repository.findOneBy({ id });
+
+    if (!student) throw new Error('Student not found.');
+
+    if (name) student.name = name;
+    if (rga) student.rga = rga;
+    if (course) student.course = course;
+    if (status) student.status = status;
+
+    await repository.save(student);
+
+    return student;
+  }
 }

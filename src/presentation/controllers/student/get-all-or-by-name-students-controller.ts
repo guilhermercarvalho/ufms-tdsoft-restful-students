@@ -4,8 +4,10 @@ import {
   SizeQueryError
 } from 'core/error';
 import { StudentModel } from 'core/models';
-import { GetStudentsByNamePagedUseCase } from 'core/use-cases';
-import { GetAllStudentsPagedUseCase } from 'core/use-cases/get-all-students-paged-use-case';
+import {
+  GetAllStudentsPagedUseCase,
+  GetStudentsByNamePagedUseCase
+} from 'core/use-cases';
 import {
   badRequest,
   Controller,

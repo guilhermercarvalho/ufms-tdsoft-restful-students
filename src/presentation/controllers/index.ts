@@ -1,5 +1,6 @@
-export * from './student-controller/get-all-or-by-name-students-controller';
-export * from './student-controller/get-one-student-controller';
-export * from './student-controller/create-one-student-controller';
+export * from './student/get-all-or-by-name-students-controller';
+export * from './student/get-one-student-controller';
+export * from './student/create-one-student-controller';
+export * from './student/update-one-student-controller';
 
 export * from './endpoint-not-allowed-controller';

@@ -22,4 +22,12 @@ export interface StudentRepository {
     course: string,
     status?: string
   ) => Promise<StudentModel>;
+
+  updateOneStudent: (
+    id: string,
+    name?: string,
+    rga?: string,
+    course?: string,
+    status?: string
+  ) => Promise<StudentModel>;
 }

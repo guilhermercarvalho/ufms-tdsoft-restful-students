@@ -82,6 +82,16 @@ export class SQLiteStudentRepository implements StudentRepository {
   ): Promise<StudentModel> {
     throw new Error('Not implemented');
   }
+
+  updateOneStudent(
+    id: string,
+    name?: string,
+    rga?: string,
+    course?: string,
+    status?: string
+  ): Promise<StudentModel> {
+    throw new Error('Not implemented');
+  }
 }
 
 function formatModel(students: SQLiteStudentEntity[]): StudentModel[] {

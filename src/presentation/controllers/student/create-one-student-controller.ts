@@ -1,4 +1,4 @@
-import { CreateOneStudentUseCase } from 'core/use-cases/create-one-student-use-case';
+import { CreateOneStudentUseCase } from 'core/use-cases/student/create-one-student-use-case';
 import {
   badRequest,
   Controller,
