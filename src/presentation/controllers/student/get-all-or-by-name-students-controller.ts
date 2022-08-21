@@ -11,6 +11,7 @@ import {
 import {
   badRequest,
   Controller,
+  getStudentOutput,
   HttpResponse,
   serverError,
   success
@@ -45,13 +46,7 @@ export class GetAllOrByNameStudentsPagedController implements Controller {
         },
         tamanho: resultSize,
         resultado: result.map((student: StudentModel) => {
-          return {
-            rga: student.rga,
-            nome: student.name,
-            curso: student.course,
-            situacao: student.status,
-            registrado_em: student.registeredIn
-          };
+          return getStudentOutput(student);
         })
       });
     } catch (error: any) {

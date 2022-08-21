@@ -3,5 +3,5 @@ export type StudentView = {
   nome: string;
   curso: string;
   situacao: string;
-  registrado_em: Date;
+  registrado_em: string;
 };

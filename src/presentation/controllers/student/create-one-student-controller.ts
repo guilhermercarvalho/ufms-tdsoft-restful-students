@@ -8,6 +8,7 @@ import {
   badRequest,
   Controller,
   created,
+  getStudentOutput,
   HttpResponse,
   serverError
 } from 'presentation/contracts';
@@ -32,13 +33,7 @@ export class CreateOneStudentController implements Controller {
         status
       );
 
-      return created({
-        rga: student.rga,
-        nome: student.name,
-        curso: student.course,
-        situacao: student.status,
-        registrado_em: student.registeredIn
-      });
+      return created(getStudentOutput(student));
     } catch (error: any) {
       if (
         error instanceof EmptyParamError ||

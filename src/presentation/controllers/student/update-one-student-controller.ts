@@ -2,6 +2,7 @@ import { NotFoundError } from 'core/error';
 import { UpdateOneStudentUseCase } from 'core/use-cases';
 import {
   Controller,
+  getStudentOutput,
   HttpResponse,
   notFound,
   serverError,
@@ -30,13 +31,7 @@ export class UpdateOneStudentController implements Controller {
         status
       );
 
-      return success({
-        rga: student.rga,
-        nome: student.name,
-        curso: student.course,
-        situacao: student.status,
-        registrado_em: student.registeredIn
-      });
+      return success(getStudentOutput(student));
     } catch (error: any) {
       if (error instanceof NotFoundError) return notFound(error);
       return serverError(error);

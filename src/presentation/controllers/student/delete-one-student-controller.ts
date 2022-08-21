@@ -2,6 +2,7 @@ import { NotFoundError } from 'core/error';
 import { DeleteOneStudentUseCase } from 'core/use-cases';
 import {
   Controller,
+  getStudentOutput,
   HttpResponse,
   notFound,
   serverError,
@@ -20,13 +21,7 @@ export class DeleteOneStudentController implements Controller {
 
       const student = await this.deleteOneStudent.execute(id);
 
-      return success({
-        rga: student.rga,
-        nome: student.name,
-        curso: student.course,
-        situacao: student.status,
-        registrado_em: student.registeredIn
-      });
+      return success(getStudentOutput(student));
     } catch (error: any) {
       if (error instanceof NotFoundError) return notFound(error);
       return serverError(error);
