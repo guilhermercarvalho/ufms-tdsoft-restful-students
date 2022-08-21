@@ -92,6 +92,10 @@ export class SQLiteStudentRepository implements StudentRepository {
   ): Promise<StudentModel> {
     throw new Error('Not implemented');
   }
+
+  deleteOneStudent(id: string): Promise<StudentModel> {
+    throw new Error('Not implemented');
+  }
 }
 
 function formatModel(students: SQLiteStudentEntity[]): StudentModel[] {

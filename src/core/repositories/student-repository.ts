@@ -30,4 +30,6 @@ export interface StudentRepository {
     course?: string,
     status?: string
   ) => Promise<StudentModel>;
+
+  deleteOneStudent: (id: string) => Promise<StudentModel>;
 }

@@ -117,4 +117,13 @@ export class PostgresStudentRepository implements StudentRepository {
 
     return student;
   }
+
+  async deleteOneStudent(id: string): Promise<StudentModel> {
+    const repository = this.dataSource.getRepository(PostgresStudentEntity);
+    const student = await repository.findOneByOrFail({ id });
+
+    await repository.delete(student);
+
+    return student;
+  }
 }

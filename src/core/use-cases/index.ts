@@ -9,3 +9,5 @@ export * from './student/get-one-student-use-case';
 export * from './student/create-one-student-use-case';
 
 export * from './student/update-one-student-use-case';
+
+export * from './student/delete-one-student-use-case';

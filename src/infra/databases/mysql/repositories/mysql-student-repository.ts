@@ -92,4 +92,8 @@ export class MySQLStudentRepository implements StudentRepository {
   ): Promise<StudentModel> {
     throw new Error('Not implemented');
   }
+
+  deleteOneStudent(id: string): Promise<StudentModel> {
+    throw new Error('Not implemented');
+  }
 }
