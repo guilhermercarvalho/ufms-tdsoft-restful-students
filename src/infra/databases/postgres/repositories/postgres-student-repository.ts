@@ -1,3 +1,4 @@
+import { NotFoundError } from 'core/error';
 import { PaginationModel, StudentModel } from 'core/models';
 import { StudentRepository } from 'core/repositories/student-repository';
 import { PaginationHelper } from 'infra/databases/helpers/pagination-helper';
@@ -72,7 +73,10 @@ export class PostgresStudentRepository implements StudentRepository {
 
   async getOneStudent(id: string): Promise<StudentModel> {
     const repository = this.dataSource.getRepository(PostgresStudentEntity);
-    const student = await repository.findOneByOrFail({ id });
+    const student = await repository.findOneBy({ id });
+
+    if (!student) throw new NotFoundError(id);
+
     return student;
   }
 
@@ -106,7 +110,7 @@ export class PostgresStudentRepository implements StudentRepository {
     const repository = this.dataSource.getRepository(PostgresStudentEntity);
     const student = await repository.findOneBy({ id });
 
-    if (!student) throw new Error('Student not found.');
+    if (!student) throw new NotFoundError(id);
 
     if (name) student.name = name;
     if (rga) student.rga = rga;
@@ -120,7 +124,9 @@ export class PostgresStudentRepository implements StudentRepository {
 
   async deleteOneStudent(id: string): Promise<StudentModel> {
     const repository = this.dataSource.getRepository(PostgresStudentEntity);
-    const student = await repository.findOneByOrFail({ id });
+    const student = await repository.findOneBy({ id });
+
+    if (!student) throw new NotFoundError(id);
 
     await repository.delete(student);
 

@@ -1,7 +1,9 @@
+import { NotFoundError } from 'core/error';
 import { GetOneStudentUseCase } from 'core/use-cases';
 import {
   Controller,
   HttpResponse,
+  notFound,
   serverError,
   success
 } from 'presentation/contracts';
@@ -26,6 +28,7 @@ export class GetOneStudentController implements Controller {
         registrado_em: student.registeredIn
       });
     } catch (error: any) {
+      if (error instanceof NotFoundError) return notFound(error);
       return serverError(error);
     }
   }

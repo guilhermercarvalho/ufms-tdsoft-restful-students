@@ -1,8 +1,10 @@
+import { NotFoundError } from 'core/error';
 import { UpdateOneStudentUseCase } from 'core/use-cases';
 import {
-  badRequest,
   Controller,
   HttpResponse,
+  notFound,
+  serverError,
   success
 } from 'presentation/contracts';
 import { StudentView } from 'presentation/views';
@@ -36,7 +38,8 @@ export class UpdateOneStudentController implements Controller {
         registrado_em: student.registeredIn
       });
     } catch (error: any) {
-      return badRequest(error);
+      if (error instanceof NotFoundError) return notFound(error);
+      return serverError(error);
     }
   }
 }

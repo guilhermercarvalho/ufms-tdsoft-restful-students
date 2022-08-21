@@ -1,9 +1,15 @@
+import {
+  EmptyParamError,
+  InvalidParamError,
+  InvalidQueryTypeError
+} from 'core/error';
 import { CreateOneStudentUseCase } from 'core/use-cases/student/create-one-student-use-case';
 import {
   badRequest,
   Controller,
   created,
-  HttpResponse
+  HttpResponse,
+  serverError
 } from 'presentation/contracts';
 import { StudentView } from 'presentation/views';
 
@@ -34,7 +40,13 @@ export class CreateOneStudentController implements Controller {
         registrado_em: student.registeredIn
       });
     } catch (error: any) {
-      return badRequest(error);
+      if (
+        error instanceof EmptyParamError ||
+        error instanceof InvalidParamError ||
+        error instanceof InvalidQueryTypeError
+      )
+        return badRequest(error);
+      return serverError(error);
     }
   }
 }
