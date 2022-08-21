@@ -22,12 +22,12 @@ export class PaginationHelper {
       PostgresStudentEntity | MySQLStudentEntity | SQLiteStudentEntity
     >;
   }> {
-    const pageSelected = page ?? this.DEFAULT_PAGE;
-    const takeSelected = page ?? this.DEFAULT_LIMIT;
+    const pageSelected = page ? Number(page) : this.DEFAULT_PAGE;
+    const takeSelected = take ? Number(take) : this.DEFAULT_LIMIT;
 
     const skip = this.getOffset(pageSelected, takeSelected);
 
-    queryBuilder.skip(skip).take(take);
+    queryBuilder.skip(skip).take(takeSelected);
 
     const itemCount = await queryBuilder.getCount();
     const { entities } = await queryBuilder.getRawAndEntities();
