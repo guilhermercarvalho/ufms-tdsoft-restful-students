@@ -1,10 +1,8 @@
 import { PaginationModel } from 'core/models';
 import { SelectQueryBuilder } from 'typeorm';
-import {
-  MySQLStudentEntity,
-  PostgresStudentEntity,
-  SQLiteStudentEntity
-} from '../entities';
+import { SQLiteStudentEntity } from '../typeorm/entities';
+import { MySQLStudentEntity } from '../typeorm/mysql/entities';
+import { PostgresStudentEntity } from '../typeorm/postgres/entities';
 
 export class PaginationHelper {
   private static readonly DEFAULT_PAGE = 1;

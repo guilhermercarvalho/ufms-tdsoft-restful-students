@@ -1,3 +1,3 @@
-export * from './postgres/connection';
-export * from './mysql/connection';
-export * from './sqlite/connection';
+export * from './typeorm/postgres/connection';
+export * from './typeorm/mysql/connection';
+export * from './typeorm/sqlite/connection';

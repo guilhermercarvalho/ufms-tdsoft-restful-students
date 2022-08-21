@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { Database } from 'infra/contracts/database';
-import { studentRoutes } from './student-routes';
+import { studentRoutes } from './student';
 
 export default (dataSource: Database): Router => {
   const router = Router();

@@ -1,6 +1,8 @@
-import { MySQLDatabase } from 'infra/databases';
-import { PostgresDatabase } from 'infra/databases/postgres/connection';
-import { SQLiteDatabase } from 'infra/databases/sqlite/connection';
+import {
+  MySQLDatabase,
+  PostgresDatabase,
+  SQLiteDatabase
+} from 'infra/databases';
 import config from 'main/config/env';
 import routes from 'main/config/routes';
 import { expressApp } from 'main/frameworks';
