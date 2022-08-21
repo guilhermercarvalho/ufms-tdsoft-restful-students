@@ -21,10 +21,13 @@ const startServer = async () => {
   databse
     .connect()
     .then(async () => {
+      const url = `http://${config.host}:${config.port}${routes.version}${routes.students}`;
+      const databaseSelected = config.currentDatabase.toUpperCase();
+
       const app = await expressApp(databse);
       app.listen(config.port, () =>
         console.log(
-          `server running at: http://${config.host}:${config.port}${routes.version}${routes.students}`
+          `server running at: ${url} with ${databaseSelected} database`
         )
       );
     })
