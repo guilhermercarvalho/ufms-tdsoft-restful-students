@@ -1,3 +1,4 @@
+import { NotFoundError } from 'core/error';
 import { PaginationModel, StudentModel } from 'core/models';
 import { StudentRepository } from 'core/repositories/student-repository';
 import { PaginationHelper } from 'infra/databases/helpers/pagination-helper';
@@ -70,30 +71,65 @@ export class MySQLStudentRepository implements StudentRepository {
     );
   }
 
-  getOneStudent(id: string): Promise<StudentModel> {
-    throw new Error('Not implemented');
+  async getOneStudent(id: string): Promise<StudentModel> {
+    const repository = this.dataSource.getRepository(MySQLStudentEntity);
+    const student = await repository.findOneBy({ id });
+
+    if (!student) throw new NotFoundError(id);
+
+    return student;
   }
 
-  createOneStudent(
+  async createOneStudent(
     name: string,
     rga: string,
     course: string,
     status?: string
   ): Promise<StudentModel> {
-    throw new Error('Not implemented');
+    const repository = this.dataSource.getRepository(MySQLStudentEntity);
+    let student = await repository.findOne({
+      where: [{ rga }, { name, rga, course }]
+    });
+
+    if (student) throw new Error('Student already exists.');
+
+    student = repository.create({ name, rga, course, status });
+
+    await repository.save(student);
+
+    return student;
   }
 
-  updateOneStudent(
+  async updateOneStudent(
     id: string,
     name?: string,
     rga?: string,
     course?: string,
     status?: string
   ): Promise<StudentModel> {
-    throw new Error('Not implemented');
+    const repository = this.dataSource.getRepository(MySQLStudentEntity);
+    const student = await repository.findOneBy({ id });
+
+    if (!student) throw new NotFoundError(id);
+
+    if (name) student.name = name;
+    if (rga) student.rga = rga;
+    if (course) student.course = course;
+    if (status) student.status = status;
+
+    await repository.save(student);
+
+    return student;
   }
 
-  deleteOneStudent(id: string): Promise<StudentModel> {
-    throw new Error('Not implemented');
+  async deleteOneStudent(id: string): Promise<StudentModel> {
+    const repository = this.dataSource.getRepository(MySQLStudentEntity);
+    const student = await repository.findOneBy({ id });
+
+    if (!student) throw new NotFoundError(id);
+
+    await repository.delete(student);
+
+    return student;
   }
 }

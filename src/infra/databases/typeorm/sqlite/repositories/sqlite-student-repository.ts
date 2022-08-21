@@ -1,3 +1,4 @@
+import { NotFoundError } from 'core/error';
 import { PaginationModel, StudentModel } from 'core/models';
 import { StudentRepository } from 'core/repositories';
 import { PaginationHelper } from 'infra/databases/helpers/pagination-helper';
@@ -10,7 +11,7 @@ export class SQLiteStudentRepository implements StudentRepository {
   async getAllStudents(): Promise<StudentModel[]> {
     const repository = this.dataSource.getRepository(SQLiteStudentEntity);
     const students = await repository.find();
-    return formatModel(students);
+    return students;
   }
 
   async getAllStudentsPaged(
@@ -30,7 +31,7 @@ export class SQLiteStudentRepository implements StudentRepository {
       queryResult.page,
       queryResult.take,
       queryResult.itemCount,
-      formatModel(<SQLiteStudentEntity[]>queryResult.entities)
+      queryResult.entities
     );
   }
 
@@ -41,7 +42,7 @@ export class SQLiteStudentRepository implements StudentRepository {
       name: `%${name.toLocaleLowerCase()}%`
     });
     const { entities } = await queryBuilder.getRawAndEntities();
-    return formatModel(entities);
+    return entities;
   }
 
   async getStudentsByNamePaged(
@@ -66,47 +67,69 @@ export class SQLiteStudentRepository implements StudentRepository {
       queryResult.page,
       queryResult.take,
       queryResult.itemCount,
-      formatModel(<SQLiteStudentEntity[]>queryResult.entities)
+      queryResult.entities
     );
   }
 
-  getOneStudent(id: string): Promise<StudentModel> {
-    throw new Error('Not implemented');
+  async getOneStudent(id: string): Promise<StudentModel> {
+    const repository = this.dataSource.getRepository(SQLiteStudentEntity);
+    const student = await repository.findOneBy({ id });
+
+    if (!student) throw new NotFoundError(id);
+
+    return student;
   }
 
-  createOneStudent(
+  async createOneStudent(
     name: string,
     rga: string,
     course: string,
     status?: string
   ): Promise<StudentModel> {
-    throw new Error('Not implemented');
+    const repository = this.dataSource.getRepository(SQLiteStudentEntity);
+    let student = await repository.findOne({
+      where: [{ rga }, { name, rga, course }]
+    });
+
+    if (student) throw new Error('Student already exists.');
+
+    student = repository.create({ name, rga, course, status });
+
+    await repository.save(student);
+
+    return student;
   }
 
-  updateOneStudent(
+  async updateOneStudent(
     id: string,
     name?: string,
     rga?: string,
     course?: string,
     status?: string
   ): Promise<StudentModel> {
-    throw new Error('Not implemented');
+    const repository = this.dataSource.getRepository(SQLiteStudentEntity);
+    const student = await repository.findOneBy({ id });
+
+    if (!student) throw new NotFoundError(id);
+
+    if (name) student.name = name;
+    if (rga) student.rga = rga;
+    if (course) student.course = course;
+    if (status) student.status = status;
+
+    await repository.save(student);
+
+    return student;
   }
 
-  deleteOneStudent(id: string): Promise<StudentModel> {
-    throw new Error('Not implemented');
-  }
-}
+  async deleteOneStudent(id: string): Promise<StudentModel> {
+    const repository = this.dataSource.getRepository(SQLiteStudentEntity);
+    const student = await repository.findOneBy({ id });
 
-function formatModel(students: SQLiteStudentEntity[]): StudentModel[] {
-  return students.map((student: SQLiteStudentEntity) => {
-    return {
-      id: student.id.toString(),
-      rga: student.rga,
-      name: student.name,
-      course: student.course,
-      status: student.status,
-      registeredIn: student.registeredIn
-    };
-  });
+    if (!student) throw new NotFoundError(id);
+
+    await repository.delete(student);
+
+    return student;
+  }
 }
