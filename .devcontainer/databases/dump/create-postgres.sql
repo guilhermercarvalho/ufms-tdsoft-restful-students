@@ -14,7 +14,7 @@ CREATE TABLE tb_student (
   nome VARCHAR(255) NOT NULL,
   curso curso_enum NOT NULL,
   situacao situacao_enum NOT NULL,
-  registrado_em DATE NOT NULL,
+  registrado_em TIMESTAMP NOT NULL,
   PRIMARY KEY (id)
 );
 
