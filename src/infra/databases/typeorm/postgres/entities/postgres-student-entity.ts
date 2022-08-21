@@ -1,4 +1,5 @@
 import { StudentCourse, StudentStatus } from 'core/entities';
+import config from 'main/config/env';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'tb_student' })
@@ -39,9 +40,11 @@ export class PostgresStudentEntity {
   status!: string;
 
   @Column({
-    type: 'date',
+    type: 'timestamp without time zone',
     nullable: false,
-    default: new Date(),
+    default: new Date().toLocaleString('en-US', {
+      timeZone: config.timeZone
+    }),
     name: 'registrado_em'
   })
   registeredIn!: Date;

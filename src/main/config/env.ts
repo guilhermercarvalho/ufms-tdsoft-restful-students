@@ -6,6 +6,7 @@ config();
 export default {
   host: process.env.HOST || 'localhost',
   port: process.env.PORT || 3000,
+  timeZone: process.env.TZ,
   currentDatabase: process.env.CURRENT_DATABASE || 'postgres',
   databases: {
     postgres: {

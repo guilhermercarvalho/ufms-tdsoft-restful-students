@@ -1,5 +1,7 @@
 import { StudentCourse, StudentStatus } from 'core/entities';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import config from 'main/config/env';
+import { DateTime } from 'luxon';
 
 @Entity({ name: 'tb_student' })
 export class MySQLStudentEntity {
@@ -33,6 +35,7 @@ export class MySQLStudentEntity {
     type: 'enum',
     enum: StudentStatus,
     nullable: false,
+    default: StudentStatus.ACTIVE,
     name: 'situacao'
   })
   status!: string;
@@ -40,7 +43,9 @@ export class MySQLStudentEntity {
   @Column({
     type: 'datetime',
     nullable: false,
-    default: () => 'NOW()',
+    default: DateTime.now()
+      .setZone(config.timeZone)
+      .toFormat('yyyy-MM-dd HH:mm:ss'),
     name: 'registrado_em'
   })
   registeredIn!: Date;

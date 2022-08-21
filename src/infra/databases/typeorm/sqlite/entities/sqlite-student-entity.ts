@@ -1,9 +1,12 @@
+import { StudentCourse, StudentStatus } from 'core/entities';
+import { DateTime } from 'luxon';
+import config from 'main/config/env';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'tb_student' })
 export class SQLiteStudentEntity {
-  @PrimaryGeneratedColumn('rowid')
-  id!: number;
+  @PrimaryGeneratedColumn('uuid')
+  id!: string;
 
   @Column({
     type: 'text',
@@ -22,6 +25,7 @@ export class SQLiteStudentEntity {
 
   @Column({
     type: 'text',
+    enum: StudentCourse,
     nullable: false,
     name: 'curso'
   })
@@ -29,7 +33,9 @@ export class SQLiteStudentEntity {
 
   @Column({
     type: 'text',
+    enum: StudentStatus,
     nullable: false,
+    default: StudentStatus.ACTIVE,
     name: 'situacao'
   })
   status!: string;
@@ -38,7 +44,9 @@ export class SQLiteStudentEntity {
     type: 'text',
     nullable: false,
     name: 'registrado_em',
-    default: new Date().toString()
+    default: DateTime.now()
+      .setZone(config.timeZone)
+      .toFormat('yyyy-MM-dd HH:mm:ss')
   })
   registeredIn!: Date;
 }

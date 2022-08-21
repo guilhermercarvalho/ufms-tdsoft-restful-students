@@ -10,6 +10,8 @@ FROM mcr.microsoft.com/vscode/devcontainers/javascript-node:0-${VARIANT}
 # ARG EXTRA_NODE_VERSION=10
 # RUN su node -c "source /usr/local/share/nvm/nvm.sh && nvm install ${EXTRA_NODE_VERSION}"
 
+ENV TZ=America/Campo_Grande
+
 # [Optional] Uncomment if you want to install more global node modules
 RUN su node -c "npm install -g npm"
 RUN su node -c "npm install -g nodemon typescript ts-node depcheck commitizen"
