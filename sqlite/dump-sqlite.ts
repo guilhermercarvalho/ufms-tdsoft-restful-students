@@ -17,17 +17,8 @@ export class DumpSQLite {
     this.getDumpSql()
       .then((dumpSql) => {
         const db = this.openDatabase();
-        return { db, dumpSql };
-      })
-      .then(({ db, dumpSql }) => {
-        this.loadExtentionUUID(db);
-        return { db, dumpSql };
-      })
-      .then(({ db, dumpSql }) => {
+        this.loadExtensionUUID(db);
         this.runQueries(db, dumpSql);
-        return db;
-      })
-      .then((db) => {
         this.closeDatabase(db);
       })
       .catch((err) => console.error(err));
@@ -62,8 +53,10 @@ export class DumpSQLite {
     return db;
   }
 
-  loadExtentionUUID(db: any) {
+  loadExtensionUUID(db: any) {
     db.loadExtension(this.DB_UUID_EXTENSION_PATH);
+
+    console.log('Load UUID extension');
   }
 
   private runQueries(db: Database, queries: string) {
@@ -79,6 +72,7 @@ export class DumpSQLite {
 
       db.run('COMMIT;');
     });
+
     console.log('All queries have been executed');
   }
 
@@ -86,6 +80,7 @@ export class DumpSQLite {
     db.close((err) => {
       if (err) throw err;
     });
+
     console.log('Closed connection');
   }
 
