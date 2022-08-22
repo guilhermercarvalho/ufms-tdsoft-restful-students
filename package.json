@@ -21,7 +21,7 @@
     "clean": "rm -rf ./dist && mkdir ./dist",
     "build": "tsc",
     "dev": "nodemon",
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "test:watch": "jest --watchAll --collectCoverage",
     "sqlite": "ts-node sqlite",
     "lint": "eslint . --ext .ts"
