@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-docker stop restfull-students-app restfull-students-db-postgres restfull-students-db-mysql
+docker stop restfull-students-app restfull-students-db-postgres restfull-students-db-mysql restfull-students-cache-redis
 
-docker rm --volumes --force restfull-students-app restfull-students-db-postgres restfull-students-db-mysql
+docker rm --volumes --force restfull-students-app restfull-students-db-postgres restfull-students-db-mysql restfull-students-cache-redis
 
 docker volume rm --force vscode
 
