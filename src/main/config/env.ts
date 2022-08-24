@@ -34,6 +34,14 @@ export default {
             process.env.SQLITE_DATABASE
           )
         : 'no_database_informed'
+    },
+    cache: {
+      redis: {
+        host: process.env.REDIS_HOST,
+        port: Number(process.env.REDIS_PORT) || 6379
+      },
+      durationInMiliseconds:
+        (Number(process.env.CACHE_DURATION_IN_SECONDS) || 60) * 1000
     }
   }
 };
