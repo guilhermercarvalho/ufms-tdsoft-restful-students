@@ -10,7 +10,11 @@ export class PostgresStudentRepository implements StudentRepository {
 
   async getAllStudents(): Promise<StudentModel[]> {
     const repository = this.dataSource.getRepository(PostgresStudentEntity);
-    const students = await repository.find();
+    const students = await repository
+      .createQueryBuilder('student')
+      .cache('all_students')
+      .getMany();
+
     return students;
   }
 
@@ -27,6 +31,8 @@ export class PostgresStudentRepository implements StudentRepository {
       take
     );
 
+    queryBuilder.cache('all_students');
+
     return PaginationHelper.getPage(
       queryResult.page,
       queryResult.take,
@@ -37,11 +43,14 @@ export class PostgresStudentRepository implements StudentRepository {
 
   async getStudentsByName(name: string): Promise<StudentModel[]> {
     const repository = this.dataSource.getRepository(PostgresStudentEntity);
-    const queryBuilder = repository.createQueryBuilder('student');
-    queryBuilder.where('LOWER(student.name) like :name', {
-      name: `%${name.toLocaleLowerCase()}%`
-    });
-    const { entities } = await queryBuilder.getRawAndEntities();
+    const { entities } = await repository
+      .createQueryBuilder('student')
+      .where('LOWER(student.name) like :name', {
+        name: `%${name.toLocaleLowerCase()}%`
+      })
+      .cache('all_students_by_name')
+      .getRawAndEntities();
+
     return entities;
   }
 
@@ -50,18 +59,21 @@ export class PostgresStudentRepository implements StudentRepository {
     page?: number,
     take?: number
   ): Promise<PaginationModel> {
+    await this.dataSource.queryResultCache?.remove(['all_students_by_name']);
     const repository = this.dataSource.getRepository(PostgresStudentEntity);
-    const queryBuilder = repository.createQueryBuilder('student');
-
-    queryBuilder.where('LOWER(student.name) like :name', {
-      name: `%${name.toLocaleLowerCase()}%`
-    });
+    const queryBuilder = repository
+      .createQueryBuilder('student')
+      .where('LOWER(student.name) like :name', {
+        name: `%${name.toLocaleLowerCase()}%`
+      });
 
     const queryResult = await PaginationHelper.getQueryPagedTypeorm(
       queryBuilder,
       page,
       take
     );
+
+    queryBuilder.cache('all_students_by_name');
 
     return PaginationHelper.getPage(
       queryResult.page,
@@ -73,7 +85,11 @@ export class PostgresStudentRepository implements StudentRepository {
 
   async getOneStudent(id: string): Promise<StudentModel> {
     const repository = this.dataSource.getRepository(PostgresStudentEntity);
-    const student = await repository.findOneBy({ id });
+    const student = await repository
+      .createQueryBuilder('student')
+      .where({ id })
+      .cache('one_student')
+      .getOne();
 
     if (!student) throw new NotFoundError(id);
 
@@ -92,6 +108,8 @@ export class PostgresStudentRepository implements StudentRepository {
     });
 
     if (student) throw new Error('Student already exists.');
+
+    await this.clearCache();
 
     student = repository.create({ name, rga, course, status });
 
@@ -112,6 +130,8 @@ export class PostgresStudentRepository implements StudentRepository {
 
     if (!student) throw new NotFoundError(id);
 
+    await this.clearCache();
+
     if (name) student.name = name;
     if (rga) student.rga = rga;
     if (course) student.course = course;
@@ -128,8 +148,18 @@ export class PostgresStudentRepository implements StudentRepository {
 
     if (!student) throw new NotFoundError(id);
 
+    await this.clearCache();
+
     await repository.delete(student);
 
     return student;
+  }
+
+  private async clearCache() {
+    this.dataSource.queryResultCache?.remove([
+      'all_students',
+      'all_students_by_name',
+      'one_student'
+    ]);
   }
 }
