@@ -3,7 +3,7 @@ import { StudentRepository } from 'core/repositories';
 import {
   validateCourse,
   validateId,
-  validateName,
+  validateNameWithSpaces,
   validateRGA,
   validateStatus
 } from 'core/validations';
@@ -30,7 +30,7 @@ export class UpdateOneStudentUseCase {
 
     if (missing === 4) throw new EmptyParamError('none informed');
 
-    if (name) validateName(name);
+    if (name) validateNameWithSpaces(name);
     if (rga) validateRGA(rga);
     if (course) validateCourse(course);
     if (status) validateStatus(status);

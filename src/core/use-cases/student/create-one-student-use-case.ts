@@ -2,7 +2,7 @@ import { EmptyParamError } from 'core/error';
 import { StudentRepository } from 'core/repositories';
 import {
   validateCourse,
-  validateName,
+  validateNameWithSpaces,
   validateRGA,
   validateStatus
 } from 'core/validations';
@@ -15,7 +15,7 @@ export class CreateOneStudentUseCase {
     if (!rga) throw new EmptyParamError('rga');
     if (!course) throw new EmptyParamError('course');
 
-    validateName(name);
+    validateNameWithSpaces(name);
     validateRGA(rga);
     validateCourse(course);
     if (status) validateStatus(status);
