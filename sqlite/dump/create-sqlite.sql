@@ -1,6 +1,6 @@
-DROP TABLE IF EXISTS tb_student;
+DROP TABLE IF EXISTS tb_aluno;
 
-CREATE TABLE tb_student (
+CREATE TABLE tb_aluno (
   id TEXT CHECK(LENGTH(id) == 36) PRIMARY KEY,
   rga TEXT CHECK(LENGTH(rga) == 15) NOT NULL UNIQUE,
   nome TEXT CHECK(LENGTH(nome) <= 255) NOT NULL,
@@ -11,7 +11,7 @@ CREATE TABLE tb_student (
   registrado_em TEXT NOT NULL
 );
 
-INSERT INTO tb_student (id, rga, nome, curso, situacao, registrado_em)
+INSERT INTO tb_aluno (id, rga, nome, curso, situacao, registrado_em)
 VALUES (
     'f6f3b501-6e39-4365-b3b0-ee43febe4f34',
     '2019.6820.654-4',

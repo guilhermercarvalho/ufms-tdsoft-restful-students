@@ -1,9 +1,9 @@
-import { StudentCourse, StudentStatus } from 'core/entities';
+import { StudentCourse, StudentStatus } from '../../../../../core/entities';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import config from 'main/config/env';
+import config from '../../../../../main/config/env';
 import { DateTime } from 'luxon';
 
-@Entity({ name: 'tb_student' })
+@Entity({ name: 'tb_aluno' })
 export class MySQLStudentEntity {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
