@@ -35,10 +35,7 @@ services:
 
   db-postgres:
     container_name: restfull-students-db-postgres
-    image: "guilhermercarvalho/restfull-students-db-psql14:v1.0.dev"
-    build:
-      context: .
-      dockerfile: dockerfiles/db-postgres.Dockerfile
+    image: postgres:14-alpine3.14
     restart: unless-stopped
     env_file:
       - "./env/db-postgres.env"
@@ -47,10 +44,7 @@ services:
 
   db-mysql:
     container_name: restfull-students-db-mysql
-    image: "guilhermercarvalho/restfull-students-db-mysql5:v1.0.dev"
-    build:
-      context: .
-      dockerfile: dockerfiles/db-mysql.Dockerfile
+    image: mysql:5.7.38
     restart: unless-stopped
     env_file:
       - "./env/db-mysql.env"
