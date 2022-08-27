@@ -5,7 +5,8 @@
   "runServices": [
     "app",
     "db-postgres",
-    "db-mysql"
+    "db-mysql",
+    "cache-redis"
   ],
   "workspaceFolder": "/workspace",
   "settings": {
@@ -45,11 +46,7 @@
   "extensions": [
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
-    "ms-vscode.vscode-typescript-next",
-    "mtxr.sqltools",
-    "mtxr.sqltools-driver-pg",
-    "mtxr.sqltools-driver-sqlite",
-    "mtxr.sqltools-driver-mysql"
+    "ms-vscode.vscode-typescript-next"
   ],
   "remoteUser": "node",
   "shutdownAction": "stopCompose"
