@@ -8,6 +8,7 @@ export class MySQLDatabase implements Database {
   async connect() {
     this.dataSource = connectionSourceMySQL;
     await this.dataSource.initialize();
+    await this.dataSource.runMigrations();
   }
 
   getConnection(): DataSource {
