@@ -12,7 +12,7 @@ export class MySQLStudentRepository implements StudentRepository {
     const repository = this.dataSource.getRepository(MySQLStudentEntity);
     const students = await repository
       .createQueryBuilder('student')
-      .cache('all_students')
+      .cache(true)
       .getMany();
 
     return students;
@@ -31,8 +31,6 @@ export class MySQLStudentRepository implements StudentRepository {
       take
     );
 
-    queryBuilder.cache('all_students');
-
     return PaginationHelper.getPage(
       queryResult.page,
       queryResult.take,
@@ -48,7 +46,7 @@ export class MySQLStudentRepository implements StudentRepository {
       .where('LOWER(student.name) like :name', {
         name: `%${name.toLocaleLowerCase()}%`
       })
-      .cache('all_students_by_name')
+      .cache(true)
       .getRawAndEntities();
 
     return entities;
@@ -72,8 +70,6 @@ export class MySQLStudentRepository implements StudentRepository {
       take
     );
 
-    queryBuilder.cache('all_students_by_name');
-
     return PaginationHelper.getPage(
       queryResult.page,
       queryResult.take,
@@ -87,7 +83,7 @@ export class MySQLStudentRepository implements StudentRepository {
     const student = await repository
       .createQueryBuilder('student')
       .where({ id })
-      .cache('one_student')
+      .cache(true)
       .getOne();
 
     if (!student) throw new NotFoundError(id);
@@ -155,10 +151,6 @@ export class MySQLStudentRepository implements StudentRepository {
   }
 
   private async clearCache() {
-    this.dataSource.queryResultCache?.remove([
-      'all_students',
-      'all_students_by_name',
-      'one_student'
-    ]);
+    this.dataSource.queryResultCache?.clear();
   }
 }

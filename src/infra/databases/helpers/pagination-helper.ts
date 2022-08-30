@@ -30,7 +30,7 @@ export class PaginationHelper {
     queryBuilder.skip(skip).take(takeSelected);
 
     const itemCount = await queryBuilder.getCount();
-    const { entities } = await queryBuilder.getRawAndEntities();
+    const { entities } = await queryBuilder.cache(true).getRawAndEntities();
 
     return { page: pageSelected, take: takeSelected, itemCount, entities };
   }
