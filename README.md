@@ -34,9 +34,15 @@ Foram utilizadas práticas de _Clean Code_ e _Clean Architecture_ para o desenvo
 
 ### Banco de Dados
 
-- Postgres
-- MySQL
-- SQLite
+#### SQL
+  
+  - Postgres
+  - MySQL
+  - SQLite
+
+#### NoSQL
+
+  - Redis
 
 ### Ferramentas Utilizadas
 
@@ -50,6 +56,7 @@ Recomenda-se o uso da extensão [Remote Development Container](https://code.visu
 - **restfull-students-app**: container da aplicação
 - **restfull-students-db-postgres**: container do banco de dados PostgreSQL
 - **restfull-students-db-mysql**: : container do banco de dados MySQL
+- **restfull-students-cache-redis**: : container de cache Redis
 
 ### Pré-requisitos
 
@@ -69,15 +76,9 @@ node install
 node run dev
 ```
 
-### Criar Banco de Dados SQLite
-
-```sh
-node run sqlite
-```
-
 ### Definir Banco de Dados
 
-A variável `CURRENT_DATABASE` define o banco de dados a ser utilizado pela aplicação (por padrão é PostgreSQL). Os valores possíveis são:
+A variável de ambiente `CURRENT_DATABASE` define o banco de dados a ser utilizado pela aplicação (por padrão é PostgreSQL). Os valores possíveis são:
 
 - postgres (padrão)
 - mysql
