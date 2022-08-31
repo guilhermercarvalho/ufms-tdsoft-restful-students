@@ -25,15 +25,8 @@ export default {
     },
     sqlite: {
       database: process.env.SQLITE_DATABASE
-        ? path.join(
-            __dirname,
-            '..',
-            '..',
-            '..',
-            'sqlite',
-            process.env.SQLITE_DATABASE
-          )
-        : 'no_database_informed'
+        ? path.join(__dirname, '../../..', process.env.SQLITE_DATABASE)
+        : 'student.sqlite'
     },
     cache: {
       redis: {

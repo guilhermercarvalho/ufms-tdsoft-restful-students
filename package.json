@@ -23,7 +23,6 @@
     "dev": "nodemon",
     "test": "jest --passWithNoTests",
     "test:watch": "jest --watchAll --collectCoverage",
-    "sqlite": "ts-node sqlite",
     "lint": "eslint . --ext .ts",
     "typeorm": "typeorm-ts-node-commonjs"
   },
