@@ -9,40 +9,7 @@
     "cache-redis"
   ],
   "workspaceFolder": "/workspace",
-  "settings": {
-    "sqltools.connections": [
-      {
-        "previewLimit": 50,
-        "server": "db-postgres",
-        "port": 5432,
-        "driver": "PostgreSQL",
-        "name": "student-pg",
-        "group": "restfull-students",
-        "database": "STUDENT",
-        "username": "postgres",
-        "password": "postgres"
-      },
-      {
-        "previewLimit": 50,
-        "server": "db-mysql",
-        "port": 3306,
-        "driver": "MySQL",
-        "name": "student-mysql",
-        "group": "restfull-students",
-        "database": "STUDENT",
-        "username": "mysql",
-        "password": "mysql"
-      },
-      {
-        "previewLimit": 50,
-        "driver": "SQLite",
-        "name": "student-sqlite",
-        "group": "restfull-students",
-        "database": "./sqlite/student.sqlite"
-      },
-    ],
-    "sqltools.useNodeRuntime": true
-  },
+  "settings": {},
   "extensions": [
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
