@@ -1,39 +1,18 @@
-import {
-  MySQLDatabase,
-  PostgresDatabase,
-  SQLiteDatabase
-} from 'infra/databases';
-import config from 'main/config/env';
-import routes from 'main/config/routes';
-import { expressApp } from 'main/frameworks';
+import 'module-alias/register';
 
-const chooseDatabase = (dbProvider: string) => {
-  if (dbProvider === 'postgres') return new PostgresDatabase();
-  if (dbProvider === 'mysql') return new MySQLDatabase();
-  if (dbProvider === 'sqlite') return new SQLiteDatabase();
+import { getNewDatabase } from '@/infra/db/helpers';
+import { setupApp } from '@/main/config/app';
+import env from '@/main/config/env';
 
-  return new PostgresDatabase();
-};
+const database = getNewDatabase();
 
-const startServer = async () => {
-  const databse = chooseDatabase(config.currentDatabase);
+database
+  .connect()
+  .then(async () => {
+    const url = `http://${env.host}:${env.port}/api/v1/alunos`;
+    const db = env.currentDatabase.toUpperCase();
 
-  databse
-    .connect()
-    .then(async () => {
-      const url = `http://${config.host}:${config.port}${routes.version}${routes.students}`;
-      const databaseSelected = config.currentDatabase.toUpperCase();
-
-      const app = await expressApp(databse);
-      app.listen(config.port, () =>
-        console.log(
-          `server running at: ${url} with ${databaseSelected} database`
-        )
-      );
-    })
-    .catch((error: any) => {
-      console.error(error);
-    });
-};
-
-startServer();
+    const app = await setupApp();
+    app.listen(env.port, () => console.log(`Running on ${url} with ${db}`));
+  })
+  .catch(console.error);

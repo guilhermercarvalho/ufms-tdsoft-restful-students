@@ -6,7 +6,7 @@ config();
 export default {
   host: process.env.HOST || 'localhost',
   port: process.env.PORT || 3000,
-  timeZone: process.env.TZ,
+  timezone: process.env.TZ,
   currentDatabase: process.env.CURRENT_DATABASE || 'postgres',
   databases: {
     postgres: {
@@ -33,7 +33,7 @@ export default {
         host: process.env.REDIS_HOST,
         port: Number(process.env.REDIS_PORT) || 6379
       },
-      durationInMiliseconds:
+      durationInMilliseconds:
         (Number(process.env.CACHE_DURATION_IN_SECONDS) || 60) * 1000
     }
   }

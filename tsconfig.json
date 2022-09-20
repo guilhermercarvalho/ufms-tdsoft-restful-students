@@ -1,26 +1,28 @@
 {
   "compilerOptions": {
-    "declaration": true,
-    "removeComments": true,
-    "allowSyntheticDefaultImports": true,
-    "sourceMap": true,
-    "rootDir": "src",
-    "baseUrl": "src",
-    "target": "ES2022",
-    "lib": [
-      "ES6"
-    ],
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
+    "outDir": "dist",
     "module": "commonjs",
-    "outDir": "./dist",
+    "target": "es2019",
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "skipLibCheck": true
+    "sourceMap": true,
+    "rootDirs": [
+      "src",
+      "tests"
+    ],
+    "baseUrl": "src",
+    "paths": {
+      "@/tests/*": [
+        "../tests/*"
+      ],
+      "@/*": [
+        "*"
+      ]
+    }
   },
-  "exclude": [
-    "test",
-    "sqlite"
-  ]
+  "include": [
+    "src",
+    "tests"
+  ],
+  "exclude": []
 }
