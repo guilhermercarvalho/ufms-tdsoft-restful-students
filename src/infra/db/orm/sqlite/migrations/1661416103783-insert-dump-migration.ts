@@ -1,4 +1,4 @@
-import { SQLiteStudentEntity } from '@/infra/db/orm/sqlite/entities';
+import { SQLiteStudentEntity } from '@/infra/db/orm/entities';
 
 import { Equal, MigrationInterface, Not, QueryRunner } from 'typeorm';
 
