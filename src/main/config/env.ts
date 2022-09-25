@@ -34,7 +34,7 @@ export default {
         port: Number(process.env.REDIS_PORT) || 6379
       },
       durationInMilliseconds:
-        (Number(process.env.CACHE_DURATION_IN_SECONDS) || 60) * 1000
+        (Number(process.env.CACHE_DURATION_IN_MINUTES) || 1) * 60 * 1000
     }
   }
 };
