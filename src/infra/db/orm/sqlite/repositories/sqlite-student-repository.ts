@@ -1,20 +1,29 @@
+import { PaginationModel } from '@/data/models';
 import {
   AddStudentRepository,
+  LoadStudentsByNamePagedRepository,
   LoadStudentsRepository
 } from '@/data/repositories';
-import { SQLiteStudentEntity } from '@/infra/db/orm/sqlite/entities';
+import { LoadStudentsPagedRepository } from '@/data/repositories';
+import { LoadStudentsByNamePagedUseCase } from '@/domain/use-cases';
+import { PaginationHelper } from '@/infra/db/orm/helpers';
+import { SQLiteStudentEntity } from '@/infra/db/orm/entities';
 
 import { DataSource } from 'typeorm';
 
 export class SQLiteStudentRepository
-  implements AddStudentRepository, LoadStudentsRepository
+  implements
+    AddStudentRepository,
+    LoadStudentsRepository,
+    LoadStudentsPagedRepository,
+    LoadStudentsByNamePagedRepository
 {
   constructor(private readonly dataSource: DataSource) {}
 
   async add(
-    data: AddStudentRepository.Params
+    params: AddStudentRepository.Params
   ): Promise<AddStudentRepository.Result> {
-    const { rga, name, course, status } = data;
+    const { rga, name, course, status } = params;
     const repository = this.dataSource.getRepository(SQLiteStudentEntity);
 
     let student = await repository.findOne({
@@ -42,26 +51,35 @@ export class SQLiteStudentRepository
     return students;
   }
 
-  // async getAllStudentsPaged(
-  //   page?: number,
-  //   take?: number
-  // ): Promise<PaginationModel> {
-  //   const repository = this.dataSource.getRepository(SQLiteStudentEntity);
-  //   const queryBuilder = repository.createQueryBuilder('student');
+  async loadAllPaged(
+    params: LoadStudentsPagedRepository.Params
+  ): Promise<LoadStudentsPagedRepository.Result> {
+    const repository = this.dataSource.getRepository(SQLiteStudentEntity);
+    const queryBuilder = repository.createQueryBuilder('student');
 
-  //   const queryResult = await PaginationHelper.getQueryPagedTypeorm(
-  //     queryBuilder,
-  //     page,
-  //     take
-  //   );
+    return await PaginationHelper.getPagination(
+      queryBuilder,
+      params.page,
+      params.limit
+    );
+  }
 
-  //   return PaginationHelper.getPage(
-  //     queryResult.page,
-  //     queryResult.take,
-  //     queryResult.itemCount,
-  //     queryResult.entities
-  //   );
-  // }
+  async loadAllByNamePaged(
+    params: LoadStudentsByNamePagedUseCase.Params
+  ): Promise<PaginationModel> {
+    const repository = this.dataSource.getRepository(SQLiteStudentEntity);
+    const queryBuilder = repository
+      .createQueryBuilder('student')
+      .where('LOWER(student.name) like :name', {
+        name: `%${params.name.toLocaleLowerCase()}%`
+      });
+
+    return await PaginationHelper.getPagination(
+      queryBuilder,
+      params.page,
+      params.limit
+    );
+  }
 
   // async getStudentsByName(name: string): Promise<StudentModel[]> {
   //   const repository = this.dataSource.getRepository(SQLiteStudentEntity);
@@ -74,32 +92,6 @@ export class SQLiteStudentRepository
   //     .getRawAndEntities();
 
   //   return entities;
-  // }
-
-  // async getStudentsByNamePaged(
-  //   name: string,
-  //   page?: number,
-  //   take?: number
-  // ): Promise<PaginationModel> {
-  //   const repository = this.dataSource.getRepository(SQLiteStudentEntity);
-  //   const queryBuilder = repository
-  //     .createQueryBuilder('student')
-  //     .where('LOWER(student.name) like :name', {
-  //       name: `%${name.toLocaleLowerCase()}%`
-  //     });
-
-  //   const queryResult = await PaginationHelper.getQueryPagedTypeorm(
-  //     queryBuilder,
-  //     page,
-  //     take
-  //   );
-
-  //   return PaginationHelper.getPage(
-  //     queryResult.page,
-  //     queryResult.take,
-  //     queryResult.itemCount,
-  //     queryResult.entities
-  //   );
   // }
 
   // async getOneStudent(id: string): Promise<StudentModel> {

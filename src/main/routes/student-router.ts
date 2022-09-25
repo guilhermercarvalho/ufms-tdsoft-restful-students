@@ -1,7 +1,7 @@
 import { adaptRoute } from '@/main/adapters';
 import {
   makeAddStudentController,
-  makeLoadStudentsController
+  makeLoadAllOrByNameStudentsPagedController
 } from '@/main/factories';
 
 import { Router } from 'express';
@@ -9,6 +9,6 @@ import { Router } from 'express';
 export default (router: Router): void => {
   router.use('/alunos', router);
 
-  router.get('/', adaptRoute(makeLoadStudentsController()));
+  router.get('/', adaptRoute(makeLoadAllOrByNameStudentsPagedController()));
   router.post('/', adaptRoute(makeAddStudentController()));
 };
