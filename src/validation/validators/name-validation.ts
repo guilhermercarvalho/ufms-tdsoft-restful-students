@@ -8,11 +8,15 @@ import validator from 'validator';
 
 export class NameValidation implements Validation {
   validate(input: any): Error {
-    if (typeof input['name'] !== 'string') {
+    if (!isNaN(input['name'])) {
       return new InvalidParamTypeError('name', 'string');
     }
 
-    if (!validator.isAlpha(input['name'].trim().replace(/\s/g, ''), 'pt-BR')) {
+    const isAlpha = validator.isAlpha(
+      input['name'].replace(/\s/g, ''),
+      'pt-BR'
+    );
+    if (!isAlpha) {
       return new InvalidParamError('name');
     }
   }
