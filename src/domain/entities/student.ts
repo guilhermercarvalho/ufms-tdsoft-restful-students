@@ -1,10 +1,10 @@
 export enum StudentCourse {
-  'cc',
-  'si',
-  'ecomp',
-  'engsoft',
-  'tads',
-  'trc'
+  CC = 'cc',
+  SI = 'si',
+  ECOMP = 'ecomp',
+  ENGSOFT = 'engsoft',
+  TADS = 'tads',
+  TRC = 'trc'
 }
 
 export enum StudentStatus {
