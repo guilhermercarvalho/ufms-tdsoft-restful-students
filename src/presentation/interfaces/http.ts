@@ -1,8 +1,8 @@
 import { ServerError, UnauthorizedError } from '@/presentation/errors';
 
-export type HttpResponse<T = any> = {
+export type HttpResponse = {
   statusCode: number;
-  body: T;
+  body: any;
 };
 
 export const badRequest = (error: Error): HttpResponse => ({
