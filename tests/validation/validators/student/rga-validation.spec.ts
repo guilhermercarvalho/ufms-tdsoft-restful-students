@@ -1,5 +1,5 @@
 import { InvalidParamError } from '@/presentation/errors';
-import { RGAValidation } from '@/validation/validators/rga-validation';
+import { RGAValidation } from '@/validation/validators';
 
 import { faker } from '@faker-js/faker';
 

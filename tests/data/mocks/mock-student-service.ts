@@ -1,10 +1,16 @@
 import { StudentModel } from '@/data/models';
 import {
   AddStudentRepository,
+  LoadStudentsByNamePagedRepository,
+  LoadStudentsPagedRepository,
   LoadStudentsRepository
 } from '@/data/repositories';
 import { LoadStudentsUseCase } from '@/domain/use-cases';
-import { mockStudentModels } from '@/tests/domain/mocks';
+import {
+  mockStudentByNamePaginationModel,
+  mockStudentModels,
+  mockStudentPaginationModel
+} from '@/tests/domain/mocks';
 
 import { faker } from '@faker-js/faker';
 
@@ -20,6 +26,34 @@ export class AddStudentRepositorySpy implements AddStudentRepository {
     };
     this.params = params;
     return student;
+  }
+}
+
+export class LoadStudentsPagedRepositorySpy
+  implements LoadStudentsPagedRepository
+{
+  params: LoadStudentsPagedRepository.Params;
+  result = mockStudentPaginationModel();
+
+  async loadAllPaged(
+    params: LoadStudentsPagedRepository.Params
+  ): Promise<LoadStudentsPagedRepository.Result> {
+    this.params = params;
+    return this.result;
+  }
+}
+
+export class LoadStudentsByNamePagedRepositorySpy
+  implements LoadStudentsByNamePagedRepository
+{
+  params: LoadStudentsByNamePagedRepository.Params;
+  result = mockStudentByNamePaginationModel();
+
+  async loadAllByNamePaged(
+    params: LoadStudentsByNamePagedRepository.Params
+  ): Promise<LoadStudentsByNamePagedRepository.Result> {
+    this.params = params;
+    return this.result;
   }
 }
 

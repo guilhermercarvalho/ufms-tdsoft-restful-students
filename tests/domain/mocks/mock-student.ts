@@ -1,4 +1,4 @@
-import { StudentModel } from '@/data/models';
+import { PaginationModel, StudentModel } from '@/data/models';
 import { AddStudentUseCase } from '@/domain/use-cases';
 
 import { faker } from '@faker-js/faker';
@@ -32,6 +32,37 @@ export const mockStudentModels = (): StudentModel[] => [
   mockStudentModel(),
   mockStudentModel()
 ];
+
+export const mockStudentPaginationModel = (): PaginationModel => {
+  return {
+    pagination: {
+      page: 1,
+      limit: 25,
+      pageCount: 1,
+      hasNextPage: false,
+      hasPreviusPage: false
+    },
+    resultSize: 2,
+    result: mockStudentModels()
+  };
+};
+
+export const mockStudentByNamePaginationModel = (): PaginationModel => {
+  return {
+    pagination: {
+      page: 1,
+      limit: 25,
+      pageCount: 1,
+      hasNextPage: false,
+      hasPreviusPage: false
+    },
+    resultSize: 2,
+    result: [
+      { ...mockStudentModel(), name: 'João Pedro' },
+      { ...mockStudentModel(), name: 'João Eduardo' }
+    ]
+  };
+};
 
 export const mockAddStudentParams = (): AddStudentUseCase.Params => ({
   rga:

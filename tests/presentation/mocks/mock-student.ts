@@ -1,6 +1,15 @@
 import { StudentModel } from '@/data/models';
-import { AddStudentUseCase, LoadStudentsUseCase } from '@/domain/use-cases';
-import { mockStudentModels } from '@/tests/domain/mocks';
+import { LoadStudentsPagedRepository } from '@/data/repositories';
+import {
+  AddStudentUseCase,
+  LoadStudentsByNamePagedUseCase,
+  LoadStudentsPagedUseCase,
+  LoadStudentsUseCase
+} from '@/domain/use-cases';
+import {
+  mockStudentModels,
+  mockStudentPaginationModel
+} from '@/tests/domain/mocks';
 
 import { faker } from '@faker-js/faker';
 
@@ -18,6 +27,54 @@ export class AddStudentSpy implements AddStudentUseCase {
     };
     this.params = params;
     return student;
+  }
+}
+
+// remove
+export class LoadAllOrByNameStudentsPagedSpy
+  implements LoadStudentsPagedUseCase, LoadStudentsByNamePagedUseCase
+{
+  params: LoadStudentsPagedRepository.Params;
+  result = mockStudentPaginationModel();
+
+  async loadPaged(
+    params: LoadStudentsPagedUseCase.Params
+  ): Promise<LoadStudentsPagedUseCase.Result> {
+    this.params = params;
+    return this.result;
+  }
+
+  async loadByNamePaged(
+    params: LoadStudentsByNamePagedUseCase.Params
+  ): Promise<LoadStudentsByNamePagedUseCase.Result> {
+    this.params = params;
+    return this.result;
+  }
+}
+
+export class LoadStudentsPagedSpy implements LoadStudentsPagedUseCase {
+  params: LoadStudentsPagedUseCase.Params;
+  result = mockStudentPaginationModel();
+
+  async loadPaged(
+    params: LoadStudentsPagedUseCase.Params
+  ): Promise<LoadStudentsPagedUseCase.Result> {
+    this.params = params;
+    return this.result;
+  }
+}
+
+export class LoadStudentsByNamePagedSpy
+  implements LoadStudentsByNamePagedUseCase
+{
+  params: LoadStudentsByNamePagedUseCase.Params;
+  result = mockStudentPaginationModel();
+
+  async loadByNamePaged(
+    params: LoadStudentsByNamePagedUseCase.Params
+  ): Promise<LoadStudentsByNamePagedUseCase.Result> {
+    this.params = params;
+    return this.result;
   }
 }
 
