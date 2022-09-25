@@ -12,9 +12,9 @@ export const SQLiteDataSource = new DataSource({
   database: sqlite.database,
   synchronize: true,
   logging: true,
-  entities: [path.resolve(__dirname, './sqlite/entities/*-entity{.ts,.js}')],
+  entities: [path.resolve(__dirname, 'sqlite/entities/**/*-entity{.ts,.js}')],
   migrations: [
-    path.resolve(__dirname, './sqlite/migrations/**/*-migration{.ts,.js}')
+    path.resolve(__dirname, 'sqlite/migrations/**/*-migration{.ts,.js}')
   ],
   migrationsRun: true,
   cache: {
@@ -36,11 +36,9 @@ export const PostgresDataSource = new DataSource({
   database: postgres.database,
   synchronize: true,
   logging: true,
-  entities: [
-    path.resolve(__dirname, './postgres/entities/**/*-entity{.ts,.js}')
-  ],
+  entities: [path.resolve(__dirname, 'postgres/entities/**/*-entity{.ts,.js}')],
   migrations: [
-    path.resolve(__dirname, './postgres/migrations/**/*-migration{.ts,.js}')
+    path.resolve(__dirname, 'postgres/migrations/**/*-migration{.ts,.js}')
   ],
   migrationsRun: true,
   cache: {
@@ -62,9 +60,9 @@ export const MysqlDataSource = new DataSource({
   database: mysql.database,
   synchronize: true,
   logging: true,
-  entities: [path.resolve(__dirname, './mysql/entities/**/*-entity{.ts,.js}')],
+  entities: [path.resolve(__dirname, 'mysql/entities/**/*-entity{.ts,.js}')],
   migrations: [
-    path.resolve(__dirname, './mysql/migrations/**/*-migration{.ts,.js}')
+    path.resolve(__dirname, 'mysql/migrations/**/*-migration{.ts,.js}')
   ],
   migrationsRun: true,
   cache: {
