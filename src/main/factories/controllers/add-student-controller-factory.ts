@@ -1,5 +1,5 @@
-import { makeAddStudentValidation } from '@/main/factories/controller';
-import { makeAddStudentService } from '@/main/factories/use-cases';
+import { makeAddStudentValidation } from '@/main/factories';
+import { makeAddStudentService } from '@/main/factories';
 import { AddStudentController } from '@/presentation/controllers';
 import { Controller } from '@/presentation/interfaces';
 

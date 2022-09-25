@@ -1,9 +1,9 @@
-import { StudentModel } from '@/data/models';
+import { LoadStudentsUseCase } from '@/domain/use-cases';
 
 export interface LoadStudentsRepository {
   loadAll: () => Promise<LoadStudentsRepository.Result>;
 }
 
 export namespace LoadStudentsRepository {
-  export type Result = StudentModel[];
+  export type Result = LoadStudentsUseCase.Result;
 }

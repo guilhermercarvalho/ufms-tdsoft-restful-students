@@ -4,18 +4,18 @@ import {
   LoadStudentsRepository
 } from '@/data/repositories';
 import { StudentStatus } from '@/domain/entities';
-import { DateTime } from 'luxon';
 
+import { DateTime } from 'luxon';
 import { uuid } from 'uuidv4';
 
 export class FakeStudentRepository implements LoadStudentsRepository {
   private data: StudentModel[] = [];
 
-  async add(data: AddStudentRepository.Params): Promise<StudentModel> {
+  async add(params: AddStudentRepository.Params): Promise<StudentModel> {
     const student: StudentModel = {
-      ...data,
+      ...params,
       id: uuid(),
-      status: data.status ? data.status : StudentStatus.ACTIVE,
+      status: params.status ? params.status : StudentStatus.ACTIVE,
       registeredIn: DateTime.utc().toJSDate()
     };
     this.data.push(student);

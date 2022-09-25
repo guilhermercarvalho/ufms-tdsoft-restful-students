@@ -1,4 +1,3 @@
-import { StudentModel } from '@/data/models';
 import { AddStudentUseCase } from '@/domain/use-cases';
 import {
   badRequest,
@@ -16,9 +15,7 @@ export class AddStudentController implements Controller {
     private readonly addStudent: AddStudentUseCase
   ) {}
 
-  async handle(
-    request: AddStudentController.Request
-  ): Promise<HttpResponse<StudentModel>> {
+  async handle(request: AddStudentController.Request): Promise<HttpResponse> {
     try {
       const input = {
         name: request.nome.trim(),

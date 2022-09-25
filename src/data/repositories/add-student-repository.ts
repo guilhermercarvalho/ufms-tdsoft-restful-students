@@ -2,7 +2,7 @@ import { AddStudentUseCase } from '@/domain/use-cases';
 
 export interface AddStudentRepository {
   add: (
-    data: AddStudentRepository.Params
+    params: AddStudentRepository.Params
   ) => Promise<AddStudentRepository.Result>;
 }
 

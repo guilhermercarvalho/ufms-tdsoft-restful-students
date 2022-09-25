@@ -1,8 +1,8 @@
 import { LoadStudentsService } from '@/data/service';
 import { LoadStudentsUseCase } from '@/domain/use-cases';
-import { getStudentRepository } from '@/infra/db/helpers';
+import { getStudentRepositoryHelper } from '@/infra/db/orm/helpers';
 
 export const makeLoadStudentsService = (): LoadStudentsUseCase => {
-  const fakeStudentRepository = getStudentRepository();
+  const fakeStudentRepository = getStudentRepositoryHelper();
   return new LoadStudentsService(fakeStudentRepository);
 };

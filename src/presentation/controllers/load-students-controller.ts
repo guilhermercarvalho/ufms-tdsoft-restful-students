@@ -11,7 +11,7 @@ import { StudentViewModel } from '@/presentation/view-models';
 export class LoadStudentsController implements Controller {
   constructor(private readonly LoadStudentsUseCase: LoadStudentsUseCase) {}
 
-  async handle(): Promise<HttpResponse<StudentViewModel[]>> {
+  async handle(): Promise<HttpResponse> {
     try {
       const students = await this.LoadStudentsUseCase.load();
       return students.length

@@ -1,2 +1,3 @@
-export * from './controller';
-export * from './use-cases';
+export * from './controllers';
+export * from './services';
+export * from './validations';
