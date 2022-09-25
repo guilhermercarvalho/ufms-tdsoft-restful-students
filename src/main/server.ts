@@ -1,10 +1,28 @@
 import 'module-alias/register';
 
-import { getNewDatabase } from '@/infra/db/helpers';
 import { setupApp } from '@/main/config/app';
 import env from '@/main/config/env';
+import { SQLiteDatabase } from '@/infra/db/orm';
 
-const database = getNewDatabase();
+const getCurrentDatabase = () => {
+  const provider = env.currentDatabase;
+
+  if (provider === 'postgres') {
+    throw new Error('Not implemented');
+  }
+
+  if (provider === 'mysql') {
+    throw new Error('Not implemented');
+  }
+
+  if (provider === 'sqlite') {
+    return new SQLiteDatabase();
+  }
+
+  return new SQLiteDatabase();
+};
+
+const database = getCurrentDatabase();
 
 database
   .connect()
