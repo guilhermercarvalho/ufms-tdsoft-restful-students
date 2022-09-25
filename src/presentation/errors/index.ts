@@ -1,6 +1,7 @@
 export * from './access-denied-error';
 export * from './email-in-use-error';
 export * from './invalid-param-error';
+export * from './less-than-or-equal-error';
 export * from './invalid-param-type-error';
 export * from './missing-param-error';
 export * from './server-error';
