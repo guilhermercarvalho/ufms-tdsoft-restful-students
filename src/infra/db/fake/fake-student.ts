@@ -6,7 +6,7 @@ import {
 import { StudentStatus } from '@/domain/entities';
 
 import { DateTime } from 'luxon';
-import { uuid } from 'uuidv4';
+import { v4 as uuid } from 'uuid';
 
 export class FakeStudentRepository implements LoadStudentsRepository {
   private data: StudentModel[] = [];
