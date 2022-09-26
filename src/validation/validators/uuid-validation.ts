@@ -3,7 +3,7 @@ import { Validation } from '@/presentation/interfaces/validation';
 
 import validator from 'validator';
 
-export class IdUUIDValidation implements Validation {
+export class UUIDValidation implements Validation {
   validate(input: any): Error {
     const isUUID = validator.isUUID(input['id'], 4);
     if (!isUUID) {

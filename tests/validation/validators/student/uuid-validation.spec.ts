@@ -1,10 +1,10 @@
 import { InvalidParamError } from '@/presentation/errors';
-import { IdUUIDValidation } from '@/validation/validators';
+import { UUIDValidation } from '@/validation/validators';
 
 import { faker } from '@faker-js/faker';
 
-const makeSut = (): IdUUIDValidation => {
-  return new IdUUIDValidation();
+const makeSut = (): UUIDValidation => {
+  return new UUIDValidation();
 };
 
 describe('IdUUID Validation', () => {
