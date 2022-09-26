@@ -2,12 +2,13 @@ import { PaginationModel } from '@/data/models';
 import {
   AddStudentRepository,
   LoadStudentsByNamePagedRepository,
-  LoadStudentsRepository
+  LoadStudentsPagedRepository,
+  LoadStudentsRepository,
+  RemoveStudentRepository
 } from '@/data/repositories';
-import { LoadStudentsPagedRepository } from '@/data/repositories';
 import { LoadStudentsByNamePagedUseCase } from '@/domain/use-cases';
-import { PaginationHelper } from '@/infra/db/orm/helpers';
 import { SQLiteStudentEntity } from '@/infra/db/orm/entities';
+import { PaginationHelper } from '@/infra/db/orm/helpers';
 
 import { DataSource } from 'typeorm';
 
@@ -16,7 +17,8 @@ export class SQLiteStudentRepository
     AddStudentRepository,
     LoadStudentsRepository,
     LoadStudentsPagedRepository,
-    LoadStudentsByNamePagedRepository
+    LoadStudentsByNamePagedRepository,
+    RemoveStudentRepository
 {
   constructor(private readonly dataSource: DataSource) {}
 
@@ -37,6 +39,22 @@ export class SQLiteStudentRepository
     student = repository.create({ name, rga, course, status });
 
     await repository.save(student);
+
+    return student;
+  }
+
+  async remove(
+    params: RemoveStudentRepository.Params
+  ): Promise<RemoveStudentRepository.Result> {
+    const { id } = params;
+    const repository = this.dataSource.getRepository(SQLiteStudentEntity);
+    const student = await repository.findOneBy({ id });
+
+    if (!student) throw new Error('id not found');
+
+    await this.clearCache();
+
+    await repository.delete(student);
 
     return student;
   }
@@ -127,19 +145,6 @@ export class SQLiteStudentRepository
   //   if (status) student.status = status;
 
   //   await repository.save(student);
-
-  //   return student;
-  // }
-
-  // async deleteOneStudent(id: string): Promise<StudentModel> {
-  //   const repository = this.dataSource.getRepository(SQLiteStudentEntity);
-  //   const student = await repository.findOneBy({ id });
-
-  //   if (!student) throw new NotFoundError(id);
-
-  //   await this.clearCache();
-
-  //   await repository.delete(student);
 
   //   return student;
   // }

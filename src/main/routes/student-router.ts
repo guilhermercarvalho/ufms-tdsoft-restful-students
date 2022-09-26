@@ -1,7 +1,8 @@
 import { adaptRoute } from '@/main/adapters';
 import {
   makeAddStudentController,
-  makeLoadAllOrByNameStudentsPagedController
+  makeLoadAllOrByNameStudentsPagedController,
+  makeRemoveStudentController
 } from '@/main/factories';
 
 import { Router } from 'express';
@@ -11,4 +12,5 @@ export default (router: Router): void => {
 
   router.get('/', adaptRoute(makeLoadAllOrByNameStudentsPagedController()));
   router.post('/', adaptRoute(makeAddStudentController()));
+  router.delete('/:id', adaptRoute(makeRemoveStudentController()));
 };
