@@ -71,18 +71,7 @@ describe('AddStudent Controller', () => {
     expect(httpResponse).toStrictEqual(badRequest(validationSpy.error));
   });
 
-  test('Should call AddSurvey with correct values', async () => {
-    const { sut, addStudentSpy } = makeSut();
-    const request = mockRequest();
-    await sut.handle(request);
-
-    expect(addStudentSpy.params).toHaveProperty('rga', request.rga);
-    expect(addStudentSpy.params).toHaveProperty('name', request.nome);
-    expect(addStudentSpy.params).toHaveProperty('course', request.curso);
-    expect(addStudentSpy.params).toHaveProperty('status', request.situacao);
-  });
-
-  test('Should return 500 if AddSurvey throws', async () => {
+  test('Should return 500 if AddStudent throws', async () => {
     const { sut, addStudentSpy } = makeSut();
     jest.spyOn(addStudentSpy, 'add').mockImplementationOnce(throwError);
     const httpResponse = await sut.handle(mockRequest());
