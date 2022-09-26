@@ -19,11 +19,6 @@ export class PaginationHelper {
     queryBuilder.skip(skip).take(takeSelected);
 
     const pageCount = Math.ceil((await queryBuilder.getCount()) / takeSelected);
-    console.log({
-      pageCount,
-      queryCount: await queryBuilder.getCount(),
-      limit: takeSelected
-    });
     const { entities } = await queryBuilder.cache(true).getRawAndEntities();
 
     return {

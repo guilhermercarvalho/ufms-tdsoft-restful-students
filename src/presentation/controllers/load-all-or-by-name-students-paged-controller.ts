@@ -46,7 +46,6 @@ export class LoadAllOrByNameStudentsPagedController implements Controller {
         )
       );
     } catch (error) {
-      console.log(error);
       return serverError(error);
     }
   }
