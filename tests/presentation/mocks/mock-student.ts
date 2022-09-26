@@ -4,7 +4,8 @@ import {
   AddStudentUseCase,
   LoadStudentsByNamePagedUseCase,
   LoadStudentsPagedUseCase,
-  LoadStudentsUseCase
+  LoadStudentsUseCase,
+  RemoveStudentUseCase
 } from '@/domain/use-cases';
 import {
   mockStudentModels,
@@ -30,7 +31,39 @@ export class AddStudentSpy implements AddStudentUseCase {
   }
 }
 
-// remove
+export class RemoveStudentSpy implements RemoveStudentUseCase {
+  params: RemoveStudentUseCase.Params | undefined;
+
+  async remove(
+    params: RemoveStudentUseCase.Params
+  ): Promise<AddStudentUseCase.Result> {
+    const student: StudentModel = {
+      ...params,
+      rga:
+        faker.random.numeric(4) +
+        '.' +
+        faker.random.numeric(4) +
+        '.' +
+        faker.random.numeric(3) +
+        '-' +
+        faker.random.numeric(1),
+      name: faker.name.fullName(),
+      course: faker.helpers.arrayElement([
+        'cc',
+        'si',
+        'ecomp',
+        'engsoft',
+        'tads',
+        'trc'
+      ]),
+      status: faker.helpers.arrayElement(['ativo', 'inativo']),
+      registeredIn: faker.date.recent()
+    };
+    this.params = params;
+    return student;
+  }
+}
+
 export class LoadAllOrByNameStudentsPagedSpy
   implements LoadStudentsPagedUseCase, LoadStudentsByNamePagedUseCase
 {

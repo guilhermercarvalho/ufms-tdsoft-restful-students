@@ -3,7 +3,8 @@ import {
   AddStudentRepository,
   LoadStudentsByNamePagedRepository,
   LoadStudentsPagedRepository,
-  LoadStudentsRepository
+  LoadStudentsRepository,
+  RemoveStudentRepository
 } from '@/data/repositories';
 import { LoadStudentsUseCase } from '@/domain/use-cases';
 import {
@@ -22,6 +23,37 @@ export class AddStudentRepositorySpy implements AddStudentRepository {
       ...params,
       id: faker.datatype.uuid(),
       status: params.status ? params.status : 'ativo',
+      registeredIn: faker.date.recent()
+    };
+    this.params = params;
+    return student;
+  }
+}
+
+export class RemoveStudentRepositorySpy implements RemoveStudentRepository {
+  params: RemoveStudentRepository.Params;
+
+  async remove(params: RemoveStudentRepository.Params): Promise<StudentModel> {
+    const student: StudentModel = {
+      ...params,
+      rga:
+        faker.random.numeric(4) +
+        '.' +
+        faker.random.numeric(4) +
+        '.' +
+        faker.random.numeric(3) +
+        '-' +
+        faker.random.numeric(1),
+      name: faker.name.fullName(),
+      course: faker.helpers.arrayElement([
+        'cc',
+        'si',
+        'ecomp',
+        'engsoft',
+        'tads',
+        'trc'
+      ]),
+      status: faker.helpers.arrayElement(['ativo', 'inativo']),
       registeredIn: faker.date.recent()
     };
     this.params = params;

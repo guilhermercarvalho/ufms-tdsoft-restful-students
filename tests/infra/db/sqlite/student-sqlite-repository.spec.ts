@@ -49,6 +49,31 @@ describe('SQLiteStudentRepository', () => {
     });
   });
 
+  describe('remove()', () => {
+    test('Should remove student on success', async () => {
+      const addStudentModel = mockAddStudentParams();
+
+      await studentRepository
+        .createQueryBuilder('student')
+        .insert()
+        .values(addStudentModel)
+        .execute();
+
+      const student: StudentModel = await studentRepository.findOneBy({
+        rga: addStudentModel.rga
+      });
+
+      const sut = makeSut();
+      await sut.remove({ id: student.id });
+
+      const count = await studentRepository
+        .createQueryBuilder('student')
+        .getCount();
+
+      expect(count).toBe(0);
+    });
+  });
+
   describe('loadAllPaged()', () => {
     test('Should load page with all students on success', async () => {
       const addStudentModels = [mockAddStudentParams(), mockAddStudentParams()];
