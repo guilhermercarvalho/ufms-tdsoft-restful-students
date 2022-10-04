@@ -1,0 +1,14 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "prune remote containers",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "${cwd}/.devcontainer/scripts/prune.sh"
+      ],
+      "problemMatcher": []
+    }
+  ]
+}
