@@ -7,6 +7,7 @@ export default {
   host: process.env.HOST || 'localhost',
   port: process.env.PORT || 3000,
   timezone: process.env.TZ,
+  environment: process.env.NODE_ENV === 'development',
   currentDatabase: process.env.CURRENT_DATABASE || 'postgres',
   databases: {
     postgres: {
