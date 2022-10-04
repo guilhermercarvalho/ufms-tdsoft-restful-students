@@ -1,4 +1,8 @@
-import { ServerError, UnauthorizedError } from '@/presentation/errors';
+import {
+  MethodNotAllowedError,
+  ServerError,
+  UnauthorizedError
+} from '@/presentation/errors';
 import { ServerUnavailable } from '@/presentation/errors/server-unavailable';
 
 export type HttpResponse = {
@@ -16,10 +20,10 @@ export const forbidden = (error: Error): HttpResponse => ({
   body: error
 });
 
-// export const methodNotAllowed = (): HttpResponse => ({
-//   statusCode: 405,
-//   body: new MethodNotAllowedError()
-// });
+export const methodNotAllowed = (): HttpResponse => ({
+  statusCode: 405,
+  body: new MethodNotAllowedError()
+});
 
 export const unauthorized = (): HttpResponse => ({
   statusCode: 401,
