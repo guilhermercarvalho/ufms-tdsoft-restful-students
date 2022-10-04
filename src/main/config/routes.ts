@@ -1,12 +1,18 @@
 import { Express, Router } from 'express';
 import { readdirSync } from 'fs';
+import path from 'path';
 
 export const setupRoutes = (app: Express): void => {
   const router = Router();
   app.use('/api/v1/', router);
-  readdirSync(`${__dirname}/../routes`).map(async (fileName) => {
-    if (fileName.endsWith('-router.ts')) {
-      (await import(`${__dirname}/../routes/${fileName}`)).default(router);
+  const routesDir = path.resolve(__dirname, '..', 'routes');
+  readdirSync(routesDir).map(async (fileName) => {
+    if (
+      ['-router.ts', '-router.js'].some((endRouter) =>
+        fileName.endsWith(endRouter)
+      )
+    ) {
+      (await import(`${routesDir}/${fileName}`)).default(router);
     }
   });
 };
