@@ -5,9 +5,14 @@ import env from '@/main/config/env';
 export let database: Database = null;
 
 export const getDatabaseHelper = () => {
+  if (database !== null) {
+    return database;
+  }
+
   const provider = env.currentDatabase;
 
-  if (database !== null) {
+  if (provider === 'sqlite') {
+    database = new SQLiteDatabase();
     return database;
   }
 
@@ -17,11 +22,6 @@ export const getDatabaseHelper = () => {
 
   if (provider === 'mysql') {
     throw new Error('Not implemented');
-  }
-
-  if (provider === 'sqlite') {
-    database = new SQLiteDatabase();
-    return database;
   }
 
   database = new SQLiteDatabase();
