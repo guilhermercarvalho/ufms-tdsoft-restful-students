@@ -1,10 +1,16 @@
 #!/usr/bin/env bash
 
-docker stop restfull-students-app restfull-students-db-postgres restfull-students-db-mysql restfull-students-cache-redis
+docker stop \
+  restfull-students-app \
+  restfull-students-db-postgres \
+  restfull-students-db-mysql \
+  restfull-students-cache-redis
 
-docker rm --volumes --force restfull-students-app restfull-students-db-postgres restfull-students-db-mysql restfull-students-cache-redis
-
-docker volume rm --force vscode
+docker rm --volumes --force \
+  restfull-students-app \
+  restfull-students-db-postgres \
+  restfull-students-db-mysql \
+  restfull-students-cache-redis
 
 docker network rm ufms-tdsoft-restful-students_devcontainer_default
 
