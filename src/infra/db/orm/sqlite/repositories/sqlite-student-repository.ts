@@ -1,12 +1,16 @@
 import { PaginationModel } from '@/data/models';
 import {
   AddStudentRepository,
+  LoadStudentRepository,
   LoadStudentsByNamePagedRepository,
   LoadStudentsPagedRepository,
   LoadStudentsRepository,
   RemoveStudentRepository
 } from '@/data/repositories';
-import { LoadStudentsByNamePagedUseCase } from '@/domain/use-cases';
+import {
+  LoadStudentsByNamePagedUseCase,
+  LoadStudentUseCase
+} from '@/domain/use-cases';
 import { SQLiteStudentEntity } from '@/infra/db/orm/entities';
 import { PaginationHelper } from '@/infra/db/orm/helpers';
 
@@ -18,7 +22,8 @@ export class SQLiteStudentRepository
     LoadStudentsRepository,
     LoadStudentsPagedRepository,
     LoadStudentsByNamePagedRepository,
-    RemoveStudentRepository
+    RemoveStudentRepository,
+    LoadStudentRepository
 {
   constructor(private readonly dataSource: DataSource) {}
 
@@ -55,6 +60,22 @@ export class SQLiteStudentRepository
     await this.clearCache();
 
     await repository.delete(student);
+
+    return student;
+  }
+
+  async loadOne(
+    params: LoadStudentUseCase.Params
+  ): Promise<LoadStudentUseCase.Result> {
+    const { id } = params;
+    const repository = this.dataSource.getRepository(SQLiteStudentEntity);
+    const student = await repository
+      .createQueryBuilder('student')
+      .where({ id })
+      .cache(true)
+      .getOne();
+
+    if (!student) throw new Error('id not found');
 
     return student;
   }
@@ -110,19 +131,6 @@ export class SQLiteStudentRepository
   //     .getRawAndEntities();
 
   //   return entities;
-  // }
-
-  // async getOneStudent(id: string): Promise<StudentModel> {
-  //   const repository = this.dataSource.getRepository(SQLiteStudentEntity);
-  //   const student = await repository
-  //     .createQueryBuilder('student')
-  //     .where({ id })
-  //     .cache(true)
-  //     .getOne();
-
-  //   if (!student) throw new NotFoundError(id);
-
-  //   return student;
   // }
 
   // async updateOneStudent(

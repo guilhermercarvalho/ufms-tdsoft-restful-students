@@ -2,15 +2,21 @@ import { adaptRoute } from '@/main/adapters';
 import {
   makeAddStudentController,
   makeLoadAllOrByNameStudentsPagedController,
+  makeLoadStudentController,
   makeRemoveStudentController
 } from '@/main/factories';
 
 import { Router } from 'express';
 
 export default (router: Router): void => {
-  router.use('/alunos', router);
+  const studentRouter = Router();
+  router.use('/alunos', studentRouter);
 
-  router.get('/', adaptRoute(makeLoadAllOrByNameStudentsPagedController()));
-  router.post('/', adaptRoute(makeAddStudentController()));
-  router.delete('/:id', adaptRoute(makeRemoveStudentController()));
+  studentRouter.get(
+    '/',
+    adaptRoute(makeLoadAllOrByNameStudentsPagedController())
+  );
+  studentRouter.get('/:id', adaptRoute(makeLoadStudentController()));
+  studentRouter.post('/', adaptRoute(makeAddStudentController()));
+  studentRouter.delete('/:id', adaptRoute(makeRemoveStudentController()));
 };
