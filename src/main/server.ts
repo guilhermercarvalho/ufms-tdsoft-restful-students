@@ -1,36 +1,50 @@
-import 'module-alias/register';
-
+import { getDatabaseHelper } from '@/infra/db/orm/helpers';
 import { setupApp } from '@/main/config/app';
 import env from '@/main/config/env';
-import { SQLiteDatabase } from '@/infra/db/orm';
 
-const getCurrentDatabase = () => {
-  const provider = env.currentDatabase;
+import { Server } from 'http';
+import stoppable from 'stoppable';
 
-  if (provider === 'postgres') {
-    throw new Error('Not implemented');
-  }
+const database = getDatabaseHelper();
+let server: Server = null;
 
-  if (provider === 'mysql') {
-    throw new Error('Not implemented');
-  }
+async function connectDatabase() {
+  await database.connect().then(() => console.log('Database connected.'));
+}
 
-  if (provider === 'sqlite') {
-    return new SQLiteDatabase();
-  }
+async function start() {
+  const url = `http://${env.host}:${env.port}/api/v1/alunos`;
+  const curr_db = env.currentDatabase.toUpperCase();
 
-  return new SQLiteDatabase();
-};
+  const app = await setupApp();
+  server = app.listen(env.port, () =>
+    console.log(`Running on ${url} with ${curr_db}.`)
+  );
 
-const database = getCurrentDatabase();
+  process.on('SIGINT', gracefulShutdown);
+  process.on('SIGTERM', gracefulShutdown);
+}
 
-database
-  .connect()
-  .then(async () => {
-    const url = `http://${env.host}:${env.port}/api/v1/alunos`;
-    const db = env.currentDatabase.toUpperCase();
+function gracefulShutdown(signal) {
+  console.log();
+  console.info(`${signal} signal received.`);
+  console.log('Closing HTTP server.');
 
-    const app = await setupApp();
-    app.listen(env.port, () => console.log(`Running on ${url} with ${db}`));
-  })
-  .catch(console.error);
+  const stoppableServer = stoppable(server);
+
+  stoppableServer.close((error) => {
+    if (error) throw error;
+
+    console.log('HTTP server closed.');
+
+    database.disconnect().then(() => {
+      console.log('Database connection closed.');
+      process.exit(0);
+    });
+  });
+}
+
+(async () => {
+  await connectDatabase();
+  start();
+})();
