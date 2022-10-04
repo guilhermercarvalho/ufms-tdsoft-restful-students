@@ -5,7 +5,7 @@ import {
   ValidationComposite
 } from '@/validation/validators';
 
-export const makeRemoveStudentValidation = (): ValidationComposite => {
+export const makeIdStudentValidation = (): ValidationComposite => {
   const validations: Validation[] = [];
 
   validations.push(new RequiredFieldValidation('id'));
