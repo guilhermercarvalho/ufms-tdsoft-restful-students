@@ -8,7 +8,7 @@ export default {
   port: process.env.PORT || 3000,
   timezone: process.env.TZ,
   environment: process.env.NODE_ENV === 'development',
-  currentDatabase: process.env.CURRENT_DATABASE || 'postgres',
+  currentDatabase: process.env.CURRENT_DATABASE || 'sqlite',
   databases: {
     postgres: {
       host: process.env.POSTGRES_HOST,
