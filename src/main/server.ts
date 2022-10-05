@@ -9,6 +9,10 @@ const database = getDatabaseHelper();
 let server: Server = null;
 
 async function connectDatabase() {
+  await database
+    .cache()
+    .connect()
+    .then(() => console.log('Redis connected.'));
   await database.connect().then(() => console.log('Database connected.'));
 }
 
@@ -32,12 +36,19 @@ function gracefulShutdown(signal) {
 
   const stoppableServer = stoppable(server);
 
-  stoppableServer.close((error) => {
+  stoppableServer.close(async (error) => {
     if (error) throw error;
 
     console.log('HTTP server closed.');
 
-    database.disconnect().then(() => {
+    await database
+      .cache()
+      .disconnect()
+      .then(() => {
+        console.log('Redis connection closed.');
+      });
+
+    await database.disconnect().then(() => {
       console.log('Database connection closed.');
       process.exit(0);
     });
@@ -45,6 +56,6 @@ function gracefulShutdown(signal) {
 }
 
 (async () => {
-  await connectDatabase();
+  connectDatabase();
   start();
 })();

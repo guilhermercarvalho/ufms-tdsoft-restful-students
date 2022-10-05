@@ -1,28 +1,27 @@
-import { cacheSource } from '@/infra/db/orm/cache-source';
+import { RedisCache } from '@/infra/db/orm/connections';
 import { sqliteDataSource } from '@/infra/db/orm/data-sources';
-import { Cache, Database } from '@/infra/interfaces';
+import { Database } from '@/infra/interfaces';
 
-import { Redis } from 'ioredis';
 import { DataSource } from 'typeorm';
 
 export class SQLiteDatabase implements Database {
-  private dataSource: DataSource;
-  private redis: Cache;
+  private readonly dataSource: DataSource;
+  private readonly redis: RedisCache;
 
-  constructor() {
+  constructor(redis: RedisCache) {
     this.dataSource = sqliteDataSource;
-    this.redis = new SQLiteRedisCache();
+    this.redis = redis;
   }
 
   async connect() {
-    await this.dataSource.initialize();
-    await this.dataSource.queryResultCache?.connect();
-    await this.dataSource.queryResultCache?.clear();
+    this.dataSource.initialize();
+    this.dataSource.queryResultCache?.connect();
+    this.dataSource.queryResultCache?.clear();
   }
 
   async disconnect() {
-    await this.dataSource.queryResultCache?.disconnect();
-    await this.dataSource.destroy();
+    this.dataSource.queryResultCache?.disconnect();
+    this.dataSource.destroy();
   }
 
   status() {
@@ -31,17 +30,5 @@ export class SQLiteDatabase implements Database {
 
   cache() {
     return this.redis;
-  }
-}
-
-class SQLiteRedisCache implements Cache {
-  private cache: Redis;
-
-  constructor() {
-    this.cache = cacheSource;
-  }
-
-  status() {
-    return this.cache.status;
   }
 }

@@ -1,4 +1,4 @@
-import { SQLiteDatabase } from '@/infra/db/orm/connections';
+import { RedisCache, SQLiteDatabase } from '@/infra/db/orm/connections';
 import { Database } from '@/infra/interfaces';
 import env from '@/main/config/env';
 
@@ -12,8 +12,7 @@ export const getDatabaseHelper = () => {
   const provider = env.currentDatabase;
 
   if (provider === 'sqlite') {
-    database = new SQLiteDatabase();
-    return database;
+    return createSQLiteDatabase();
   }
 
   if (provider === 'postgres') {
@@ -24,6 +23,10 @@ export const getDatabaseHelper = () => {
     throw new Error('Not implemented');
   }
 
-  database = new SQLiteDatabase();
+  return createSQLiteDatabase();
+};
+
+const createSQLiteDatabase = (): Database => {
+  database = new SQLiteDatabase(new RedisCache());
   return database;
 };
