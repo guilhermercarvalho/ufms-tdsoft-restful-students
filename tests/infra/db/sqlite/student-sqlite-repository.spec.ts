@@ -1,7 +1,6 @@
 import { PaginationModel, StudentModel } from '@/data/models';
 import { SQLiteStudentEntity, SQLiteStudentRepository } from '@/infra/db/orm';
 import { mockAddStudentParams } from '@/tests/domain/mocks';
-
 import { faker } from '@faker-js/faker';
 import { DataSource, Repository } from 'typeorm';
 
@@ -12,10 +11,7 @@ const dataSource = new DataSource({
   dropSchema: true,
   synchronize: true,
   logging: false,
-  entities: [SQLiteStudentEntity],
-  cache: {
-    duration: 30000
-  }
+  entities: [SQLiteStudentEntity]
 });
 
 const makeSut = (): SQLiteStudentRepository => {
@@ -33,7 +29,6 @@ describe('SQLiteStudentRepository', () => {
 
   beforeEach(async () => {
     studentRepository = dataSource.getRepository(SQLiteStudentEntity);
-    await dataSource.queryResultCache?.clear();
     await studentRepository.clear();
   });
 

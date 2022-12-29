@@ -1,4 +1,4 @@
-import { makeRemoveStudentValidation } from '@/main/factories';
+import { makeIdStudentValidation } from '@/main/factories';
 import { Validation } from '@/presentation/interfaces';
 import {
   RequiredFieldValidation,
@@ -10,7 +10,7 @@ jest.mock('@/validation/validators/validation-composite');
 
 describe('RemoveStudentValidation Factory', () => {
   test('Should call ValidationComposite with all validations', () => {
-    makeRemoveStudentValidation();
+    makeIdStudentValidation();
     const validations: Validation[] = [];
 
     validations.push(new RequiredFieldValidation('id'));

@@ -19,7 +19,7 @@ describe('Name Validation', () => {
 
   test('Should return InvalidParamError if name is alpha numeric', () => {
     const sut = makeSut();
-    const error = sut.validate({ name: faker.random.alphaNumeric(5) });
+    const error = sut.validate({ name: faker.random.alphaNumeric(10) });
     expect(error).toStrictEqual(new InvalidParamError('name'));
   });
 
