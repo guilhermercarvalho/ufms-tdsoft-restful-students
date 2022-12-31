@@ -18,11 +18,11 @@ async function connectDatabase() {
 
 async function start() {
   const url = `http://${env.host}:${env.port}/api/v1/alunos`;
-  const curr_db = env.currentDatabase.toUpperCase();
+  const currentDatabase = env.currentDatabase.toUpperCase();
 
   const app = await setupApp();
   server = app.listen(env.port, () =>
-    console.log(`Running on ${url} with ${curr_db}.`)
+    console.log(`Running on ${url} with ${currentDatabase}.`)
   );
 
   process.on('SIGINT', gracefulShutdown);
