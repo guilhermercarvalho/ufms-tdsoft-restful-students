@@ -5,7 +5,8 @@ import {
   LoadStudentsByNamePagedUseCase,
   LoadStudentsPagedUseCase,
   LoadStudentsUseCase,
-  RemoveStudentUseCase
+  RemoveStudentUseCase,
+  UpdateStudentUseCase
 } from '@/domain/use-cases';
 import {
   mockStudentModels,
@@ -24,6 +25,39 @@ export class AddStudentSpy implements AddStudentUseCase {
       ...params,
       id: faker.datatype.uuid(),
       status: params.status ? params.status : 'ativo',
+      registeredIn: faker.date.recent()
+    };
+    this.params = params;
+    return student;
+  }
+}
+
+export class UpdateStudentSpy implements UpdateStudentUseCase {
+  params: UpdateStudentUseCase.Params | undefined;
+
+  async update(
+    params: UpdateStudentUseCase.Params
+  ): Promise<UpdateStudentUseCase.Result> {
+    const student: StudentModel = {
+      ...params,
+      rga:
+        faker.random.numeric(4) +
+        '.' +
+        faker.random.numeric(4) +
+        '.' +
+        faker.random.numeric(3) +
+        '-' +
+        faker.random.numeric(1),
+      name: faker.name.fullName(),
+      course: faker.helpers.arrayElement([
+        'cc',
+        'si',
+        'ecomp',
+        'engsoft',
+        'tads',
+        'trc'
+      ]),
+      status: faker.helpers.arrayElement(['ativo', 'inativo']),
       registeredIn: faker.date.recent()
     };
     this.params = params;

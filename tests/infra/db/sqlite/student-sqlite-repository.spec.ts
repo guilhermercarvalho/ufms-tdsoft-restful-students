@@ -1,6 +1,10 @@
 import { PaginationModel, StudentModel } from '@/data/models';
 import { SQLiteStudentEntity, SQLiteStudentRepository } from '@/infra/db/orm';
-import { mockAddStudentParams } from '@/tests/domain/mocks';
+import {
+  mockAddStudentParams,
+  mockUpdateStudentParams
+} from '@/tests/domain/mocks';
+
 import { faker } from '@faker-js/faker';
 import { DataSource, Repository } from 'typeorm';
 
@@ -34,13 +38,63 @@ describe('SQLiteStudentRepository', () => {
 
   describe('add()', () => {
     test('Should add student on success', async () => {
+      const addStudentModel = mockAddStudentParams();
+
       const sut = makeSut();
-      await sut.add(mockAddStudentParams());
+      await sut.add(addStudentModel);
+
       const count = await studentRepository
         .createQueryBuilder('student')
+        .where(
+          `student.nome = :name \
+          AND student.rga = :rga \
+          AND student.curso = :course \
+          AND student.situacao = :status`,
+          {
+            name: addStudentModel.name,
+            rga: addStudentModel.rga,
+            course: addStudentModel.course,
+            status: addStudentModel.status
+          }
+        )
         .getCount();
 
       expect(count).toBe(1);
+    });
+  });
+
+  describe('update()', () => {
+    test('Should update student on success', async () => {
+      const addStudentModel = mockAddStudentParams();
+      const updateStudentModel = mockUpdateStudentParams();
+
+      await studentRepository
+        .createQueryBuilder('student')
+        .insert()
+        .values(addStudentModel)
+        .execute();
+
+      const studentAdded: StudentModel = await studentRepository.findOneBy({
+        name: addStudentModel.name,
+        rga: addStudentModel.rga,
+        course: addStudentModel.course,
+        status: addStudentModel.status
+      });
+
+      const sut = makeSut();
+      const studentUpdated = await sut.update({
+        id: studentAdded.id,
+        name: updateStudentModel.name,
+        course: updateStudentModel.course,
+        status: updateStudentModel.status
+      });
+
+      expect(studentUpdated.id).toBe(studentAdded.id);
+      expect(studentUpdated.name).toBe(updateStudentModel.name);
+      expect(studentUpdated.course).toBe(updateStudentModel.course);
+      expect(studentUpdated.status).toBe(updateStudentModel.status);
+      expect(studentUpdated.rga).toBe(addStudentModel.rga);
+      expect(studentUpdated.registeredIn).toBe(studentAdded.registeredIn);
     });
   });
 

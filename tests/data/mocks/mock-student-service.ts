@@ -4,7 +4,8 @@ import {
   LoadStudentsByNamePagedRepository,
   LoadStudentsPagedRepository,
   LoadStudentsRepository,
-  RemoveStudentRepository
+  RemoveStudentRepository,
+  UpdateStudentRepository
 } from '@/data/repositories';
 import { LoadStudentsUseCase } from '@/domain/use-cases';
 import {
@@ -23,6 +24,38 @@ export class AddStudentRepositorySpy implements AddStudentRepository {
       ...params,
       id: faker.datatype.uuid(),
       status: params.status ? params.status : 'ativo',
+      registeredIn: faker.date.recent()
+    };
+    this.params = params;
+    return student;
+  }
+}
+
+export class UpdateStudentRepositorySpy implements UpdateStudentRepository {
+  params: UpdateStudentRepository.Params;
+
+  async update(params: UpdateStudentRepository.Params): Promise<StudentModel> {
+    const student: StudentModel = {
+      ...params,
+      id: faker.datatype.uuid(),
+      rga:
+        faker.random.numeric(4) +
+        '.' +
+        faker.random.numeric(4) +
+        '.' +
+        faker.random.numeric(3) +
+        '-' +
+        faker.random.numeric(1),
+      name: faker.name.fullName(),
+      course: faker.helpers.arrayElement([
+        'cc',
+        'si',
+        'ecomp',
+        'engsoft',
+        'tads',
+        'trc'
+      ]),
+      status: faker.helpers.arrayElement(['ativo', 'inativo']),
       registeredIn: faker.date.recent()
     };
     this.params = params;
