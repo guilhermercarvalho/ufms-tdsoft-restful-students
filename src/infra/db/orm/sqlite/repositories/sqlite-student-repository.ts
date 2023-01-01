@@ -5,7 +5,8 @@ import {
   LoadStudentsByNamePagedRepository,
   LoadStudentsPagedRepository,
   LoadStudentsRepository,
-  RemoveStudentRepository
+  RemoveStudentRepository,
+  UpdateStudentRepository
 } from '@/data/repositories';
 import {
   LoadStudentsByNamePagedUseCase,
@@ -60,6 +61,27 @@ export class SQLiteStudentRepository
     await this.clearCache();
 
     await repository.delete(student);
+
+    return student;
+  }
+
+  async update(
+    params: UpdateStudentRepository.Params
+  ): Promise<UpdateStudentRepository.Result> {
+    const { id, name, course, status } = params;
+    const repository = this.dataSource.getRepository(SQLiteStudentEntity);
+
+    const student = await repository.findOneBy({ id });
+
+    if (!student) throw new Error('Student not found.');
+
+    await this.clearCache();
+
+    student.name = name || student.name;
+    student.course = course || student.course;
+    student.status = status || student.status;
+
+    await repository.save(student);
 
     return student;
   }
@@ -119,43 +141,6 @@ export class SQLiteStudentRepository
       params.limit
     );
   }
-
-  // async getStudentsByName(name: string): Promise<StudentModel[]> {
-  //   const repository = this.dataSource.getRepository(SQLiteStudentEntity);
-  //   const { entities } = await repository
-  //     .createQueryBuilder('student')
-  //     .where('LOWER(student.name) like :name', {
-  //       name: `%${name.toLocaleLowerCase()}%`
-  //     })
-  //     .cache(true)
-  //     .getRawAndEntities();
-
-  //   return entities;
-  // }
-
-  // async updateOneStudent(
-  //   id: string,
-  //   name?: string,
-  //   rga?: string,
-  //   course?: string,
-  //   status?: string
-  // ): Promise<StudentModel> {
-  //   const repository = this.dataSource.getRepository(SQLiteStudentEntity);
-  //   const student = await repository.findOneBy({ id });
-
-  //   if (!student) throw new NotFoundError(id);
-
-  //   await this.clearCache();
-
-  //   if (name) student.name = name;
-  //   if (rga) student.rga = rga;
-  //   if (course) student.course = course;
-  //   if (status) student.status = status;
-
-  //   await repository.save(student);
-
-  //   return student;
-  // }
 
   private async clearCache() {
     this.dataSource.queryResultCache?.clear();

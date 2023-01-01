@@ -4,3 +4,4 @@ export * from './load-students-by-name-paged-service';
 export * from './load-students-paged-service';
 export * from './load-students-service';
 export * from './remove-student-service';
+export * from './update-student-service';

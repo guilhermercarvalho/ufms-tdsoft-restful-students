@@ -5,6 +5,7 @@ export * from './invalid-param-type-error';
 export * from './less-than-or-equal-error';
 export * from './method-not-allowed-error';
 export * from './missing-param-error';
+export * from './missing-param-update-error';
 export * from './server-error';
 export * from './server-unavailable';
 export * from './unauthorized-error';
