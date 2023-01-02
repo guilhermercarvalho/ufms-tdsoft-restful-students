@@ -8,7 +8,7 @@ import {
 
 jest.mock('@/validation/validators/validation-composite');
 
-describe('RemoveStudentValidation Factory', () => {
+describe('IdStudentValidation Factory', () => {
   test('Should call ValidationComposite with all validations', () => {
     makeIdStudentValidation();
     const validations: Validation[] = [];
