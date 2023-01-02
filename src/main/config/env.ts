@@ -7,7 +7,7 @@ export default {
   host: process.env.HOST || 'localhost',
   port: process.env.PORT || 3000,
   timezone: process.env.TZ,
-  environment: process.env.NODE_ENV === 'development',
+  isDevEnvironment: process.env.NODE_ENV === 'development',
   currentDatabase: process.env.CURRENT_DATABASE || 'sqlite',
   databases: {
     postgres: {
@@ -27,7 +27,7 @@ export default {
     sqlite: {
       database: process.env.SQLITE_DATABASE
         ? path.join(__dirname, '../../..', process.env.SQLITE_DATABASE)
-        : 'student.sqlite'
+        : ':memory:'
     },
     cache: {
       redis: {

@@ -12,8 +12,12 @@ async function connectDatabase() {
   await database
     .cache()
     .connect()
-    .then(() => console.log('Redis connected.'));
-  await database.connect().then(() => console.log('Database connected.'));
+    .then(() => console.log('Redis connected.'))
+    .catch((error) => console.error(error));
+  await database
+    .connect()
+    .then(() => console.log('Database connected.'))
+    .catch((error) => console.error(error));
 }
 
 async function start() {
