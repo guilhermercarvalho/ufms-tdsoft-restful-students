@@ -8,12 +8,10 @@ on:
     paths:
       - 'src/**'
       - 'test/**'
-      - 'sqlite/**'
   pull_request:
     paths:
       - 'src/**'
       - 'test/**'
-      - 'sqlite/**'
 
 jobs:
   build:
