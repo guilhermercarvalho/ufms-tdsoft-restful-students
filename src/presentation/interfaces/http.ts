@@ -20,9 +20,19 @@ export const forbidden = (error: Error): HttpResponse => ({
   body: error
 });
 
+export const notFound = (error: Error): HttpResponse => ({
+  statusCode: 404,
+  body: error
+});
+
 export const methodNotAllowed = (): HttpResponse => ({
   statusCode: 405,
   body: new MethodNotAllowedError()
+});
+
+export const conflict = (error: Error): HttpResponse => ({
+  statusCode: 409,
+  body: error
 });
 
 export const unauthorized = (): HttpResponse => ({

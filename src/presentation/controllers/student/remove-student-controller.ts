@@ -1,8 +1,10 @@
 import { RemoveStudentUseCase } from '@/domain/use-cases';
+import { ItemNotFound } from '@/presentation/errors';
 import {
   badRequest,
   Controller,
   HttpResponse,
+  notFound,
   ok,
   serverError,
   Validation
@@ -25,6 +27,7 @@ export class RemoveStudentController implements Controller {
       const student = await this.removeStudent.remove(request);
       return ok(StudentViewModel.map(student));
     } catch (error) {
+      if (error instanceof ItemNotFound) return notFound(error);
       return serverError(error);
     }
   }

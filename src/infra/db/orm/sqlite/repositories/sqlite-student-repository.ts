@@ -14,6 +14,7 @@ import {
 } from '@/domain/use-cases';
 import { SQLiteStudentEntity } from '@/infra/db/orm/entities';
 import { PaginationHelper } from '@/infra/db/orm/helpers';
+import { ItemAlreadyExists, ItemNotFound } from '@/presentation/errors';
 
 import { DataSource } from 'typeorm';
 
@@ -38,11 +39,32 @@ export class SQLiteStudentRepository
       where: [{ rga }, { name, rga, course }]
     });
 
-    if (student) throw new Error('Student already exists.');
+    if (student) throw new ItemAlreadyExists('Student');
 
     await this.clearCache();
 
     student = repository.create({ name, rga, course, status });
+
+    await repository.save(student);
+
+    return student;
+  }
+
+  async update(
+    params: UpdateStudentRepository.Params
+  ): Promise<UpdateStudentRepository.Result> {
+    const { id, name, course, status } = params;
+    const repository = this.dataSource.getRepository(SQLiteStudentEntity);
+
+    const student = await repository.findOneBy({ id });
+
+    if (!student) throw new ItemNotFound('Student');
+
+    await this.clearCache();
+
+    student.name = name || student.name;
+    student.course = course || student.course;
+    student.status = status || student.status;
 
     await repository.save(student);
 
@@ -56,32 +78,11 @@ export class SQLiteStudentRepository
     const repository = this.dataSource.getRepository(SQLiteStudentEntity);
     const student = await repository.findOneBy({ id });
 
-    if (!student) throw new Error('id not found');
+    if (!student) throw new ItemNotFound('Student');
 
     await this.clearCache();
 
     await repository.delete(student);
-
-    return student;
-  }
-
-  async update(
-    params: UpdateStudentRepository.Params
-  ): Promise<UpdateStudentRepository.Result> {
-    const { id, name, course, status } = params;
-    const repository = this.dataSource.getRepository(SQLiteStudentEntity);
-
-    const student = await repository.findOneBy({ id });
-
-    if (!student) throw new Error('Student not found.');
-
-    await this.clearCache();
-
-    student.name = name || student.name;
-    student.course = course || student.course;
-    student.status = status || student.status;
-
-    await repository.save(student);
 
     return student;
   }
@@ -97,7 +98,7 @@ export class SQLiteStudentRepository
       .cache(true)
       .getOne();
 
-    if (!student) throw new Error('id not found');
+    if (!student) throw new ItemNotFound('Student');
 
     return student;
   }

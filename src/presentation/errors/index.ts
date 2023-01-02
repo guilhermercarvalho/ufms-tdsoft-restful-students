@@ -2,6 +2,8 @@ export * from './access-denied-error';
 export * from './email-in-use-error';
 export * from './invalid-param-error';
 export * from './invalid-param-type-error';
+export * from './item-already-exists-error';
+export * from './item-not-found-error';
 export * from './less-than-or-equal-error';
 export * from './method-not-allowed-error';
 export * from './missing-param-error';

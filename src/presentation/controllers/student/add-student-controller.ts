@@ -1,6 +1,8 @@
 import { AddStudentUseCase } from '@/domain/use-cases';
+import { ItemAlreadyExists } from '@/presentation/errors';
 import {
   badRequest,
+  conflict,
   Controller,
   created,
   HttpResponse,
@@ -18,9 +20,9 @@ export class AddStudentController implements Controller {
   async handle(request: AddStudentController.Request): Promise<HttpResponse> {
     try {
       const input = {
-        name: request.nome.trim(),
-        rga: request.rga.trim(),
-        course: request.curso.trim(),
+        name: request.nome?.trim(),
+        rga: request.rga?.trim(),
+        course: request.curso?.trim(),
         status: request.situacao?.trim()
       };
 
@@ -32,6 +34,7 @@ export class AddStudentController implements Controller {
       });
       return created(StudentViewModel.map(student));
     } catch (error) {
+      if (error instanceof ItemAlreadyExists) return conflict(error);
       return serverError(error);
     }
   }

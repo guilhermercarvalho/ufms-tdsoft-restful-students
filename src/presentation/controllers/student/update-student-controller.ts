@@ -1,9 +1,11 @@
 import { UpdateStudentUseCase } from '@/domain/use-cases';
+import { ItemNotFound } from '@/presentation/errors';
 import {
   Controller,
   HttpResponse,
   badRequest,
   created,
+  notFound,
   serverError
 } from '@/presentation/interfaces';
 import { Validation } from '@/presentation/interfaces/validation';
@@ -20,7 +22,7 @@ export class UpdateStudentController implements Controller {
   ): Promise<HttpResponse> {
     try {
       const input = {
-        id: request.id.trim(),
+        id: request.id,
         name: request.nome?.trim(),
         course: request.curso?.trim(),
         status: request.situacao?.trim()
@@ -34,6 +36,7 @@ export class UpdateStudentController implements Controller {
       });
       return created(StudentViewModel.map(student));
     } catch (error) {
+      if (error instanceof ItemNotFound) return notFound(error);
       return serverError(error);
     }
   }

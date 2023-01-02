@@ -1,8 +1,10 @@
 import { LoadStudentUseCase } from '@/domain/use-cases';
+import { ItemNotFound } from '@/presentation/errors';
 import {
   badRequest,
   Controller,
   HttpResponse,
+  notFound,
   ok,
   serverError,
   Validation
@@ -23,6 +25,7 @@ export class LoadStudentController implements Controller {
       const student = await this.loadStudent.load(request);
       return ok(StudentViewModel.map(student));
     } catch (error) {
+      if (error instanceof ItemNotFound) return notFound(error);
       return serverError(error);
     }
   }
