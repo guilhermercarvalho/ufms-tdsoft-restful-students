@@ -19,7 +19,7 @@ Nesta atividade o objetivo é colocar em prática os conhecimentos relacionados 
 
 Portanto, é proposto um problema com escopo bastante restrito: **gestão de alunos de uma disciplina**.
 
-Uma pequena aplicação que fará a gestão do registro de alunos de uma disciplina. Essa aplicação deverá permitir a inserção, alteração e consulta de alunos. [Os detalhes de cada uma das funcionalidades que deverão ser implementadas](https://www.notion.so/Cria-o-de-um-Servi-o-RESTful-6b1269e16fca435984ae7a6f9ae89964).
+Uma pequena aplicação que fará a gestão do registro de alunos de uma disciplina. Essa aplicação deverá permitir a inserção, alteração e consulta de alunos. [Detalhes de cada uma das funcionalidades que deverão ser implementadas](https://www.notion.so/Cria-o-de-um-Servi-o-RESTful-6b1269e16fca435984ae7a6f9ae89964).
 
 Foram utilizadas práticas de _Clean Code_ e _Clean Architecture_ para o desenvolvimento dessa aplicação.
 
@@ -36,8 +36,8 @@ Foram utilizadas práticas de _Clean Code_ e _Clean Architecture_ para o desenvo
 
 #### SQL
   
-  - Postgres
   - MySQL
+  - Postgres
   - SQLite
 
 #### NoSQL
@@ -54,13 +54,13 @@ Foram utilizadas práticas de _Clean Code_ e _Clean Architecture_ para o desenvo
 Recomenda-se o uso da extensão [Remote Development Container](https://code.visualstudio.com/docs/remote/containers) para execução adequada do ambiente de desenvolvimento. Este foi criado utilizando containers com variáveis de ambiente pré-configuradas possibilitando a execução de toda a aplicação. Os containers são:
 
 - **restfull-students-app**: container da aplicação
-- **restfull-students-db-postgres**: container do banco de dados PostgreSQL
 - **restfull-students-db-mysql**: : container do banco de dados MySQL
+- **restfull-students-db-postgres**: container do banco de dados PostgreSQL
 - **restfull-students-cache-redis**: : container de cache Redis
 
 ### Pré-requisitos
 
-Para executar corretamente o projeto é necessário ter Node, NPM, Docker e VSCode instalados.
+Para executar corretamente o projeto é necessário ter NodeJS, NPM, Docker e VSCode instalados.
 
 ## Uso
 
@@ -76,13 +76,19 @@ node install
 node run dev
 ```
 
+### Inciar Suíte de Testes da Aplicação
+
+```sh
+node run test
+```
+
 ### Definir Banco de Dados
 
-A variável de ambiente `CURRENT_DATABASE` define o banco de dados a ser utilizado pela aplicação (por padrão é PostgreSQL). Os valores possíveis são:
+A variável de ambiente `CURRENT_DATABASE` define o banco de dados a ser utilizado pela aplicação (por padrão é SQLite em memória). Os valores possíveis são:
 
-- postgres (padrão)
 - mysql
-- sqlite
+- postgres
+- sqlite (`:memory:` é o padrão)
 
   ```env
   # PostgreSQL database
@@ -102,7 +108,7 @@ A variável de ambiente `CURRENT_DATABASE` define o banco de dados a ser utiliza
   # SQLite database filename
   SQLITE_DATABASE=
 
-  # Choose the database of application (postgres, mysql, sqlite)
+  # Choose the database of application (mysql, postgres, sqlite)
   CURRENT_DATABASE=
   ```
 
