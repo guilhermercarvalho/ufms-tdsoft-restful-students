@@ -1,17 +1,21 @@
-_id: req_984ca2d0b3854be0866a5efcf906def8
+_id: req_9ea1898690414fc3befee80d6914944e
 type: Request
 parentId: fld_5ec594ab9815468182e63e7a05d6dfcc
-modified: 1672611973337
-created: 1649035825030
+modified: 1672611989952
+created: 1660876236105
 url: "{{ _.base_url }}/{{ _.route }}/{{ _.endpoint.student }}"
-name: get all without query
+name: get all by page
 description: ""
 method: GET
 body: {}
-parameters: []
+parameters:
+  - id: pair_ca261321c2cf4ded8b7712a74cf30dc3
+    name: pagina
+    value: "10"
+    description: ""
 headers: []
 authentication: {}
-metaSortKey: -1660823890313
+metaSortKey: -1660823890513
 isPrivate: false
 settingStoreCookies: true
 settingSendCookies: true

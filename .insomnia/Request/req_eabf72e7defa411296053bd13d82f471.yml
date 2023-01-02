@@ -1,12 +1,12 @@
-_id: req_29e580fab8b6452dbb7c0ccf76148c95
+_id: req_eabf72e7defa411296053bd13d82f471
 type: Request
-parentId: fld_b15d2c31dd714a0c8e2964133f6a22bf
-modified: 1649036437345
-created: 1649036410446
-url: "{{ _.base_url }}/alunos/{{ _.id }}"
-name: create
+parentId: fld_b2195bf3f7b7402a9e0b69f071a391b5
+modified: 1672620985162
+created: 1660878890795
+url: "{{ _.base_url }}/{{ _.route }}/{{ _.endpoint.student }}"
+name: delete is a invalid method
 description: ""
-method: POST
+method: DELETE
 body: {}
 parameters: []
 headers: []

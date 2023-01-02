@@ -1,22 +1,27 @@
 _id: env_40d9e978dc49b18adaf0950921e47ce64b541fa1
 type: Environment
 parentId: wrk_4d1e2b5fa19749e58b2eac502b60a813
-modified: 1649036636863
+modified: 1672621851715
 created: 1637555353740
 name: Base Environment
 data:
-  protocol: http://
-  host: localhost
-  port: "3000"
   version: v1
-  base_url: "{{ _.protocol }}{{ _.host }}:{{ _.port }}/{{ _.version }}"
+  route: api/{{ _.version }}
+  endpoint:
+    student: alunos
+    healthcheck: healthcheck
+  id_Read: f6f3b501-6e39-4365-b3b0-ee43febe4f34
+  id_CreateDelete: 80b3af74-0c32-430e-8f1e-4a9af546010b
 dataPropertyOrder:
   "&":
-    - protocol
-    - host
-    - port
     - version
-    - base_url
+    - route
+    - endpoint
+    - id_Read
+    - id_CreateDelete
+  "&~|endpoint":
+    - student
+    - healthcheck
 color: null
 isPrivate: false
 metaSortKey: 1637555353740

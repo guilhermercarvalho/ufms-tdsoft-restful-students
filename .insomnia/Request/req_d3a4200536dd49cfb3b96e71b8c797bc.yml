@@ -1,17 +1,17 @@
-_id: req_decb454f13754440a7a31e4151b75225
+_id: req_d3a4200536dd49cfb3b96e71b8c797bc
 type: Request
-parentId: fld_981eb1f55acd4e26b5c65cb5cfa383a4
-modified: 1672621088887
-created: 1649035819386
+parentId: fld_52ee0739179940eb8d2951f71ef00774
+modified: 1672621935073
+created: 1660881608429
 url: "{{ _.base_url }}/{{ _.route }}/{{ _.endpoint.student }}/{{ _.id_Read }}"
-name: get one
+name: post is a invalid method
 description: ""
-method: GET
+method: POST
 body: {}
 parameters: []
 headers: []
 authentication: {}
-metaSortKey: -1654955849569
+metaSortKey: -1651995834502.5
 isPrivate: false
 settingStoreCookies: true
 settingSendCookies: true

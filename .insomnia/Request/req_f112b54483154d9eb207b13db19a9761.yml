@@ -1,10 +1,10 @@
-_id: req_dd51befb08ee4cb9b7e5cff819346846
+_id: req_f112b54483154d9eb207b13db19a9761
 type: Request
-parentId: fld_54c85d1f585041e2aae5a2fcde387e24
-modified: 1672621855175
-created: 1649035836065
+parentId: fld_6441443e02ea4e00bd29a2d3dc7a0da8
+modified: 1672620895482
+created: 1672620749737
 url: "{{ _.base_url }}/{{ _.route }}/{{ _.endpoint.student }}"
-name: create
+name: create with invalid course
 description: ""
 method: POST
 body:
@@ -13,15 +13,15 @@ body:
     {
     	"nome": "João Carvalho",
     	"rga": "2022.2301.012-3",
-    	"curso": "si"
+    	"curso": "bio"
     }
 parameters: []
 headers:
   - name: Content-Type
     value: application/json
-    id: pair_b7a4403e33374cae9cc649282be32df7
+    id: pair_b3e970ace19e4c7a814cf1e467a50b80
 authentication: {}
-metaSortKey: -1649035819286
+metaSortKey: -1649035819212.1719
 isPrivate: false
 settingStoreCookies: true
 settingSendCookies: true

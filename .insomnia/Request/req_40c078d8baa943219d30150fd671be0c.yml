@@ -1,17 +1,17 @@
-_id: req_984ca2d0b3854be0866a5efcf906def8
+_id: req_40c078d8baa943219d30150fd671be0c
 type: Request
-parentId: fld_5ec594ab9815468182e63e7a05d6dfcc
-modified: 1672611973337
-created: 1649035825030
-url: "{{ _.base_url }}/{{ _.route }}/{{ _.endpoint.student }}"
-name: get all without query
+parentId: fld_84f8f1c25b454a7cb4316e2be7aa6cd3
+modified: 1672621158909
+created: 1672621145900
+url: "{{ _.base_url }}/{{ _.route }}/{{ _.endpoint.student }}/{% uuid 'v4' %}"
+name: get one with random id
 description: ""
 method: GET
 body: {}
 parameters: []
 headers: []
 authentication: {}
-metaSortKey: -1660823890313
+metaSortKey: -1653475842035.75
 isPrivate: false
 settingStoreCookies: true
 settingSendCookies: true

@@ -1,17 +1,17 @@
-_id: req_984ca2d0b3854be0866a5efcf906def8
+_id: req_68cafd9b39cc45f0a28ccac9bf927bbd
 type: Request
-parentId: fld_5ec594ab9815468182e63e7a05d6dfcc
-modified: 1672611973337
-created: 1649035825030
+parentId: fld_6441443e02ea4e00bd29a2d3dc7a0da8
+modified: 1672620123812
+created: 1672620076400
 url: "{{ _.base_url }}/{{ _.route }}/{{ _.endpoint.student }}"
-name: get all without query
+name: create with empty params
 description: ""
-method: GET
+method: POST
 body: {}
 parameters: []
 headers: []
 authentication: {}
-metaSortKey: -1660823890313
+metaSortKey: -1649035819248.5
 isPrivate: false
 settingStoreCookies: true
 settingSendCookies: true

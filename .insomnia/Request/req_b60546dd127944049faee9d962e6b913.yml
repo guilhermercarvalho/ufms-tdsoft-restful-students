@@ -1,17 +1,17 @@
-_id: req_984ca2d0b3854be0866a5efcf906def8
+_id: req_b60546dd127944049faee9d962e6b913
 type: Request
-parentId: fld_5ec594ab9815468182e63e7a05d6dfcc
-modified: 1672611973337
-created: 1649035825030
+parentId: fld_b2195bf3f7b7402a9e0b69f071a391b5
+modified: 1672620978233
+created: 1660878881772
 url: "{{ _.base_url }}/{{ _.route }}/{{ _.endpoint.student }}"
-name: get all without query
+name: put is a invalid method
 description: ""
-method: GET
+method: PUT
 body: {}
 parameters: []
 headers: []
 authentication: {}
-metaSortKey: -1660823890313
+metaSortKey: -1649035819336
 isPrivate: false
 settingStoreCookies: true
 settingSendCookies: true

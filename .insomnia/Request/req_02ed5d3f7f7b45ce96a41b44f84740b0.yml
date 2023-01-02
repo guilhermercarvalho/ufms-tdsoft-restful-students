@@ -1,19 +1,19 @@
-_id: req_dd51befb08ee4cb9b7e5cff819346846
+_id: req_02ed5d3f7f7b45ce96a41b44f84740b0
 type: Request
-parentId: fld_54c85d1f585041e2aae5a2fcde387e24
-modified: 1672621855175
-created: 1649035836065
-url: "{{ _.base_url }}/{{ _.route }}/{{ _.endpoint.student }}"
-name: create
+parentId: fld_925d6861d08c4d63883dc3620682e2b5
+modified: 1672621718172
+created: 1672621239605
+url: "{{ _.base_url }}/{{ _.route }}/{{ _.endpoint.student }}/{{ _.id_Read }}"
+name: update
 description: ""
-method: POST
+method: PUT
 body:
   mimeType: application/json
   text: |-
     {
-    	"nome": "João Carvalho",
-    	"rga": "2022.2301.012-3",
-    	"curso": "si"
+      "nome": "Pedro Barbosa",
+      "curso": "cc",
+      "situacao": "inativo"
     }
 parameters: []
 headers:

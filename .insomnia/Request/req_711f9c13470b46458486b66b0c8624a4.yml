@@ -1,10 +1,10 @@
-_id: req_dd51befb08ee4cb9b7e5cff819346846
+_id: req_711f9c13470b46458486b66b0c8624a4
 type: Request
-parentId: fld_54c85d1f585041e2aae5a2fcde387e24
-modified: 1672621855175
-created: 1649035836065
+parentId: fld_6441443e02ea4e00bd29a2d3dc7a0da8
+modified: 1672620889529
+created: 1672620626118
 url: "{{ _.base_url }}/{{ _.route }}/{{ _.endpoint.student }}"
-name: create
+name: create without course
 description: ""
 method: POST
 body:
@@ -12,16 +12,15 @@ body:
   text: |-
     {
     	"nome": "João Carvalho",
-    	"rga": "2022.2301.012-3",
-    	"curso": "si"
+    	"rga": "2022.2301.012-3"
     }
 parameters: []
 headers:
   - name: Content-Type
     value: application/json
-    id: pair_b7a4403e33374cae9cc649282be32df7
+    id: pair_b3e970ace19e4c7a814cf1e467a50b80
 authentication: {}
-metaSortKey: -1649035819286
+metaSortKey: -1649035819216.8594
 isPrivate: false
 settingStoreCookies: true
 settingSendCookies: true

@@ -1,0 +1,41 @@
+_id: req_20db1a8e7bf64c2891a8cf0d8b319517
+type: Request
+parentId: fld_721eb22f331c4c65a0fa46dd62f00977
+modified: 1672612524883
+created: 1672612192924
+url: "{{ _.base_url }}/{{ _.route }}/{{ _.endpoint.student }}"
+name: get all  with invalid limit type
+description: ""
+method: GET
+body: {}
+parameters:
+  - id: pair_be914c982335450db49c2a668b7d7ba6
+    name: limite
+    value: a
+    description: ""
+  - id: pair_18d63fa19abd433f9261181fcd62a07f
+    name: pagina
+    value: "12"
+    description: ""
+  - id: pair_cd3788a11c0f48ebafb5175d01aea220
+    name: ""
+    value: ""
+    description: ""
+  - id: pair_e29e61e23567478e97404e00c88066e6
+    name: ""
+    value: ""
+    description: ""
+  - id: pair_8b4e40873bfc4d849aae8a00f94b7681
+    name: ""
+    value: ""
+    description: ""
+headers: []
+authentication: {}
+metaSortKey: -1660823890463
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

@@ -1,0 +1,31 @@
+_id: req_0906e014b5534427b5cdc32d17eb4251
+type: Request
+parentId: fld_a6ecbf897dc24c93856b13bb35eea41a
+modified: 1672621713902
+created: 1672621239660
+url: "{{ _.base_url }}/{{ _.route }}/{{ _.endpoint.student }}/{{ _.id_Read }}"
+name: update with invalid course
+description: ""
+method: PUT
+body:
+  mimeType: application/json
+  text: |-
+    {
+      "nome": "Pedro Barbosa",
+      "curso": "bio",
+      "situacao": "inativo"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+    id: pair_b3e970ace19e4c7a814cf1e467a50b80
+authentication: {}
+metaSortKey: -1649035819212.1719
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

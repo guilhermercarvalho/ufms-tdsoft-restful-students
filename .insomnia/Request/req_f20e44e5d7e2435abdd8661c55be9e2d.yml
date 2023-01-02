@@ -1,17 +1,17 @@
-_id: req_decb454f13754440a7a31e4151b75225
+_id: req_f20e44e5d7e2435abdd8661c55be9e2d
 type: Request
-parentId: fld_981eb1f55acd4e26b5c65cb5cfa383a4
-modified: 1672621088887
-created: 1649035819386
+parentId: fld_a6ecbf897dc24c93856b13bb35eea41a
+modified: 1672621562992
+created: 1672621239607
 url: "{{ _.base_url }}/{{ _.route }}/{{ _.endpoint.student }}/{{ _.id_Read }}"
-name: get one
+name: update with empty params
 description: ""
-method: GET
+method: PUT
 body: {}
 parameters: []
 headers: []
 authentication: {}
-metaSortKey: -1654955849569
+metaSortKey: -1649035819248.5
 isPrivate: false
 settingStoreCookies: true
 settingSendCookies: true

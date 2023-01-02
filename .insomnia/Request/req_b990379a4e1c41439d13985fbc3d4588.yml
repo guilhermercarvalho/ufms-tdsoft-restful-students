@@ -1,17 +1,17 @@
-_id: req_4fae362093dc4b5db856ee524a8be954
+_id: req_b990379a4e1c41439d13985fbc3d4588
 type: Request
-parentId: fld_b15d2c31dd714a0c8e2964133f6a22bf
-modified: 1649036357214
-created: 1649035861673
-url: "{{ _.base_url }}/alunos"
-name: delete
+parentId: fld_538c280b026d4687a2050df3b5084f5f
+modified: 1672621797135
+created: 1672621763997
+url: "{{ _.base_url }}/{{ _.route }}/{{ _.endpoint.student }}/{% uuid 'v4' %}"
+name: delete with random id
 description: ""
 method: DELETE
 body: {}
 parameters: []
 headers: []
 authentication: {}
-metaSortKey: -1649035819186
+metaSortKey: -1649035819086
 isPrivate: false
 settingStoreCookies: true
 settingSendCookies: true

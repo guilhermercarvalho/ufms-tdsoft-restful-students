@@ -1,0 +1,33 @@
+_id: req_c7ae930435894e0f8132633b1e462910
+type: Request
+parentId: fld_5ec594ab9815468182e63e7a05d6dfcc
+modified: 1672612405568
+created: 1660875921684
+url: "{{ _.base_url }}/{{ _.route }}/{{ _.endpoint.student }}"
+name: get all with query
+description: ""
+method: GET
+body: {}
+parameters:
+  - id: pair_21dece1c83034192908117aa90862be0
+    name: limite
+    value: "30"
+    description: ""
+  - id: pair_b8e39194fb6e415582aef434f27008b1
+    name: pagina
+    value: "1"
+    description: ""
+  - id: pair_c6172358dfe441abb165df4d43333156
+    name: nome
+    value: ha
+    description: ""
+headers: []
+authentication: {}
+metaSortKey: -1660823890363
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

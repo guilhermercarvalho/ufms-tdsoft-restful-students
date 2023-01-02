@@ -1,17 +1,17 @@
-_id: req_5ea90eed5c3f46fa9c36ca9c810587fc
+_id: req_14c6de76024c4766a5f121e2aefc0de2
 type: Request
-parentId: fld_b15d2c31dd714a0c8e2964133f6a22bf
-modified: 1649036347910
-created: 1649035848423
-url: "{{ _.base_url }}/alunos"
-name: update
+parentId: fld_8a2069af15284818b72bc80d8a8bec57
+modified: 1664924771126
+created: 1663022876146
+url: "{{ _.base_url }}/{{ _.route }}/{{ _.endpoint.healthcheck }}"
+name: healthcheck
 description: ""
-method: PUT
+method: GET
 body: {}
 parameters: []
 headers: []
 authentication: {}
-metaSortKey: -1649035819236
+metaSortKey: -1663022876146
 isPrivate: false
 settingStoreCookies: true
 settingSendCookies: true

@@ -1,17 +1,21 @@
-_id: req_984ca2d0b3854be0866a5efcf906def8
+_id: req_d0560d1819db4a829a868e0851a0dc79
 type: Request
-parentId: fld_5ec594ab9815468182e63e7a05d6dfcc
-modified: 1672611973337
-created: 1649035825030
+parentId: fld_721eb22f331c4c65a0fa46dd62f00977
+modified: 1672621022429
+created: 1672612250437
 url: "{{ _.base_url }}/{{ _.route }}/{{ _.endpoint.student }}"
-name: get all without query
+name: get all with nvalid page value
 description: ""
 method: GET
 body: {}
-parameters: []
+parameters:
+  - id: pair_ca261321c2cf4ded8b7712a74cf30dc3
+    name: pagina
+    value: "0"
+    description: ""
 headers: []
 authentication: {}
-metaSortKey: -1660823890313
+metaSortKey: -1660823890488
 isPrivate: false
 settingStoreCookies: true
 settingSendCookies: true

@@ -1,0 +1,31 @@
+_id: req_3d21123d9cf24c4595ced0b6ff71955c
+type: Request
+parentId: fld_2784bdb049cb4ea18e33ff77fa987a4a
+modified: 1672621715940
+created: 1672621461735
+url: "{{ _.base_url }}/{{ _.route }}/{{ _.endpoint.student }}/{% uuid 'v4' %}"
+name: update with random id
+description: ""
+method: PUT
+body:
+  mimeType: application/json
+  text: |-
+    {
+      "nome": "Pedro Barbosa",
+      "curso": "cc",
+      "situacao": "inativo"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+    id: pair_999de6afbf8049aeb6a9e76b192896c9
+authentication: {}
+metaSortKey: -1653475842035.75
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

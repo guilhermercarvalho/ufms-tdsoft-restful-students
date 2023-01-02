@@ -1,17 +1,21 @@
-_id: req_984ca2d0b3854be0866a5efcf906def8
+_id: req_5edb5bf8fc0040819f810d4643ec3bef
 type: Request
-parentId: fld_5ec594ab9815468182e63e7a05d6dfcc
-modified: 1672611973337
-created: 1649035825030
+parentId: fld_721eb22f331c4c65a0fa46dd62f00977
+modified: 1672612538202
+created: 1672612192915
 url: "{{ _.base_url }}/{{ _.route }}/{{ _.endpoint.student }}"
-name: get all without query
+name: get all  with invalid name type
 description: ""
 method: GET
 body: {}
-parameters: []
+parameters:
+  - id: pair_4e7ee707b3c04799ac8067db8667c8a1
+    name: nome
+    value: "1"
+    description: ""
 headers: []
 authentication: {}
-metaSortKey: -1660823890313
+metaSortKey: -1660823890413
 isPrivate: false
 settingStoreCookies: true
 settingSendCookies: true
