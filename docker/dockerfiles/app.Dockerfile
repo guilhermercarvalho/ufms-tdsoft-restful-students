@@ -1,7 +1,7 @@
 # first stage: build
-FROM node:16.17.1-bullseye-slim as builder
+FROM node:16.18.0-bullseye-slim as builder
 
-RUN npm install npm@8.19.2 -g
+RUN npm install npm@9.2.0 -g
 
 WORKDIR /usr/src/app
 
@@ -16,12 +16,14 @@ RUN npm run build
 ###
 
 # final stage: start
-FROM node:16.17.1-bullseye-slim
+FROM node:16.18.0-bullseye-slim
 
-RUN npm install npm@8.19.2 pm2 -g
+RUN npm install npm@9.2.0 pm2 -g
 
 ENV NODE_ENV production
 ENV PORT 8080
+
+ENV SQLITE_DATABASE student.sqlite
 
 ENV REDIS_HOST cache-redis
 ENV REDIS_PORT 6379
