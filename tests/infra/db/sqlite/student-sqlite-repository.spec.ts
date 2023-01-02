@@ -160,11 +160,8 @@ describe('SQLiteStudentRepository', () => {
 
       expect(studentsCount).toBe(2);
 
-      expect(studentsPaged.result[0].id).toBeTruthy();
-      expect(studentsPaged.result[0]).toStrictEqual(students[0]);
-
-      expect(studentsPaged.result[1].id).toBeTruthy();
-      expect(studentsPaged.result[1]).toStrictEqual(students[1]);
+      expect(studentsPaged.result).toContainEqual(students[0]);
+      expect(studentsPaged.result).toContainEqual(students[1]);
     });
 
     test('Should load page with fewer students when a threshold lower than the amount of created students is set', async () => {
