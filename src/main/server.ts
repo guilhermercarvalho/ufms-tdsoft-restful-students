@@ -9,12 +9,12 @@ const database = getDatabaseHelper();
 let server: Server = null;
 
 async function connectDatabase() {
-  await database
+  database
     .cache()
     .connect()
     .then(() => console.log('Redis connected.'))
     .catch((error) => console.error(error));
-  await database
+  database
     .connect()
     .then(() => console.log('Database connected.'))
     .catch((error) => console.error(error));
