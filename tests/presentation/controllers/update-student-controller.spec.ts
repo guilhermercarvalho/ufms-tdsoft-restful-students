@@ -1,6 +1,7 @@
 import { UpdateStudentController } from '@/presentation/controllers';
-import { badRequest, serverError } from '@/presentation/interfaces';
-import { throwError } from '@/tests/domain/mocks';
+import { ItemNotFound } from '@/presentation/errors';
+import { badRequest, notFound, serverError } from '@/presentation/interfaces';
+import { throwError, throwStudentNotFound } from '@/tests/domain/mocks';
 import { UpdateStudentSpy, ValidationSpy } from '@/tests/presentation/mocks';
 
 import { faker } from '@faker-js/faker';
@@ -57,18 +58,27 @@ describe('UpdateStudent Controller', () => {
     expect(validationSpy.input).toHaveProperty('status', request.situacao);
   });
 
+  test('Should return 500 if UpdateStudent throws', async () => {
+    const { sut, updateStudentSpy } = makeSut();
+    jest.spyOn(updateStudentSpy, 'update').mockImplementationOnce(throwError);
+    const httpResponse = await sut.handle(mockRequest());
+    expect(httpResponse).toStrictEqual(serverError(new Error()));
+  });
+
+  test('Should return 404 if student not found', async () => {
+    const { sut, updateStudentSpy } = makeSut();
+    jest
+      .spyOn(updateStudentSpy, 'update')
+      .mockImplementationOnce(throwStudentNotFound);
+    const httpResponse = await sut.handle(mockRequest());
+    expect(httpResponse).toStrictEqual(notFound(new ItemNotFound('Student')));
+  });
+
   test('Should return 400 if Validation fails', async () => {
     const { sut, validationSpy } = makeSut();
     validationSpy.error = new Error();
     const httpResponse = await sut.handle(mockRequest());
     expect(httpResponse).toStrictEqual(badRequest(validationSpy.error));
-  });
-
-  test('Should return 500 if AddStudent throws', async () => {
-    const { sut, updateStudentSpy } = makeSut();
-    jest.spyOn(updateStudentSpy, 'update').mockImplementationOnce(throwError);
-    const httpResponse = await sut.handle(mockRequest());
-    expect(httpResponse).toStrictEqual(serverError(new Error()));
   });
 
   test('Should return 201 on success', async () => {

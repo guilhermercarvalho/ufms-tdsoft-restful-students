@@ -1,6 +1,7 @@
 import { RemoveStudentController } from '@/presentation/controllers';
-import { badRequest, serverError } from '@/presentation/interfaces';
-import { throwError } from '@/tests/domain/mocks';
+import { ItemNotFound } from '@/presentation/errors';
+import { badRequest, notFound, serverError } from '@/presentation/interfaces';
+import { throwError, throwStudentNotFound } from '@/tests/domain/mocks';
 import { RemoveStudentSpy, ValidationSpy } from '@/tests/presentation/mocks';
 
 import { faker } from '@faker-js/faker';
@@ -44,18 +45,27 @@ describe('RemoveStudent Controller', () => {
     expect(validationSpy.input).toHaveProperty('id', request.id);
   });
 
-  test('Should return 400 if Validation fails', async () => {
-    const { sut, validationSpy } = makeSut();
-    validationSpy.error = new Error();
-    const httpResponse = await sut.handle(mockRequest());
-    expect(httpResponse).toStrictEqual(badRequest(validationSpy.error));
-  });
-
   test('Should return 500 if RemoveStudent throws', async () => {
     const { sut, removeStudentSpy } = makeSut();
     jest.spyOn(removeStudentSpy, 'remove').mockImplementationOnce(throwError);
     const httpResponse = await sut.handle(mockRequest());
     expect(httpResponse).toStrictEqual(serverError(new Error()));
+  });
+
+  test('Should return 404 if student is not found throws', async () => {
+    const { sut, removeStudentSpy } = makeSut();
+    jest
+      .spyOn(removeStudentSpy, 'remove')
+      .mockImplementationOnce(throwStudentNotFound);
+    const httpResponse = await sut.handle(mockRequest());
+    expect(httpResponse).toStrictEqual(notFound(new ItemNotFound('Student')));
+  });
+
+  test('Should return 400 if Validation fails', async () => {
+    const { sut, validationSpy } = makeSut();
+    validationSpy.error = new Error();
+    const httpResponse = await sut.handle(mockRequest());
+    expect(httpResponse).toStrictEqual(badRequest(validationSpy.error));
   });
 
   test('Should return 200 on success', async () => {
