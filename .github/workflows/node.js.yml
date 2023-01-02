@@ -7,11 +7,13 @@ on:
   push:
     paths:
       - 'src/**'
-      - 'test/**'
+      - 'tests/**'
+      - '.github/workflows/**'
   pull_request:
     paths:
       - 'src/**'
-      - 'test/**'
+      - 'tests/**'
+      - '.github/workflows/**'
 
 jobs:
   build:
