@@ -36,6 +36,7 @@ describe('SQLiteStudentRepository', () => {
     await studentRepository.clear();
   });
 
+  // TODO: implement test for exceptions when student is (or not) found
   describe('add()', () => {
     test('Should add student on success', async () => {
       const addStudentModel = mockAddStudentParams();
@@ -109,7 +110,10 @@ describe('SQLiteStudentRepository', () => {
         .execute();
 
       const student: StudentModel = await studentRepository.findOneBy({
-        rga: addStudentModel.rga
+        name: addStudentModel.name,
+        rga: addStudentModel.rga,
+        course: addStudentModel.course,
+        status: addStudentModel.status
       });
 
       const sut = makeSut();
@@ -373,6 +377,35 @@ describe('SQLiteStudentRepository', () => {
       expect(studentsPaged.resultSize).toBe(0);
 
       expect(studentsCount).toBe(1);
+    });
+  });
+
+  describe('loadOne()', () => {
+    test('Should load one student on success', async () => {
+      const addStudentModel = mockAddStudentParams();
+
+      await studentRepository
+        .createQueryBuilder('student')
+        .insert()
+        .values(addStudentModel)
+        .execute();
+
+      const student: StudentModel = await studentRepository.findOneBy({
+        name: addStudentModel.name,
+        rga: addStudentModel.rga,
+        course: addStudentModel.course,
+        status: addStudentModel.status
+      });
+
+      const sut = makeSut();
+      const studentLoaded = await sut.loadOne({ id: student.id });
+
+      expect(studentLoaded.id).toBe(student.id);
+      expect(studentLoaded.rga).toBe(student.rga);
+      expect(studentLoaded.name).toBe(student.name);
+      expect(studentLoaded.course).toBe(student.course);
+      expect(studentLoaded.status).toBe(student.status);
+      expect(studentLoaded.registeredIn).toBe(student.registeredIn);
     });
   });
 });

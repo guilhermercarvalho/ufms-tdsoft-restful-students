@@ -1,16 +1,16 @@
 import { StudentModel } from '@/data/models';
 import {
   AddStudentRepository,
+  LoadStudentRepository,
   LoadStudentsByNamePagedRepository,
   LoadStudentsPagedRepository,
-  LoadStudentsRepository,
   RemoveStudentRepository,
   UpdateStudentRepository
 } from '@/data/repositories';
-import { LoadStudentsUseCase } from '@/domain/use-cases';
+import { LoadStudentUseCase } from '@/domain/use-cases';
 import {
   mockStudentByNamePaginationModel,
-  mockStudentModels,
+  mockStudentModel,
   mockStudentPaginationModel
 } from '@/tests/domain/mocks';
 
@@ -18,26 +18,28 @@ import { faker } from '@faker-js/faker';
 
 export class AddStudentRepositorySpy implements AddStudentRepository {
   params: AddStudentRepository.Params;
+  result: AddStudentRepository.Result;
 
   async add(params: AddStudentRepository.Params): Promise<StudentModel> {
-    const student: StudentModel = {
+    this.params = params;
+    this.result = {
       ...params,
       id: faker.datatype.uuid(),
       status: params.status ? params.status : 'ativo',
       registeredIn: faker.date.recent()
     };
-    this.params = params;
-    return student;
+    return this.result;
   }
 }
 
 export class UpdateStudentRepositorySpy implements UpdateStudentRepository {
   params: UpdateStudentRepository.Params;
+  result: UpdateStudentRepository.Result;
 
   async update(params: UpdateStudentRepository.Params): Promise<StudentModel> {
-    const student: StudentModel = {
+    this.params = params;
+    this.result = {
       ...params,
-      id: faker.datatype.uuid(),
       rga:
         faker.random.numeric(4) +
         '.' +
@@ -58,16 +60,17 @@ export class UpdateStudentRepositorySpy implements UpdateStudentRepository {
       status: faker.helpers.arrayElement(['ativo', 'inativo']),
       registeredIn: faker.date.recent()
     };
-    this.params = params;
-    return student;
+    return this.result;
   }
 }
 
 export class RemoveStudentRepositorySpy implements RemoveStudentRepository {
   params: RemoveStudentRepository.Params;
+  result: RemoveStudentRepository.Result;
 
   async remove(params: RemoveStudentRepository.Params): Promise<StudentModel> {
-    const student: StudentModel = {
+    this.params = params;
+    this.result = {
       ...params,
       rga:
         faker.random.numeric(4) +
@@ -89,8 +92,7 @@ export class RemoveStudentRepositorySpy implements RemoveStudentRepository {
       status: faker.helpers.arrayElement(['ativo', 'inativo']),
       registeredIn: faker.date.recent()
     };
-    this.params = params;
-    return student;
+    return this.result;
   }
 }
 
@@ -122,10 +124,14 @@ export class LoadStudentsByNamePagedRepositorySpy
   }
 }
 
-export class LoadStudentsRepositorySpy implements LoadStudentsRepository {
-  result = mockStudentModels();
+export class LoadStudentRepositorySpy implements LoadStudentRepository {
+  params: LoadStudentRepository.Params;
+  result = mockStudentModel();
 
-  async loadAll(): Promise<LoadStudentsUseCase.Result> {
+  async loadOne(
+    params: LoadStudentRepository.Params
+  ): Promise<LoadStudentUseCase.Result> {
+    this.params = params;
     return this.result;
   }
 }

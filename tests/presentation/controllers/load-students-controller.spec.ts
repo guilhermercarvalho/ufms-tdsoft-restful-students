@@ -1,22 +1,36 @@
-import { LoadStudentsController } from '@/presentation/controllers';
-import { noContent, ok, serverError } from '@/presentation/interfaces';
+import { LoadStudentController } from '@/presentation/controllers';
+import { ItemNotFound } from '@/presentation/errors';
+import {
+  noContent,
+  notFound,
+  ok,
+  serverError
+} from '@/presentation/interfaces';
 import { StudentViewModel } from '@/presentation/view-models';
-import { throwError } from '@/tests/domain/mocks';
-import { LoadStudentsSpy } from '@/tests/presentation/mocks';
+import { throwError, throwStudentNotFound } from '@/tests/domain/mocks';
+import { LoadStudentsSpy, ValidationSpy } from '@/tests/presentation/mocks';
 
+import { faker } from '@faker-js/faker';
 import MockDate from 'mockdate';
 
+const mockRequest = (): LoadStudentController.Request => ({
+  id: faker.datatype.uuid()
+});
+
 type SutTypes = {
-  sut: LoadStudentsController;
-  loadStudentsSpy: LoadStudentsSpy;
+  sut: LoadStudentController;
+  validationSpy: ValidationSpy;
+  loadStudentSpy: LoadStudentsSpy;
 };
 
 const makeSut = (): SutTypes => {
-  const loadStudentsSpy = new LoadStudentsSpy();
-  const sut = new LoadStudentsController(loadStudentsSpy);
+  const validationSpy = new ValidationSpy();
+  const loadStudentSpy = new LoadStudentsSpy();
+  const sut = new LoadStudentController(validationSpy, loadStudentSpy);
   return {
     sut,
-    loadStudentsSpy
+    validationSpy,
+    loadStudentSpy
   };
 };
 
@@ -29,25 +43,27 @@ describe('LoadStudents Controller', () => {
     MockDate.reset();
   });
 
-  test('Should return 200 on success', async () => {
-    const { sut, loadStudentsSpy } = makeSut();
-    const httpResponse = await sut.handle();
-    expect(httpResponse).toStrictEqual(
-      ok(StudentViewModel.mapCollection(loadStudentsSpy.result))
-    );
-  });
-
-  test('Should return 204 if LoadStudents returns empty', async () => {
-    const { sut, loadStudentsSpy } = makeSut();
-    loadStudentsSpy.result = [];
-    const httpResponse = await sut.handle();
-    expect(httpResponse).toStrictEqual(noContent());
-  });
-
-  test('Should return 500 if LoadSurveys throws', async () => {
-    const { sut, loadStudentsSpy } = makeSut();
-    jest.spyOn(loadStudentsSpy, 'load').mockImplementationOnce(throwError);
-    const httpResponse = await sut.handle();
+  test('Should return 500 if LoadStudents throws', async () => {
+    const { sut, loadStudentSpy } = makeSut();
+    jest.spyOn(loadStudentSpy, 'load').mockImplementationOnce(throwError);
+    const httpResponse = await sut.handle(mockRequest());
     expect(httpResponse).toStrictEqual(serverError(new Error()));
+  });
+
+  test('Should return 404 if student is not found throws', async () => {
+    const { sut, loadStudentSpy } = makeSut();
+    jest
+      .spyOn(loadStudentSpy, 'load')
+      .mockImplementationOnce(throwStudentNotFound);
+    const httpResponse = await sut.handle(mockRequest());
+    expect(httpResponse).toStrictEqual(notFound(new ItemNotFound('Student')));
+  });
+
+  test('Should return 200 on success', async () => {
+    const { sut, loadStudentSpy } = makeSut();
+    const httpResponse = await sut.handle(mockRequest());
+    expect(httpResponse).toStrictEqual(
+      ok(StudentViewModel.map(loadStudentSpy.result))
+    );
   });
 });

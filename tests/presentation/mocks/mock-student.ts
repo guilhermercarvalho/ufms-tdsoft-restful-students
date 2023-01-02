@@ -2,14 +2,14 @@ import { StudentModel } from '@/data/models';
 import { LoadStudentsPagedRepository } from '@/data/repositories';
 import {
   AddStudentUseCase,
+  LoadStudentUseCase,
   LoadStudentsByNamePagedUseCase,
   LoadStudentsPagedUseCase,
-  LoadStudentsUseCase,
   RemoveStudentUseCase,
   UpdateStudentUseCase
 } from '@/domain/use-cases';
 import {
-  mockStudentModels,
+  mockStudentModel,
   mockStudentPaginationModel
 } from '@/tests/domain/mocks';
 
@@ -145,10 +145,14 @@ export class LoadStudentsByNamePagedSpy
   }
 }
 
-export class LoadStudentsSpy implements LoadStudentsUseCase {
-  result = mockStudentModels();
+export class LoadStudentsSpy implements LoadStudentUseCase {
+  params: LoadStudentUseCase.Params;
+  result = mockStudentModel();
 
-  async load(): Promise<LoadStudentsUseCase.Result> {
+  async load(
+    params: LoadStudentUseCase.Params
+  ): Promise<LoadStudentUseCase.Result> {
+    this.params = params;
     return this.result;
   }
 }
