@@ -29,9 +29,16 @@ describe('AddStudent Service', () => {
 
   test('Should call AddStudentRepository with correct values', async () => {
     const { sut, addStudentRepositorySpy } = makeSut();
-    const studentData = mockAddStudentParams();
-    await sut.add(studentData);
-    expect(addStudentRepositorySpy.params).toStrictEqual(studentData);
+    const params = mockAddStudentParams();
+    await sut.add(params);
+    expect(addStudentRepositorySpy.params).toStrictEqual(params);
+  });
+
+  test('Should return student created on success', async () => {
+    const { sut, addStudentRepositorySpy } = makeSut();
+    const params = mockAddStudentParams();
+    const result = await sut.add(params);
+    expect(result).toStrictEqual(addStudentRepositorySpy.result);
   });
 
   test('Should throw if AddStudentRepository thorws', async () => {

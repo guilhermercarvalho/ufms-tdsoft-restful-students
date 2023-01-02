@@ -27,17 +27,18 @@ describe('LoadStudentsPagedService', () => {
     MockDate.reset();
   });
 
-  test('Should call LoadStudentsPagedRepository', async () => {
+  test('Should call LoadStudentsPagedRepository with correct values', async () => {
     const { sut, loadStudentsPagedRepositorySpy } = makeSut();
-    const data = {};
-    await sut.loadPaged(data);
-    expect(loadStudentsPagedRepositorySpy.params).toStrictEqual(data);
+    const params = {};
+    await sut.loadPaged(params);
+    expect(params).toStrictEqual(loadStudentsPagedRepositorySpy.params);
   });
 
-  test('Should return a page whit Students on success', async () => {
+  test('Should return a page with students on success', async () => {
     const { sut, loadStudentsPagedRepositorySpy } = makeSut();
-    const studentPaged = await sut.loadPaged({});
-    expect(studentPaged).toStrictEqual(loadStudentsPagedRepositorySpy.result);
+    const params = {};
+    const result = await sut.loadPaged(params);
+    expect(result).toStrictEqual(loadStudentsPagedRepositorySpy.result);
   });
 
   test('Should throw if LoadStudentsRepository throws', async () => {

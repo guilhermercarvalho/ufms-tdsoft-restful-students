@@ -86,22 +86,6 @@ describe('LoadAllOrByNameStudentsPaged Controller', () => {
     expect(validationByNameSpy.input).toHaveProperty('limit', request.limite);
   });
 
-  test('Should return 400 if Validation page fails', async () => {
-    const { sut, validationPageSpy } = makeSut();
-    validationPageSpy.error = new Error();
-
-    const httpResponse = await sut.handle(mockRequestWithoutName());
-    expect(httpResponse).toStrictEqual(badRequest(validationPageSpy.error));
-  });
-
-  test('Should return 400 if Validation by name fails', async () => {
-    const { sut, validationByNameSpy } = makeSut();
-    validationByNameSpy.error = new Error();
-
-    const httpResponse = await sut.handle(mockRequestWithName());
-    expect(httpResponse).toStrictEqual(badRequest(validationByNameSpy.error));
-  });
-
   test('Should call LoadAllStudentsPaged with correct values', async () => {
     const { sut, loadStudentsPagedSpy } = makeSut();
     const request = mockRequestWithoutName();
@@ -147,6 +131,22 @@ describe('LoadAllOrByNameStudentsPaged Controller', () => {
       .mockImplementationOnce(throwError);
     const httpResponse = await sut.handle(mockRequestWithName());
     expect(httpResponse).toStrictEqual(serverError(new Error()));
+  });
+
+  test('Should return 400 if Validation page fails', async () => {
+    const { sut, validationPageSpy } = makeSut();
+    validationPageSpy.error = new Error();
+
+    const httpResponse = await sut.handle(mockRequestWithoutName());
+    expect(httpResponse).toStrictEqual(badRequest(validationPageSpy.error));
+  });
+
+  test('Should return 400 if Validation by name fails', async () => {
+    const { sut, validationByNameSpy } = makeSut();
+    validationByNameSpy.error = new Error();
+
+    const httpResponse = await sut.handle(mockRequestWithName());
+    expect(httpResponse).toStrictEqual(badRequest(validationByNameSpy.error));
   });
 
   test('Should return 200 on load all success', async () => {

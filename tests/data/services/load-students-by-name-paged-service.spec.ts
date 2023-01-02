@@ -35,17 +35,16 @@ describe('LoadStudentsByNamePagedService', () => {
 
   test('Should call LoadStudentsByNamePagedRepository', async () => {
     const { sut, loadStudentsByNamePagedRepositorySpy } = makeSut();
-    const name = faker.name.fullName();
-    await sut.loadByNamePaged({ name });
-    expect(loadStudentsByNamePagedRepositorySpy.params).toStrictEqual({ name });
+    const params = { name: faker.name.fullName() };
+    await sut.loadByNamePaged(params);
+    expect(params).toStrictEqual(loadStudentsByNamePagedRepositorySpy.params);
   });
 
-  test('Should return a page whit Students filtered by name on success', async () => {
+  test('Should return a page with students filtered by name on success', async () => {
     const { sut, loadStudentsByNamePagedRepositorySpy } = makeSut();
-    const studentPaged = await sut.loadByNamePaged({ name: 'João' });
-    expect(studentPaged).toStrictEqual(
-      loadStudentsByNamePagedRepositorySpy.result
-    );
+    const params = { name: faker.name.fullName() };
+    const result = await sut.loadByNamePaged(params);
+    expect(result).toStrictEqual(loadStudentsByNamePagedRepositorySpy.result);
   });
 
   test('Should throw if LoadStudentsRepository throws', async () => {

@@ -29,9 +29,16 @@ describe('UpdateStudent Service', () => {
 
   test('Should call UpdateStudentRepository with correct values', async () => {
     const { sut, updateStudentRepositorySpy } = makeSut();
-    const studentData = mockUpdateStudentParams();
-    await sut.update(studentData);
-    expect(updateStudentRepositorySpy.params).toStrictEqual(studentData);
+    const params = mockUpdateStudentParams();
+    await sut.update(params);
+    expect(params).toStrictEqual(updateStudentRepositorySpy.params);
+  });
+
+  test('Should return updated student on success', async () => {
+    const { sut, updateStudentRepositorySpy } = makeSut();
+    const params = mockUpdateStudentParams();
+    const result = await sut.update(params);
+    expect(result).toStrictEqual(updateStudentRepositorySpy.result);
   });
 
   test('Should throw if UpdateStudentRepository thorws', async () => {
