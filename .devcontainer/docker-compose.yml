@@ -8,7 +8,7 @@ services:
       context: .
       dockerfile: dockerfiles/app.Dockerfile
       args:
-        VARIANT: 16-bullseye
+        VARIANT: 0.204.9-16-bullseye
     volumes:
       - ..:/workspace:cached
     env_file:
