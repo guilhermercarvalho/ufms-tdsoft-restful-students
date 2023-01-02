@@ -2,19 +2,6 @@
   "name": "restful-students-api",
   "version": "1.0.0",
   "description": "This is a homework assignment in the discipline of Advanced Software Development Techniques, taught by Professor Hudson Silva Borges at FACOM-UFMS.",
-  "nodemonConfig": {
-    "ignore": [
-      "**/*.test.ts",
-      "**/*.spec.ts",
-      ".git",
-      "node_modules"
-    ],
-    "watch": [
-      "src"
-    ],
-    "exec": "node -r tsconfig-paths/register -r ts-node/register ./src/main/server.ts",
-    "ext": "ts, js"
-  },
   "scripts": {
     "prebuild": "rm -rf dist",
     "build": "tsc && tsc-alias",
@@ -25,7 +12,8 @@
     "test": "jest --passWithNoTests --runInBand --no-cache",
     "test:watch": "jest --watchAll --collectCoverage",
     "lint": "eslint . --ext .ts",
-    "typeorm": "node ./node_modules/typeorm/cli.js"
+    "typeorm": "node ./node_modules/typeorm/cli.js",
+    "typeorm:dev": " ts-node -r tsconfig-paths/register ./node_modules/.bin/typeorm"
   },
   "repository": {
     "type": "git",
@@ -92,6 +80,19 @@
     "ts-node": "^10.9.1",
     "tsc-alias": "^1.7.0",
     "typescript": "^4.8.4"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "**/*.test.ts",
+      "**/*.spec.ts",
+      ".git",
+      "node_modules"
+    ],
+    "watch": [
+      "src"
+    ],
+    "exec": "node -r tsconfig-paths/register -r ts-node/register ./src/main/server.ts",
+    "ext": "ts, js"
   },
   "config": {
     "commitizen": {
