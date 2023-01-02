@@ -1,10 +1,21 @@
-import { sqliteDataSource } from '@/infra/db/orm/data-sources';
-import { SQLiteStudentRepository } from '@/infra/db/orm/repositories';
+import {
+  mysqlDataSource,
+  postgresDataSource,
+  sqliteDataSource
+} from '@/infra/db/orm/data-sources';
+import {
+  MySQLStudentRepository,
+  PostgresStudentRepository,
+  SQLiteStudentRepository
+} from '@/infra/db/orm/repositories';
 import env from '@/main/config/env';
 
 export let repository: SQLiteStudentRepository = null;
 
-export const getStudentRepositoryHelper = (): SQLiteStudentRepository => {
+export const getStudentRepositoryHelper = ():
+  | SQLiteStudentRepository
+  | MySQLStudentRepository
+  | PostgresStudentRepository => {
   if (repository !== null) {
     return repository;
   }
@@ -12,18 +23,21 @@ export const getStudentRepositoryHelper = (): SQLiteStudentRepository => {
   const provider = env.currentDatabase;
 
   if (provider === 'sqlite') {
-    repository = new SQLiteStudentRepository(sqliteDataSource);
-    return repository;
-  }
-
-  if (provider === 'postgres') {
-    throw new Error('Not implemented');
+    return createSQLiteStudentRepository();
   }
 
   if (provider === 'mysql') {
-    throw new Error('Not implemented');
+    return new MySQLStudentRepository(mysqlDataSource);
   }
 
+  if (provider === 'postgres') {
+    return new PostgresStudentRepository(postgresDataSource);
+  }
+
+  return createSQLiteStudentRepository();
+};
+
+const createSQLiteStudentRepository = (): SQLiteStudentRepository => {
   repository = new SQLiteStudentRepository(sqliteDataSource);
   return repository;
 };

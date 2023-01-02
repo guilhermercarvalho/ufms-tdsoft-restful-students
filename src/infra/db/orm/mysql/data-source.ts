@@ -3,7 +3,7 @@ import env from '@/main/config/env';
 import path from 'path';
 import { DataSource } from 'typeorm';
 
-const { environment } = env;
+const { isDevEnvironment } = env;
 const { mysql, cache } = env.databases;
 const { redis } = cache;
 
@@ -14,20 +14,19 @@ export default new DataSource({
   username: mysql.user,
   password: mysql.password,
   database: mysql.database,
-  poolSize: 2,
-  synchronize: true,
-  logging: environment,
-  entities: [path.resolve(__dirname, 'mysql/entities/**/*-entity{.ts,.js}')],
-  migrations: [
-    path.resolve(__dirname, 'mysql/migrations/**/*-migration{.ts,.js}')
-  ],
-  migrationsRun: true,
+  poolSize: 4,
+  synchronize: isDevEnvironment,
+  logging: isDevEnvironment,
+  entities: [path.resolve(__dirname, 'entities/**/*-entity{.ts,.js}')],
+  migrations: [path.resolve(__dirname, 'migrations/**/*-migration{.ts,.js}')],
+  migrationsRun: isDevEnvironment,
   cache: {
     type: 'ioredis',
     options: {
       host: redis.host,
       port: redis.port
     },
-    duration: cache.durationInMilliseconds
+    duration: cache.durationInMilliseconds,
+    ignoreErrors: true
   }
 });

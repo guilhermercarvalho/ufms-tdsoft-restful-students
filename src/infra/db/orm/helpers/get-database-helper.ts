@@ -1,4 +1,9 @@
-import { RedisCache, SQLiteDatabase } from '@/infra/db/orm/connections';
+import {
+  MySQLDatabase,
+  PostgresDatabase,
+  RedisCache,
+  SQLiteDatabase
+} from '@/infra/db/orm/connections';
 import { Database } from '@/infra/interfaces';
 import env from '@/main/config/env';
 
@@ -15,12 +20,12 @@ export const getDatabaseHelper = () => {
     return createSQLiteDatabase();
   }
 
-  if (provider === 'postgres') {
-    throw new Error('Not implemented');
+  if (provider === 'mysql') {
+    return new MySQLDatabase(new RedisCache());
   }
 
-  if (provider === 'mysql') {
-    throw new Error('Not implemented');
+  if (provider === 'postgres') {
+    return new PostgresDatabase(new RedisCache());
   }
 
   return createSQLiteDatabase();
