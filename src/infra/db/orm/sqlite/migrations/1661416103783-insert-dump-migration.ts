@@ -3,8 +3,10 @@ import { SQLiteStudentEntity } from '@/infra/db/orm/entities';
 import { Equal, MigrationInterface, Not, QueryRunner } from 'typeorm';
 
 export class insertDumpMigration1661416103783 implements MigrationInterface {
+  name = 'insertDumpMigration1661416103783';
+
   public async up(queryRunner: QueryRunner): Promise<void> {
-    queryRunner.manager.insert(SQLiteStudentEntity, [
+    await queryRunner.manager.insert(SQLiteStudentEntity, [
       {
         rga: '2982.6820.246-8',
         name: 'Corbet Pohlak',

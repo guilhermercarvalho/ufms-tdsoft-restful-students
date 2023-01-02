@@ -1,6 +1,8 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class createTableMigration1661415813537 implements MigrationInterface {
+  name = 'createTableMigration1661415813537';
+
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
       `CREATE TABLE tb_aluno (

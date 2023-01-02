@@ -11,7 +11,8 @@ export class SQLiteStudentEntity {
   @Column({
     type: 'text',
     length: 15,
-    nullable: false
+    nullable: false,
+    unique: true
   })
   rga: string;
 
@@ -43,8 +44,8 @@ export class SQLiteStudentEntity {
   @Column({
     type: 'text',
     nullable: false,
-    name: 'registrado_em',
-    default: DateTime.utc().toFormat('yyyy-MM-dd HH:mm:ss')
+    default: DateTime.utc().toFormat('yyyy-MM-dd HH:mm:ss'),
+    name: 'registrado_em'
   })
   registeredIn: Date;
 }

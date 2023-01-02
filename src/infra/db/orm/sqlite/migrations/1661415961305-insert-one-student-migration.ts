@@ -5,8 +5,10 @@ import { MigrationInterface, QueryRunner } from 'typeorm';
 export class insertOneStudentMigration1661415961305
   implements MigrationInterface
 {
+  name = 'insertOneStudentMigration1661415961305';
+
   public async up(queryRunner: QueryRunner): Promise<void> {
-    queryRunner.manager.insert(SQLiteStudentEntity, {
+    await queryRunner.manager.insert(SQLiteStudentEntity, {
       id: 'f6f3b501-6e39-4365-b3b0-ee43febe4f34',
       rga: '2019.6820.654-4',
       name: 'Pedro Luciano',
