@@ -67,19 +67,19 @@ Para executar corretamente o projeto é necessário ter NodeJS, NPM, Docker e VS
 ### Instalação
 
 ```sh
-node install
+npm install
 ```
 
 ### Inciar Aplicação em Desenvolvimento
 
 ```sh
-node run dev
+npm run dev
 ```
 
 ### Inciar Suíte de Testes da Aplicação
 
 ```sh
-node run test
+npm run test
 ```
 
 ### Definir Banco de Dados
